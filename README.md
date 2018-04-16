@@ -12,21 +12,24 @@ This guide is intended to introduce the basics of running LandTrendr in GEE. It 
 
 The three use case examples described include:
 
-1. Exploration and parameterization
+**1. Exploration and parameterization**
 
 LandTrendr can be run in a spatial reduction mode (point of polygon) to visualize a summary of the segmentation for the pixel(s) defined in a given geometry. This is really useful for quickly testing the performance of various parameter settings and spectral indices, as well as simply viewing and interpreting change in the x-y space of time and spectral value for both the source and LandTrendr trajectory-fitted data.
 
 ![time series](https://github.com/eMapR/LT-GEE/blob/master/docs/time_series.png)
 
-2. Data generation
+**2. Data generation**
 
 LandTrendr can be run in a data generation mode where every pixel time series within the bounds of a given region is segmented and a data cube containing the segmented line structure and trajectory-fitted time series stack is returned. The results are the basic building blocks for historical landscape state and change mapping.
 
 ![data stack](https://github.com/eMapR/LT-GEE/blob/master/docs/stack.gif)
 
-3. Change mapping
+**3. Change mapping**
 
 Change events can be extracted and mapped from LandTrendr's segmented line vertices. Information regarding the year of change event detection, magnitude of change, duration of change, and pre-change event spectral data can all be mapped.
+
+![change map](https://github.com/eMapR/LT-GEE/blob/master/docs/yod_mapped.png)
+
 
 Each of these use cases begins with the same process of parameter definition and collection building.
 
