@@ -1,4 +1,4 @@
-#![banner image](https://github.com/eMapR/LT-GEE/blob/master/docs/lt_gee_symbols_small.png)
+![banner image](https://github.com/eMapR/LT-GEE/blob/master/docs/lt_gee_symbols_small.png)
 
 # **LT-GEE**
 
@@ -33,9 +33,55 @@ Change events can be extracted and mapped from LandTrendr's segmented line verti
 ![change map](https://github.com/eMapR/LT-GEE/blob/master/docs/yod_mapped.png)
 <br><br><br>
 
+## Documentation
+
+
+
+
+
+### Argument definitions
+
+
 Each of these use cases begins with the same process of parameter definition and collection building.
 
+***timeSeries (ImageCollection):***
 
+Collection from which to extract trends (it's assumed that each image in the collection represents one year). The first band is used to find breakpoints, and all subsequent bands are fitted using those breakpoints.
+
+***maxSegments (Integer):***
+
+Maximum number of segments to be fitted on the time series.
+
+***spikeThreshold (Float, default: 0.9):***
+
+Threshold for dampening the spikes (1.0 means no dampening).
+
+***vertexCountOvershoot (Integer, default: 3):***
+
+The inital model can overshoot the maxSegments + 1 vertices by this amount. Later, it will be prunned down to maxSegments + 1.
+
+***preventOneYearRecovery (Boolean, default: false):***
+
+Prevent segments that represent one year recoveries.
+
+***recoveryThreshold (Float, default: 0.25):***
+
+If a segment has a recovery rate faster than 1/recoveryThreshold (in years), then the segment is disallowed.
+
+***pvalThreshold (Float, default: 0.1):***
+
+If the p-value of the fitted model exceeds this threshold, then the current model is discarded and another one is fitted using the Levenberg-Marquardt optimizer.
+
+***bestModelProportion (Float, default: 1.25):***
+
+Takes the model with most vertices that has a p-value that is at most this proportion away from the model with lowest p-value.
+
+***minObservationsNeeded (Integer, default: 6):***
+
+Min observations needed to perform output fitting.
+
+
+ee.Algorithms.Test.LandTrendr()
 
 
 
