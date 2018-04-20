@@ -14,7 +14,7 @@ The three use case examples described include:
 
 **1. Exploration and parameterization**
 
-LandTrendr can be run in a spatial reduction mode to visualize the segmentation for a pixel. This is really useful for quickly testing the performance of various parameter settings and spectral indices, as well as simply viewing and interpreting change in the x-y space of time and spectral value for both the source and LandTrendr trajectory-fitted data.
+LandTrendr can be run in point mode to visualize the segmentation for a pixel. This is really useful for quickly testing the performance of various parameter settings and spectral indices, as well as simply viewing and interpreting change in the x-y space of time and spectral value for both the source and LandTrendr trajectory-fitted data.
 
 ![time series](https://github.com/eMapR/LT-GEE/blob/master/docs/time_series.png)
 
