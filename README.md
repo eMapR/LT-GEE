@@ -14,9 +14,10 @@ The three use case examples described include:
 
 **1. Exploration and parameterization**
 
-LandTrendr can be run in a spatial reduction mode (point of polygon) to visualize a summary of the segmentation for the pixel(s) defined in a given geometry. This is really useful for quickly testing the performance of various parameter settings and spectral indices, as well as simply viewing and interpreting change in the x-y space of time and spectral value for both the source and LandTrendr trajectory-fitted data.
+LandTrendr can be run in a spatial reduction mode to visualize the segmentation for a pixel. This is really useful for quickly testing the performance of various parameter settings and spectral indices, as well as simply viewing and interpreting change in the x-y space of time and spectral value for both the source and LandTrendr trajectory-fitted data.
 
 ![time series](https://github.com/eMapR/LT-GEE/blob/master/docs/time_series.png)
+[Example script](https://code.earthengine.google.com/3aef4bddbae77d3205b0408a84c83a4b)
 <br><br><br>
 
 **2. Data generation**
@@ -24,6 +25,7 @@ LandTrendr can be run in a spatial reduction mode (point of polygon) to visualiz
 LandTrendr can be run in a data generation mode where every pixel time series within the bounds of a given region is segmented and a data cube containing the segmented line structure and trajectory-fitted time series stack is returned. The results are the basic building blocks for historical landscape state and change mapping.
 
 ![data stack](https://github.com/eMapR/LT-GEE/blob/master/docs/stack.gif)
+[Example script](https://code.earthengine.google.com/c11bcd88ed5b3cc4ff027c7ac295a16d)
 <br><br><br>
 
 **3. Change mapping**
@@ -31,6 +33,7 @@ LandTrendr can be run in a data generation mode where every pixel time series wi
 Change events can be extracted and mapped from LandTrendr's segmented line vertices. Information regarding the year of change event detection, magnitude of change, duration of change, and pre-change event spectral data can all be mapped.
 
 ![change map](https://github.com/eMapR/LT-GEE/blob/master/docs/yod_mapped.png)
+[Example script](https://code.earthengine.google.com/8b247c3a18fb9cc2e2fe781724fe352e)
 <br><br><br>
 
 ## Documentation
