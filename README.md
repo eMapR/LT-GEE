@@ -41,6 +41,7 @@ vegetation. Over the next 14 years, until the most recent observation, it has be
 recently it is closed canopy, maturing conifer forest stand.
 
 ![pixel story](https://github.com/eMapR/LT-GEE/blob/master/imgs/pixel_story.png)
+*Fig 1. Every pixel tells a story.*
 
 
 LandTrendr is interested inperforms hind-sight enhanced image processing and analysis
