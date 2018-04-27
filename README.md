@@ -45,18 +45,27 @@ recently it was a closed canopy, maturing, conifer stand.
 
 The unabridged version of this story includes many other small changes in this forest stand, but given the precision of 
 the satellite sensor and errors in processing, these are the types of pixel history descriptions we are confident 
-are represented well in the image time series. LandTrendr is a brevity algorimth that listens to every grity 
-detail of a pixel's story and writes and abridged version. 
+are represented well in the image time series. LandTrendr is a brevity algorimth that listens to the annual, grity 
+detail of a pixel's story and writes an abridged version. 
 
 In practice, LandTrendr takes a single point of view from a pixel's spectral history, like a band or an index, and
 goes through a process to idenitfy breakpoints or changes in spectral trajectory and records the year that changes occurred.
-These breakpoints defined by year and spectral value allow use to represent the spectral history of a pixel as a 
+These breakpoints defined by year and spectral index value allow us to represent the spectral history of a pixel as a 
 series of vertices bounding line segments. 
 <br>
 
 ![segmentation](https://github.com/eMapR/LT-GEE/blob/master/imgs/segmentation.png)
 *Fig 2. Pixel time series segmentation.*
 <br>
+
+There are three neat qualities that result from this line segment world view.
+
+2. Spectral index fitting to line segments 
+
+1. Imposing segmentation from one index to another index
+
+
+  
 
 
 
