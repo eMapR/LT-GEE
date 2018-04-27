@@ -37,8 +37,8 @@ Then, between the summers of 2000 and 2001 a forest harvest road was built throu
 vegetation. Over the next year it experienced a clearcut harvest, which removed all of its remaining
 vegetation. For the following 14 years, until the most recent observation, it has been regenerating. Most
 recently it was a closed canopy, maturing, conifer stand.
-
 <br>
+
 ![pixel story](https://github.com/eMapR/LT-GEE/blob/master/imgs/pixel_story.png)
 *Fig 1. Every pixel tells a story.*
 <br>
@@ -52,8 +52,8 @@ In practice, LandTrendr takes a single point of view from a pixel's spectral his
 goes through a process to idenitfy breakpoints or changes in spectral trajectory and records the year that changes occurred.
 These breakpoints defined by year and spectral value allow use to represent the spectral history of a pixel as a 
 series of vertices bounding line segments. 
-
 <br>
+
 ![segmentation](https://github.com/eMapR/LT-GEE/blob/master/imgs/segmentation.png)
 *Fig 2. Pixel time series segmentation.*
 <br>
