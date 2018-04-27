@@ -29,9 +29,7 @@ and have a basic understanding of LandTrendr
 
 ## LandTrendr
 
-A time series of satellite imagery is composed of repeated observations of spectral reflectance
-for the same spatial units through time. Changes in the nature of the landscape through
-time are recorded in the imagery as changes in reflectance. Each pixel in an image time series
+Each pixel in an image time series
 stack has a story to tell. For example, the following pixel hails from a conifer-dominated,
 industrial forest region of the Pacific northwest, its address is (-123.845, 45.889). At the
 beginning of the record it was a mature second growth conifer stand, and for 17 years little changed.
