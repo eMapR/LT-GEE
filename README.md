@@ -31,26 +31,36 @@ and have a basic understanding of LandTrendr
 
 Each pixel in an image time series
 stack has a story to tell. For example, the following pixel hails from a conifer-dominated,
-industrial forest region of the Pacific northwest, its address is (-123.845, 45.889). At the
-beginning of the record it was a mature second growth conifer stand, and for 17 years little changed.
-Then, between the summers of 2000 and 2001 a forest road was built through it, removing some of its 
-vegetation. The following year it experienced a clear-cut harvest, which removed all of its remaining
-vegetation. Over the next 14 years, until the most recent observation, it has been regenerating. Most
-recently it is closed canopy, maturing conifer forest stand.
+industrial forest region of the Pacific Northwest (USA), its address is Lon: -123.845, Lat: 45.889. At the
+beginning of the record it was a mature, second growth conifer stand, and for 17 years little changed.
+Then, between the summers of 2000 and 2001 a forest harvest road was built through it, removing some of its 
+vegetation. Over the next year it experienced a clearcut harvest, which removed all of its remaining
+vegetation. For the following 14 years, until the most recent observation, it has been regenerating. Most
+recently it was a closed canopy, maturing, conifer stand.
 
 ![pixel story](https://github.com/eMapR/LT-GEE/blob/master/imgs/pixel_story.png)
 *Fig 1. Every pixel tells a story.*
+<br><br><br><br>
+
+The unabridged version of this story includes many other small changes in this forest stand, but given the precision of 
+the satellite sensor and errors in processing, these are the types of pixel history descriptions we are confident 
+are represented well in the image time series. LandTrendr is a brevity algorimth that listens to every grity 
+detail of a pixel's story and writes and abridged version. 
+
+In practice, LandTrendr takes a single point of view from a pixel's spectral history, like a band or an index, and
+goes through a process to idenitfy breakpoints or changes in spectral trajectory and records the year that changes occurred.
+These breakpoints defined by year and spectral value allow use to represent the spectral history of a pixel as a 
+series of vertices bounding line segments. 
+
+![segmentation](https://github.com/eMapR/LT-GEE/blob/master/imgs/segmentation.png)
+*Fig 2. Pixel time series segmentation.*
+<br><br><br><br>
 
 
-LandTrendr is interested inperforms hind-sight enhanced image processing and analysis
-LandTrendr segments pixel times series data to reveal the underlying properties of its source. It eliminates 
-noise and extraneous information, and places each observation in the context of a cardinal linear spectral-temporal trajectory.
-The resulting segements suscinctly capture the spectral history of a pixel through coordinates of
-vertices in the time and spectral axes of the series. 
-
-*put an image here*
 
 
+
+  
 
 
 
