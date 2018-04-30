@@ -39,7 +39,7 @@ vegetation. For the following 14 years, until the most recent observation, it ha
 recently it was a closed canopy, maturing, conifer stand.
 <br>
 
-![pixel story](https://github.com/eMapR/LT-GEE/blob/master/imgs/pixel_story.png)
+![pixel story](https://github.com/eMapR/LT-GEE/blob/master/imgs/pixel_story.jpg)
 *Fig 1. Every pixel tells a story.*
 <br>
 
