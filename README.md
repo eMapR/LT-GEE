@@ -33,67 +33,81 @@ Each pixel in an image time series
 stack has a story to tell. For example, the following pixel (Fig 1) hails from a conifer-dominated,
 industrial forest region of the Pacific Northwest (USA), its address is Lon: -123.845, Lat: 45.889. At the
 beginning of its record, it was a mature, second-growth conifer stand, and for 17 years little changed.
-Then, between the summers of 2000 and 2001 a forest harvest road was built through it, removing some of its 
-vegetation. Over the next year it experienced a clearcut harvest, removing all of its remaining
-vegetation. For the following 14 years, until the most recent observation, it has been regenerating. Most
+Then, between the summers of 2000 and 2001 a service road was built through it, removing some of its vegetation. 
+Over the next year it experienced a clearcut harvest, removing all of its remaining
+vegetation. For the last 14 years it has been regenerating. Most
 recently it was a closed canopy, maturing, conifer stand.
 <br>
 
 ![pixel story](https://github.com/eMapR/LT-GEE/blob/master/imgs/pixel_story.jpg)
 *Fig 1. Every pixel tells a story. Landsat provides a historical record of the character of landscapes. By
-extracting a single pixel from a time series of Landsat imagery, it is possbile to recount the state and change of 
+extracting a single pixel from a time series of Landsat imagery, it is possible to recount the state and change of 
 the features composing the 1-hectare area of a pixel through time. In this example, we analyze the history of a conifer 
 forest pixel from an industrial forest region of the Pacific Northwest (USA) that experiences a period of relative stability,
 a dramatic, rapid loss of vegetation, and subsequent regeneration.*
 <br>
 
-The unabridged version of this story includes many other small changes in this forest stand, but given the precision of 
-the satellite sensor and errors in processing, these are the types of pixel history descriptions we are confident 
-are represented well in the image time series. LandTrendr is a brevity algorimth that listens to the annual, grity 
-detail of a pixel's story and writes an abridged version. 
+The unabridged version of this pixel's story includes many other small changes in the forest stand it represents, but given 
+the precision of the satellite sensor and errors in processing, these are the types of pixel history descriptions we are 
+confident are represented well in the image time series. LandTrendr is a brevity algorithm that listens to the annual, 
+gritty detail of a pixel's story and writes an abridged version. 
 
-In practice, LandTrendr takes a single point-of-view from a pixel's spectral history, like a band or an index, and
-goes through a process to idenitfy breakpoints or changes in spectral trajectory and records the year that changes occurred.
-These breakpoints, defined by year and spectral index value, allow us to represent the spectral history of a pixel as a 
-series of vertices bounding line segments (Fig 2). 
+In practice, LandTrendr takes a single point-of-view from a pixel's spectral history, like a band or an index, and goes 
+through a process to identify breakpoints or durable changes in spectral trajectory, and records the year that changes 
+occurred. These breakpoints, defined by year and spectral index value, allow us to represent the spectral history of a 
+pixel as a series of vertices bounding line segments (Fig 2). 
 <br>
 
 ![segmentation](https://github.com/eMapR/LT-GEE/blob/master/imgs/segmentation.png)
-*Fig 2. LandTrendr pixel time series segmentation. Image data is reduced to a single band or spectral index
-and then didived into a series of straight line segments by breakpoint (vertex) identification.*
+*Fig 2. LandTrendr pixel time series segmentation. Image data is reduced to a single band or spectral index and then 
+divided into a series of straight line segments by breakpoint (vertex) identification.*
 <br>
 
-There are two neat featurs that result from this line segment world view.
- 
-1. Ability to interpolate new values for years between vertices.
+There are two neat features that result from this line segment world view of spectral history.
+
+1. The ability to interpolate new values for years between vertices.
 2. Simple geometry calculations on line segments provide information about distinct epochs
 
-The ability to interpolate new values for years between vertices is very useful. It ensures that each observation
-is aligned to a trajectory consistent with where the pixel has been and where it is going. We can think of this 
-as hindsight-enchanced image time series data. It has two practical features. It can fill in data from missing 
-observations and it maintains consistensy in predictive mapping through time ie from year-to-year the signal is 
-not bouncing around providing a.....   
+The ability to interpolate new values for years between vertices is very useful. It ensures that each observation is aligned 
+to a trajectory consistent with where the pixel has been and where it is going. We can think of this as hindsight-enhanced image 
+time series data. It has two practical utilities. It can fill in data from missing observations in the time series (masked because 
+of cloud or shadow) and it maintains consistency in predictive mapping through time; e.g. an annual forest classification is not 
+likely to bounce between mature and old-growth conifer because of minor differences in spectral reflectance from atmosphere or 
+shadow difference (Fig 3).
+<br>
 
-Spectral index fitting to line segments 
+![seg index ftv](https://github.com/eMapR/LT-GEE/blob/master/imgs/seg_index_ftv.png)
+*Fig 3. Hindsight-enhanced image time series data. Identification of time series breakpoints or vertices, allows the observations 
+between vertices to be interpolated, removing extraneous information and placing each observation in the context of the trajectory 
+it is part of. This is useful in filling missing observations because of cloud and shadow, and makes for more consistent annual 
+map prediction.*
+<br>
 
-1. Imposing segmentation from one index to another index
+Since breakpoints or vertices are defined by a year we also have the ability to impose breakpoints identified in one spectral band 
+or index on any other. For instance, we can segment a pixel time series cast as Normalized Burn Ratio (NBR: [NIR-SWIR]/[NIR+SWIR]) 
+to identify vertices, and then segment a short wave infrared (SWIR) band based on the NBR-identified vertices (Fig 4).  
+<br>
 
+![other index ftv](https://github.com/eMapR/LT-GEE/blob/master/imgs/other_index_ftv.png)
+*Fig 4. Impose the segmentation structure of one spectral representation on another. Here we have identified four breakpoints or 
+vertices for a pixel time series using NBR, and then used the year of those vertices to segment and interpolate the values of a 
+SWIR band time series for the same pixel.*
+<br>
+
+This is useful because we can make the whole data space for a pixel’s time series consistent relative to a single perspective (Fig 5). 
+This is limiting in that each spectral representation cannot speak for itself with regard to placement of breakpoints, but it is also 
+very powerful, because we can summarize starting, ending, and delta values for all spectral representations for the same temporal segments, 
+which is useful in predictive mapping of cover, agent of change, and state transitions.
+<br>
+
+![all index ftv](https://github.com/eMapR/LT-GEE/blob/master/imgs/all_index_ftv.png)
+*Fig 5. A stack of spectral representations can be standardized to the segmentation structure of a single spectral band or index. Here 
+we are demonstrating the standardization of tasseled cap brightness, greenness, and wetness to the segmentation structure of NBR. 
+This allows us to take advantage of multiple dimension spectral space to describe the properties of spectral epochs and breakpoints 
+to predict land cover, change process, and transitions from a consistent perspective (NBR).*
+<br>
 
   
-
-
-
-
-
-  
-
-
-
-We can think of this as hind-sight enhanced 
-image processing and analysis. By looking at the entire spectral history of a pixel we can identify 
-the most dominate, important change events and simply interpolate what happened in between. It allows 
-use to distill state and change information relative to the significant events.  
-
 
 
 
