@@ -123,6 +123,9 @@ vertices and a subsequent step interpolates a new stack of annual time series im
 the vertices by interpolation - we call this fit-to-vertices (FTV). From these data we can map state and change anywhere in
 world annual from 1984-present.
 
+<iframe src="http://emapr.ceoas.oregonstate.edu/pages/media/conus/stem_nlcd_examples.html" width="900" height="780" style="border: none;"></iframe>
+
+
 <video id="conus_nlcd_vid" autoplay loop markdown="0" style="display: block; margin: auto;"><source src="http://emapr.ceoas.oregonstate.edu/pages/media/conus/conus_nlcd_1990_2016.webm" type="video/webm"><source src="http://emapr.ceoas.oregonstate.edu/pages/media/conus/conus_nlcd_1990_2016.mp4" type="video/mp4">Your browser does not support the video tag.</video>
 
 
