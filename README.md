@@ -5,6 +5,12 @@
 **LandTrendr (Landsat-based detection of trends in disturbance and recovery) 
 implementation in the Google Earth Engine platform**
 
+## Sections
++ [Introduction](#introduction)
++ [LandTrendr](#landtrendr)
++ [Running LandTrendr in Google Earth Engine](#runninglandtrendringoogleearthengine)
+
+
 ## Introduction
 
 LandTrendr is set of spectral-temporal segmentation algorithms that are useful 
@@ -123,10 +129,6 @@ vertices and a subsequent step interpolates a new stack of annual time series im
 the vertices by interpolation - we call this fit-to-vertices (FTV). From these data we can map state and change anywhere in
 the world annually from 1984-present.
 <br>
-
-[![annual nlcd](https://github.com/eMapR/LT-GEE/blob/master/imgs/annual_nlcd.png)](http://emapr.ceoas.oregonstate.edu/pages/media/conus/stem_nlcd_examples.html)
-<br>
-
 
 ## Running LandTrendr in Google Earth Engine
 
