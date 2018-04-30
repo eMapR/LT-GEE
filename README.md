@@ -52,19 +52,29 @@ the satellite sensor and errors in processing, these are the types of pixel hist
 are represented well in the image time series. LandTrendr is a brevity algorimth that listens to the annual, grity 
 detail of a pixel's story and writes an abridged version. 
 
-In practice, LandTrendr takes a single point of view from a pixel's spectral history, like a band or an index, and
+In practice, LandTrendr takes a single point-of-view from a pixel's spectral history, like a band or an index, and
 goes through a process to idenitfy breakpoints or changes in spectral trajectory and records the year that changes occurred.
-These breakpoints defined by year and spectral index value allow us to represent the spectral history of a pixel as a 
-series of vertices bounding line segments. 
+These breakpoints, defined by year and spectral index value, allow us to represent the spectral history of a pixel as a 
+series of vertices bounding line segments (Fig 2). 
 <br>
 
 ![segmentation](https://github.com/eMapR/LT-GEE/blob/master/imgs/segmentation.png)
-*Fig 2. Pixel time series segmentation.*
+*Fig 2. LandTrendr pixel time series segmentation. Image data is reduced to a single band or spectral index
+and then didived into a series of straight line segments by breakpoint (vertex) identification.*
 <br>
 
-There are three neat qualities that result from this line segment world view.
+There are two neat featurs that result from this line segment world view.
+ 
+1. Ability to interpolate new values for years between vertices.
+2. Simple geometry calculations on line segments provide information about distinct epochs
 
-2. Spectral index fitting to line segments 
+The ability to interpolate new values for years between vertices is very useful. It ensures that each observation
+is aligned to a trajectory consistent with where the pixel has been and where it is going. We can think of this 
+as hindsight-enchanced image time series data. It has two practical features. It can fill in data from missing 
+observations and it maintains consistensy in predictive mapping through time ie from year-to-year the signal is 
+not bouncing around providing a.   
+
+Spectral index fitting to line segments 
 
 1. Imposing segmentation from one index to another index
 
