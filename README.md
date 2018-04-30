@@ -94,10 +94,9 @@ vertices for a pixel time series using NBR, and then used the year of those vert
 SWIR band time series for the same pixel.*
 <br>
 
-This is useful because we can make the whole data space for a pixel’s time series consistent relative to a single perspective (Fig 5). 
-This is limiting in that each spectral representation cannot speak for itself with regard to placement of breakpoints, but it is also 
-very powerful, because we can summarize starting, ending, and delta values for all spectral representations for the same temporal segments, 
-which is useful in predictive mapping of cover, agent of change, and state transitions.
+This is useful because we can make the whole data space for a pixel’s time series consistent relative to a single perspective (Fig 5) and
+summarize starting, ending, and delta values for all spectral representations for the same temporal segments, 
+which can be powerful predictors of land cover, agent of change, and state transitions.
 <br>
 
 ![all index ftv](https://github.com/eMapR/LT-GEE/blob/master/imgs/all_index_ftv.png)
@@ -107,7 +106,29 @@ This allows us to take advantage of multiple dimension spectral space to describ
 to predict land cover, change process, and transitions from a consistent perspective (NBR).*
 <br>
 
-  
+The second neat feature of a segmented world view of spectral history is that simple geometry calculations can summarize attributes of 
+spectral epochs (Fig 6). Temporal duration and spectral magnitude can be calculated for each segment, based on the vertex time and 
+spectral dimensions. These attributes allow us to easily query the data about when changes occur, how frequently they occur, on 
+average how long do they last, what is the average magnitude of disturbance segments, etc. We can also query information about 
+adjacent segments to focal segments. For instance, we can ask, what it the average rate of recovery following a disturbance segment, 
+or what was the trajectory of a pixel time series prior to disturbance segments that we’ve attributed to fire.    
+<br>
+
+![segment attributes](https://github.com/eMapR/LT-GEE/blob/master/imgs/segment_attributes.png)
+*Fig 6. Diagram of segment attributes. From these attributes we can summarize and query change per pixel over the landscape.*
+<br>
+
+LandTrendr is run on each pixel in a user-defined area of interest. The initial step segments the time series to identify 
+vertices and a subsequent step interpolates a new stack of annual time series image data that has been fit to lines between
+the vertices by interpolation - we call this fit-to-vertices (FTV). From these data we can map state and change anywhere in
+world annual from 1984-present.
+
+<video id="conus_nlcd_vid" autoplay loop style="display: block; margin: auto;">
+  <source src="http://emapr.ceoas.oregonstate.edu/pages/media/conus/conus_nlcd_1990_2016.webm" type="video/webm">
+  <source src="http://emapr.ceoas.oregonstate.edu/pages/media/conus/conus_nlcd_1990_2016.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
 
 
 
