@@ -122,10 +122,10 @@ LandTrendr is run on each pixel in a user-defined area of interest. The initial 
 vertices and a subsequent step interpolates a new stack of annual time series image data that has been fit to lines between
 the vertices by interpolation - we call this fit-to-vertices (FTV). From these data we can map state and change anywhere in
 world annual from 1984-present.
+<br>
 
-![land cover change](https://j.gifs.com/gLNj7D.gif)
-
-
+[![annual nlcd](https://github.com/eMapR/LT-GEE/blob/master/imgs/annual_nlcd.png)](http://emapr.ceoas.oregonstate.edu/pages/media/conus/stem_nlcd_examples.html)
+<br>
 
 
 The three use case examples described include:
