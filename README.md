@@ -121,11 +121,83 @@ or what was the trajectory of a pixel time series prior to disturbance segments 
 LandTrendr is run on each pixel in a user-defined area of interest. The initial step segments the time series to identify 
 vertices and a subsequent step interpolates a new stack of annual time series image data that has been fit to lines between
 the vertices by interpolation - we call this fit-to-vertices (FTV). From these data we can map state and change anywhere in
-world annual from 1984-present.
+the world annually from 1984-present.
 <br>
 
 [![annual nlcd](https://github.com/eMapR/LT-GEE/blob/master/imgs/annual_nlcd.png)](http://emapr.ceoas.oregonstate.edu/pages/media/conus/stem_nlcd_examples.html)
 <br>
+
+
+## Running LandTrendr in Google Earth Engine
+
+The LandTrendr function requires an annual image collection and a set of parameters to control segmentation.
+
+The simples examples could be contructed from the 
+
+
+    var startYear = 1985;
+    var endYear   = 2010;
+
+test this out
+
+```javascript
+var coords = [[-123.925,42.996],
+			  [-122.327,42.996],
+			  [-122.327,43.548],
+			  [-123.925,43.548],
+			  [-123.925,42.996]];
+
+var aoi = ee.Geometry.Polygon(coords);
+```
+
+```javascript	
+var run_params = { 
+  maxSegments:            6,
+  spikeThreshold:         0.9,
+  vertexCountOvershoot:   3,
+  preventOneYearRecovery: true,
+  recoveryThreshold:      0.25,
+  pvalThreshold:          0.05,
+  bestModelProportion:    0.75,
+  minObservationsNeeded:  6
+};
+```
+
+```javascript
+for(var year=startYear; year<endYear; year++){
+  var img = ee.ImageCollection('LANDSAT/LT05/C01/T1_SR')
+              .filterBounds(aoi)
+              .filterDate(year+'-06-15', year+'-09-15')
+              .first();
+
+  var tempCollection = ee.ImageCollection(ee.Image(img).select(['B5'])) ;         
+
+  if(year == startYear){
+    var srCollection = tempCollection;
+  } else{
+    srCollection = srCollection.merge(tempCollection);
+  }
+}
+```
+
+run_params.timeSeries = srCollection;
+    
+var lt = ee.Algorithms.Test.LandTrendr(run_params);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 The three use case examples described include:
