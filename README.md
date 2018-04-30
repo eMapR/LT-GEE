@@ -30,17 +30,21 @@ and have a basic understanding of LandTrendr
 ## LandTrendr
 
 Each pixel in an image time series
-stack has a story to tell. For example, the following pixel hails from a conifer-dominated,
+stack has a story to tell. For example, the following pixel (Fig 1) hails from a conifer-dominated,
 industrial forest region of the Pacific Northwest (USA), its address is Lon: -123.845, Lat: 45.889. At the
-beginning of the record it was a mature, second growth conifer stand, and for 17 years little changed.
+beginning of its record, it was a mature, second-growth conifer stand, and for 17 years little changed.
 Then, between the summers of 2000 and 2001 a forest harvest road was built through it, removing some of its 
-vegetation. Over the next year it experienced a clearcut harvest, which removed all of its remaining
+vegetation. Over the next year it experienced a clearcut harvest, removing all of its remaining
 vegetation. For the following 14 years, until the most recent observation, it has been regenerating. Most
 recently it was a closed canopy, maturing, conifer stand.
 <br>
 
 ![pixel story](https://github.com/eMapR/LT-GEE/blob/master/imgs/pixel_story.jpg)
-*Fig 1. Every pixel tells a story.*
+*Fig 1. Every pixel tells a story. Landsat provides a historical record of the character of landscapes. By
+extracting a single pixel from a time series of Landsat imagery, it is possbile to recount the state and change of 
+the features composing the 1-hectare area of a pixel through time. In this example, we analyze the history of a conifer 
+forest pixel from an industrial forest region of the Pacific Northwest (USA) that experiences a period of relative stability,
+a dramatic, rapid loss of vegetation, and subsequent regeneration.*
 <br>
 
 The unabridged version of this story includes many other small changes in this forest stand, but given the precision of 
