@@ -72,7 +72,7 @@ The ability to interpolate new values for years between vertices is very useful.
 is aligned to a trajectory consistent with where the pixel has been and where it is going. We can think of this 
 as hindsight-enchanced image time series data. It has two practical features. It can fill in data from missing 
 observations and it maintains consistensy in predictive mapping through time ie from year-to-year the signal is 
-not bouncing around providing a.   
+not bouncing around providing a.....   
 
 Spectral index fitting to line segments 
 
