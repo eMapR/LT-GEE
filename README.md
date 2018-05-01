@@ -128,14 +128,19 @@ or what was the trajectory of a pixel time series prior to disturbance segments 
 
 LandTrendr is run on each pixel in a user-defined area of interest. The initial step segments the time series to identify 
 vertices and a subsequent step interpolates a new stack of annual time series image data that has been fit to lines between
-the vertices by interpolation - we call this fit-to-vertices (FTV). From these data we can map state and change anywhere in
+the vertices by interpolation - we call this <a id='ftv'></a>fit-to-vertices (FTV). From these data we can map state and change anywhere in
 the world annually from 1984-present.
 <br>
 
 ## <a id='requirements'></a>LT-GEE Requirements
-LandTrendr for Google Earth Engine requires two things: 1) an annual image collection and 2) a set of parameters to control segmentation
+LandTrendr for Google Earth Engine requires two things: 
 
-The image collection needs to an observation that is consistent through time, it should not include noise from
+1. An annual image collection 
+2. A set of parameters to control segmentation
+
+### Image Collection
+
+The image collection needs to an observation that is consistent through time. It should not include noise from
 atmosphere, clouds and shadows, sensor differences, or other anomalies. The annual changes in a time series should be the result of 
 changes in the physical features of a landscape. We recommend using the *USGS Landsat Surface Reflectance Tier 1* datasets.
 These data have been atmospherically corrected, and include a cloud, shadow, water and snow mask produced 
@@ -147,7 +152,16 @@ GEE ImageCollection IDs for USGS Landsat Surface Reflectance
 + Landsat 7: LANDSAT/LE07/C01/T1_SR
 + Landsat 8: LANDSAT/LC08/C01/T1_SR
 
-The collection must include **only one observation per year**. This means that you need to perform a best 
+The collection must include only one observation per year. However, because clouds are often present in any given image, it
+is best to retrieve multiple images for a season, mask out clouds and cloud shadows from each, and then create a composite of
+those images so that you have reasonable annual spatial coverage of clear-view pixels. The best-pixel-compositing method you 
+apply is up to you. We have used nearness to a target day-of-year and also medoid compositing, we prefer the later and include
+it in the provided examples. LandTrendr will segment the first band in the image collection and generate annual [fitted-to-vertex
+(FTV)](#ftv) data for each subsequent band. Consequently, you need to manipulate you collection so that the band or spectral index you 
+want segmented is the first band and additional FTV outputs you want follow. The band or index you select for segmentation should
+be an informed descision weighted by the sensitivity of it to change in the conditions of the land______ this can be different for
+shrubs vs trees vs conifers vs deciduous. We have found SWIR bands and NBR to be generally quite sensitive to change, but we also 
+know that it is highly variable. You should try segmenting on several bands or indices to see what works best. The bands that you select for  
 
 
 
@@ -278,7 +292,6 @@ of change, and pre-change event spectral data can all be mapped.
 <br><br><br><br>
 
 ## Documentation
-
 
 
 
