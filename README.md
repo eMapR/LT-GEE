@@ -11,9 +11,11 @@ Jump right into an **[example](#changemap)** of disturbance mapping
 + [Introduction](#introduction)
 + [LandTrendr](#landtrendr)
 + [LT-GEE Requirements](#requirements)
-+ [Running LandTrendr in Google Earth Engine](#runninglt)
++ [Running LT-GEE](#runninglt)
++ [LT-GEE Outputs](#ltgeeoutputs)
 + [Examples Scripts](#examples)
-
++ [Documentation](#documentation)
++ [References](#references)
 
 ## <a id='introduction'></a>Introduction
 
@@ -22,7 +24,7 @@ for change detection in a time series of moderate resolution satellite imagery (
 and for generating trajectory-based spectral time series data largely absent of 
 inter-annual signal noise. LandTrendr was originally implemented in IDL 
 (Interactive Data Language), but with the help of engineers at Google, it has 
-been ported to the Google Earth Engine (GEE) platform 
+been ported ([paper](https://github.com/eMapR/LT-GEE/blob/master/docs/kennedy_etal_2018_lt-gee.pdf)) to the Google Earth Engine (GEE) platform 
 ([overview](https://earthengine.google.com/), [paper](https://github.com/eMapR/LT-GEE/blob/master/docs/gorelick_etal_2017_google_earth_engine.pdf)). 
 The GEE framework nearly eliminates the onerous data management and image-preprocessing 
 aspects of the IDL implementation. It is also light-years faster than the IDL 
@@ -164,7 +166,7 @@ know that it is highly variable. You should try segmenting on several bands or i
 
 
 
-## <a id='runninglt'></a>Running LandTrendr in Google Earth Engine
+## <a id='runninglt'></a>Running LT-GEE
 
 In its most most basic form, running LandTrendr in Google Earth Engine requires 6 steps. The following code snippets help illustrate the steps (dont use them - they are only a demonstration aid!).
 
@@ -187,7 +189,7 @@ var coords = [[-123.925, 42.996],
 var aoi = ee.Geometry.Polygon(coords);
 ```
 
-3. Define the LandTrendr run parameters as a dictionary. See the ________ section for parameter definitions
+3. Define the LandTrendr run parameters as a dictionary. See the [documentation](#documentation) section for parameter definitions
 
 ```javascript	
 var run_params = { 
@@ -234,18 +236,12 @@ run_params.timeSeries = srCollection;
 var lt = ee.Algorithms.Test.LandTrendr(run_params);
 ```
 
-**Two really important subs-steps** in image collection building that are not explicitly addressed in the above walk through is 1) to mask cloud and cloud shadow pixels during annual image compositing (step 4) and 2) to ensure that the spectral band or index that is 
+**Two really important sub-steps** in image collection building that are not explicitly addressed in the above walk through is 1) to mask cloud and cloud shadow pixels during annual image compositing (step 4) and 2) to ensure that the spectral band or index that is 
 to be segmented is oriented so that vegetation loss is represented by a positive delta. For instance, the Normalized Burn Ratio 
 (NBR: [NIR-SWIR]/[NIR+SWIR]) in its native orientation results in a negative delta when vegetation is lost from one observation to the next. In this case, NBR must be multiplied by negative 1 before being segmented.  
 
 
-
-
-
-
-
-
-
+## <a id='ltgeeoutputs'></a>LT-GEE Outputs
 
 
 ## <a id='examples'></a>Example Scripts
@@ -289,7 +285,7 @@ of change, and pre-change event spectral data can all be mapped.
 [Example script](https://code.earthengine.google.com/8b247c3a18fb9cc2e2fe781724fe352e)
 <br><br><br><br>
 
-## Documentation
+## <a id='documentation'></a>Documentation
 
 
 
@@ -340,10 +336,12 @@ ee.Algorithms.Test.LandTrendr()
 
 
 
+## <a id='references'></a>References
 
+>[Gorelick, N., Hancher, M., Dixon, M., Ilyushchenko, S., Thau, D., & Moore, R. (2017). Google Earth Engine: Planetary-scale geospatial analysis for everyone. *Remote Sensing of Environment, 202*, 18-27.](https://github.com/eMapR/LT-GEE/blob/master/docs/gorelick_etal_2017_google_earth_engine.pdf)
 
+>[Kennedy, R. E., Yang, Z., & Cohen, W. B. (2010). Detecting trends in forest disturbance and recovery using yearly Landsat time series: 1. LandTrendr—Temporal segmentation algorithms. *Remote Sensing of Environment, 114*(12), 2897-2910.](https://github.com/eMapR/LT-GEE/blob/master/docs/kennedy_etal_2010_landtrendr.pdf)
 
+>[Kennedy, R. E., Yang, Z., Cohen, W. B., Pfaff, E., Braaten, J., & Nelson, P. (2012). Spatial and temporal patterns of forest disturbance and regrowth within the area of the Northwest Forest Plan. Remote Sensing of Environment, 122, 117-133.](https://github.com/eMapR/LT-GEE/blob/master/docs/kennedy_etal_2012_disturbance_nwfp.pdf)
 
->[Kennedy, R. E., Yang, Z., & Cohen, W. B. (2010). Detecting trends in forest disturbance and recovery using yearly Landsat time series: 1. LandTrendr—Temporal segmentation algorithms. *Remote Sensing of Environment, 114*(12), 2897-2910.]()
-
->[Gorelick, N., Hancher, M., Dixon, M., Ilyushchenko, S., Thau, D., & Moore, R. (2017). Google Earth Engine: Planetary-scale geospatial analysis for everyone. *Remote Sensing of Environment, 202*, 18-27.]()
+>[Kennedy, R.E., Yang, Z., Gorelick, N., Braaten, J., Cavalcante, L., Cohen, W.B., Healey, S. (2018). Implementation of the LandTrendr Algorithm on Google Earth Engine. Remote Sensing. 10, 691.](https://github.com/eMapR/LT-GEE/blob/master/docs/kennedy_etal_2018_lt-gee.pdf)
