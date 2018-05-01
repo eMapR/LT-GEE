@@ -143,11 +143,11 @@ The simples examples could be contructed from the
 test this out
 
 ```javascript
-var coords = [[-123.925,42.996],
-			  [-122.327,42.996],
-			  [-122.327,43.548],
-			  [-123.925,43.548],
-			  [-123.925,42.996]];
+var coords = [[-123.925, 42.996],
+              [-122.327, 42.996],
+              [-122.327, 43.548],
+              [-123.925, 43.548],
+              [-123.925, 42.996]];
 
 var aoi = ee.Geometry.Polygon(coords);
 ```
