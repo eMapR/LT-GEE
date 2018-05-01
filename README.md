@@ -9,6 +9,7 @@ implementation in the Google Earth Engine platform**
 + [Introduction](#introduction)
 + [LandTrendr](#landtrendr)
 + [Running LandTrendr in Google Earth Engine](#runninglt)
++ [Examples Scripts](#examples)
 
 
 ## <a id='introduction'></a>Introduction
@@ -132,15 +133,18 @@ the world annually from 1984-present.
 
 ## <a id='runninglt'></a>Running LandTrendr in Google Earth Engine
 
-The LandTrendr function requires an annual image collection and a set of parameters to control segmentation.
+The LandTrendr function requires: 1) an annual image collection and 2) a set of parameters to control segmentation.
 
-The simples examples could be contructed from the 
+The simplest example of running LandTrendr goes as follows:
 
+1. Define starting and ending years of the times series
 
-    var startYear = 1985;
-    var endYear   = 2010;
+```javascript
+var startYear = 1985;
+var endYear   = 2010;
+```
 
-test this out
+2. Define an area of interest as an ee.Geometry
 
 ```javascript
 var coords = [[-123.925, 42.996],
@@ -151,6 +155,8 @@ var coords = [[-123.925, 42.996],
 
 var aoi = ee.Geometry.Polygon(coords);
 ```
+
+3. Define the LandTrendr run parameters as a dictionary. See the ________ section for parameter definitions
 
 ```javascript	
 var run_params = { 
@@ -164,6 +170,8 @@ var run_params = {
   minObservationsNeeded:  6
 };
 ```
+
+4. Build an image collection from Landsat TM Collection-1 Surface Reflectance that includes only one image per year subset to Band 5
 
 ```javascript
 for(var year=startYear; year<endYear; year++){
@@ -182,7 +190,11 @@ for(var year=startYear; year<endYear; year++){
 }
 ```
 
+5. Concatenate the image collection to the LandTrendr run parameter dictionary
+
 run_params.timeSeries = srCollection;
+
+6. Run the LandTrendr algorithm
     
 var lt = ee.Algorithms.Test.LandTrendr(run_params);
 
@@ -199,7 +211,7 @@ var lt = ee.Algorithms.Test.LandTrendr(run_params);
 
 
 
-
+## <a id='examples'></a>Example Scripts
 
 
 The three use case examples described include:
