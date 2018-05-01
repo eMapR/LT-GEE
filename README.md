@@ -133,6 +133,25 @@ the world annually from 1984-present.
 <br>
 
 ## <a id='requirements'></a>LT-GEE Requirements
+LandTrendr for Google Earth Engine requires two things: 1) an annual image collection and 2) a set of parameters to control segmentation
+
+The image collection needs to an observation that is consistent through time, it should not include noise from
+atmosphere, clouds and shadows, sensor differences, or other anomalies. The annual changes in a time series should be the result of 
+changes in the physical features of a landscape. We recommend using the *USGS Landsat Surface Reflectance Tier 1* datasets.
+These data have been atmospherically corrected, and include a cloud, shadow, water and snow mask produced 
+using CFMASK.
+
+GEE ImageCollection IDs for USGS Landsat Surface Reflectance 
+
++ Landsat 5: LANDSAT/LT05/C01/T1_SR
++ Landsat 7: LANDSAT/LE07/C01/T1_SR
++ Landsat 8: LANDSAT/LC08/C01/T1_SR
+
+The collection must include **only one observation per year**. This means that you need to perform a best 
+
+
+
+
 
 ## <a id='runninglt'></a>Running LandTrendr in Google Earth Engine
 
