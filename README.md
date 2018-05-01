@@ -48,7 +48,6 @@ Then, between the summers of 2000 and 2001 a service road was built through it, 
 Over the next year it experienced a clearcut harvest, removing all of its remaining
 vegetation. For the last 14 years it has been regenerating. Most
 recently it was a closed canopy, maturing, conifer stand.
-<br>
 
 ![pixel story](https://github.com/eMapR/LT-GEE/blob/master/imgs/pixel_story.jpg)
 *Fig 1. Every pixel tells a story. Landsat provides a historical record of the character of landscapes. By
@@ -67,7 +66,6 @@ In practice, LandTrendr takes a single point-of-view from a pixel's spectral his
 through a process to identify breakpoints or durable changes in spectral trajectory, and records the year that changes 
 occurred. These breakpoints, defined by year and spectral index value, allow us to represent the spectral history of a 
 pixel as a series of vertices bounding line segments (Fig 2). 
-<br>
 
 ![segmentation](https://github.com/eMapR/LT-GEE/blob/master/imgs/segmentation.png)
 *Fig 2. LandTrendr pixel time series segmentation. Image data is reduced to a single band or spectral index and then 
@@ -85,7 +83,6 @@ time series data. It has two practical utilities. It can fill in data from missi
 of cloud or shadow) and it maintains consistency in predictive mapping through time; e.g. an annual forest classification is not 
 likely to bounce between mature and old-growth conifer because of minor differences in spectral reflectance from atmosphere or 
 shadow difference (Fig 3).
-<br>
 
 ![seg index ftv](https://github.com/eMapR/LT-GEE/blob/master/imgs/seg_index_ftv.png)
 *Fig 3. Hindsight-enhanced image time series data. Identification of time series breakpoints or vertices, allows the observations 
@@ -97,7 +94,6 @@ map prediction.*
 Since breakpoints or vertices are defined by a year we also have the ability to impose breakpoints identified in one spectral band 
 or index on any other. For instance, we can segment a pixel time series cast as Normalized Burn Ratio (NBR: [NIR-SWIR]/[NIR+SWIR]) 
 to identify vertices, and then segment a short wave infrared (SWIR) band based on the NBR-identified vertices (Fig 4).  
-<br>
 
 ![other index ftv](https://github.com/eMapR/LT-GEE/blob/master/imgs/other_index_ftv.png)
 *Fig 4. Impose the segmentation structure of one spectral representation on another. Here we have identified four breakpoints or 
@@ -108,7 +104,6 @@ SWIR band time series for the same pixel.*
 This is useful because we can make the whole data space for a pixel’s time series consistent relative to a single perspective (Fig 5) and
 summarize starting, ending, and delta values for all spectral representations for the same temporal segments, 
 which can be powerful predictors of land cover, agent of change, and state transitions.
-<br>
 
 ![all index ftv](https://github.com/eMapR/LT-GEE/blob/master/imgs/all_index_ftv.png)
 *Fig 5. A stack of spectral representations can be standardized to the segmentation structure of a single spectral band or index. Here 
@@ -123,7 +118,6 @@ spectral dimensions. These attributes allow us to easily query the data about wh
 average how long do they last, what is the average magnitude of disturbance segments, etc. We can also query information about 
 adjacent segments to focal segments. For instance, we can ask, what it the average rate of recovery following a disturbance segment, 
 or what was the trajectory of a pixel time series prior to disturbance segments that we’ve attributed to fire.    
-<br>
 
 ![segment attributes](https://github.com/eMapR/LT-GEE/blob/master/imgs/segment_attributes.png)
 *Fig 6. Diagram of segment attributes. From these attributes we can summarize and query change per pixel over the landscape.*
