@@ -11,7 +11,7 @@ implementation in the Google Earth Engine platform**
 + [Running LandTrendr in Google Earth Engine](#runninglt)
 
 
-## Introduction
+## <a id='introduction'></a>Introduction
 
 LandTrendr is set of spectral-temporal segmentation algorithms that are useful 
 for change detection in a time series of moderate resolution satellite imagery (primarily Landsat) 
@@ -33,7 +33,7 @@ and have a basic understanding of LandTrendr
 ([method](https://github.com/eMapR/LT-GEE/blob/master/docs/kennedy_etal_2010_landtrendr.pdf), 
 [application](https://github.com/eMapR/LT-GEE/blob/master/docs/kennedy_etal_2012_disturbance_nwfp.pdf)).
 
-## LandTrendr
+## <a id='landtrendr'></a>LandTrendr
 
 Each pixel in an image time series
 stack has a story to tell. For example, the following pixel (Fig 1) hails from a conifer-dominated,
@@ -130,7 +130,7 @@ the vertices by interpolation - we call this fit-to-vertices (FTV). From these d
 the world annually from 1984-present.
 <br>
 
-## [runninglt]Running LandTrendr in Google Earth Engine
+## <a id='runninglt'></a>Running LandTrendr in Google Earth Engine
 
 The LandTrendr function requires an annual image collection and a set of parameters to control segmentation.
 
