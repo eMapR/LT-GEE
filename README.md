@@ -5,6 +5,8 @@
 **LandTrendr (Landsat-based detection of trends in disturbance and recovery) 
 implementation in the Google Earth Engine platform**
 
+Jump right into an **[example](#changemap)** of disturbance mapping
+
 ## Sections
 + [Introduction](#introduction)
 + [LandTrendr](#landtrendr)
@@ -35,6 +37,7 @@ and have a basic understanding of LandTrendr
 ([method](https://github.com/eMapR/LT-GEE/blob/master/docs/kennedy_etal_2010_landtrendr.pdf), 
 [application](https://github.com/eMapR/LT-GEE/blob/master/docs/kennedy_etal_2012_disturbance_nwfp.pdf)).
 
+
 ## <a id='landtrendr'></a>LandTrendr
 
 Each pixel in an image time series
@@ -53,7 +56,7 @@ extracting a single pixel from a time series of Landsat imagery, it is possible 
 the features composing the 1-hectare area of a pixel through time. In this example, we analyze the history of a conifer 
 forest pixel from an industrial forest region of the Pacific Northwest (USA) that experiences a period of relative stability,
 a dramatic, rapid loss of vegetation, and subsequent regeneration.*
-<br>
+<br><br>
 
 The unabridged version of this pixel's story includes many other small changes in the forest stand it represents, but given 
 the precision of the satellite sensor and errors in processing, these are the types of pixel history descriptions we are 
@@ -69,7 +72,7 @@ pixel as a series of vertices bounding line segments (Fig 2).
 ![segmentation](https://github.com/eMapR/LT-GEE/blob/master/imgs/segmentation.png)
 *Fig 2. LandTrendr pixel time series segmentation. Image data is reduced to a single band or spectral index and then 
 divided into a series of straight line segments by breakpoint (vertex) identification.*
-<br>
+<br><br>
 
 There are two neat features that result from this line segment world view of spectral history.
 
@@ -89,7 +92,7 @@ shadow difference (Fig 3).
 between vertices to be interpolated, removing extraneous information and placing each observation in the context of the trajectory 
 it is part of. This is useful in filling missing observations because of cloud and shadow, and makes for more consistent annual 
 map prediction.*
-<br>
+<br><br>
 
 Since breakpoints or vertices are defined by a year we also have the ability to impose breakpoints identified in one spectral band 
 or index on any other. For instance, we can segment a pixel time series cast as Normalized Burn Ratio (NBR: [NIR-SWIR]/[NIR+SWIR]) 
@@ -100,7 +103,7 @@ to identify vertices, and then segment a short wave infrared (SWIR) band based o
 *Fig 4. Impose the segmentation structure of one spectral representation on another. Here we have identified four breakpoints or 
 vertices for a pixel time series using NBR, and then used the year of those vertices to segment and interpolate the values of a 
 SWIR band time series for the same pixel.*
-<br>
+<br><br>
 
 This is useful because we can make the whole data space for a pixel’s time series consistent relative to a single perspective (Fig 5) and
 summarize starting, ending, and delta values for all spectral representations for the same temporal segments, 
@@ -112,7 +115,7 @@ which can be powerful predictors of land cover, agent of change, and state trans
 we are demonstrating the standardization of tasseled cap brightness, greenness, and wetness to the segmentation structure of NBR. 
 This allows us to take advantage of multiple dimension spectral space to describe the properties of spectral epochs and breakpoints 
 to predict land cover, change process, and transitions from a consistent perspective (NBR).*
-<br>
+<br><br>
 
 The second neat feature of a segmented world view of spectral history is that simple geometry calculations can summarize attributes of 
 spectral epochs (Fig 6). Temporal duration and spectral magnitude can be calculated for each segment, based on the vertex time and 
@@ -124,7 +127,7 @@ or what was the trajectory of a pixel time series prior to disturbance segments 
 
 ![segment attributes](https://github.com/eMapR/LT-GEE/blob/master/imgs/segment_attributes.png)
 *Fig 6. Diagram of segment attributes. From these attributes we can summarize and query change per pixel over the landscape.*
-<br>
+<br><br>
 
 LandTrendr is run on each pixel in a user-defined area of interest. The initial step segments the time series to identify 
 vertices and a subsequent step interpolates a new stack of annual time series image data that has been fit to lines between
@@ -169,9 +172,7 @@ know that it is highly variable. You should try segmenting on several bands or i
 
 ## <a id='runninglt'></a>Running LandTrendr in Google Earth Engine
 
-The LandTrendr function requires: 1) an annual image collection and 2) a set of parameters to control segmentation.
-
-The simplest example of running LandTrendr goes as follows:
+In its most most basic form, running LandTrendr in Google Earth Engine requires 6 steps. The following code snippets help illustrate the steps (dont use them - they are only a demonstration aid!).
 
 1. Define starting and ending years of the times series
 
@@ -180,7 +181,7 @@ var startYear = 1985;
 var endYear   = 2010;
 ```
 
-2. Define an area of interest as an `ee.Geometry`
+2. Define an area to run LandTrendr on as an `ee.Geometry`
 
 ```javascript
 var coords = [[-123.925, 42.996],
@@ -207,16 +208,17 @@ var run_params = {
 };
 ```
 
-4. Build an image collection from Landsat TM Collection-1 Surface Reflectance that includes only one image per year subset to Band 5
+4. Build an image collection that includes only one image per year subset to a single band or index (you can include other bands - the first will be segmented, the others will be fit to the vertices). Note that we are using a mock function to reduce annual image collections to a single image - this can be accomplished many ways using various best-pixel-compositing methods.
 
 ```javascript
-for(var year=startYear; year<endYear; year++){
+for(var year = startYear; year <= endYear; year++) {
   var img = ee.ImageCollection('LANDSAT/LT05/C01/T1_SR')
               .filterBounds(aoi)
-              .filterDate(year+'-06-15', year+'-09-15')
-              .first();
+              .filterDate(year+'-06-15', year+'-09-15');
+  
+  img = reduceToSingeImageMockFunction(img);
 
-  var tempCollection = ee.ImageCollection(ee.Image(img).select(['B5'])) ;         
+  var tempCollection = ee.ImageCollection(img.select(['B5'])) ;         
 
   if(year == startYear){
     var srCollection = tempCollection;
@@ -226,7 +228,7 @@ for(var year=startYear; year<endYear; year++){
 }
 ```
 
-5. Concatenate the image collection to the LandTrendr run parameter dictionary
+5. Append the image collection to the LandTrendr run parameter dictionary
 
 ```javascript
 run_params.timeSeries = srCollection;
@@ -238,7 +240,9 @@ run_params.timeSeries = srCollection;
 var lt = ee.Algorithms.Test.LandTrendr(run_params);
 ```
 
-
+**Two really important subs-steps** in image collection building that are not explicitly addressed in the above walk through is 1) to mask cloud and cloud shadow pixels during annual image compositing (step 4) and 2) to ensure that the spectral band or index that is 
+to be segmented is oriented so that vegetation loss is represented by a positive delta. For instance, the Normalized Burn Ratio 
+(NBR: [NIR-SWIR]/[NIR+SWIR]) in its native orientation results in a negative delta when vegetation is lost from one observation to the next. In this case, NBR must be multiplied by negative 1 before being segmented.  
 
 
 
@@ -280,7 +284,7 @@ The results are the basic building blocks for historical landscape state and cha
 [Example script](https://code.earthengine.google.com/c11bcd88ed5b3cc4ff027c7ac295a16d)
 <br><br><br><br>
 
-**3. Change mapping**
+<a id='changemap'></a>**3. Change mapping**
 
 Change events can be extracted and mapped from LandTrendr's segmented line vertices. 
 Information regarding the year of change event detection, magnitude of change, duration 
