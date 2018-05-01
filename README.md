@@ -8,7 +8,7 @@ implementation in the Google Earth Engine platform**
 ## Sections
 + [Introduction](#introduction)
 + [LandTrendr](#landtrendr)
-+ [Running LandTrendr in Google Earth Engine](#runninglandtrendringoogleearthengine)
++ [Running LandTrendr in Google Earth Engine][#Running LandTrendr in Google Earth Engine]
 
 
 ## Introduction
