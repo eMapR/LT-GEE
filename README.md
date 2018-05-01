@@ -8,7 +8,7 @@ implementation in the Google Earth Engine platform**
 ## Sections
 + [Introduction](#introduction)
 + [LandTrendr](#landtrendr)
-+ [Running LandTrendr in Google Earth Engine](#Running LandTrendr in Google Earth Engine)
++ [Running LandTrendr in Google Earth Engine](#runninglt)
 
 
 ## Introduction
@@ -130,7 +130,7 @@ the vertices by interpolation - we call this fit-to-vertices (FTV). From these d
 the world annually from 1984-present.
 <br>
 
-## Running LandTrendr in Google Earth Engine
+## [runninglt]Running LandTrendr in Google Earth Engine
 
 The LandTrendr function requires an annual image collection and a set of parameters to control segmentation.
 
