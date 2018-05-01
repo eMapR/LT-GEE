@@ -195,12 +195,15 @@ for(var year=startYear; year<endYear; year++){
 
 5. Concatenate the image collection to the LandTrendr run parameter dictionary
 
+```javascript
 run_params.timeSeries = srCollection;
+```
 
 6. Run the LandTrendr algorithm
-    
-var lt = ee.Algorithms.Test.LandTrendr(run_params);
 
+```javascript    
+var lt = ee.Algorithms.Test.LandTrendr(run_params);
+```
 
 
 
