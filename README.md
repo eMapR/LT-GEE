@@ -8,6 +8,7 @@ implementation in the Google Earth Engine platform**
 ## Sections
 + [Introduction](#introduction)
 + [LandTrendr](#landtrendr)
++ [LT-GEE Requirements](#requirements)
 + [Running LandTrendr in Google Earth Engine](#runninglt)
 + [Examples Scripts](#examples)
 
@@ -131,6 +132,8 @@ the vertices by interpolation - we call this fit-to-vertices (FTV). From these d
 the world annually from 1984-present.
 <br>
 
+## <a id='requirements'></a>LT-GEE Requirements
+
 ## <a id='runninglt'></a>Running LandTrendr in Google Earth Engine
 
 The LandTrendr function requires: 1) an annual image collection and 2) a set of parameters to control segmentation.
@@ -144,7 +147,7 @@ var startYear = 1985;
 var endYear   = 2010;
 ```
 
-2. Define an area of interest as an ee.Geometry
+2. Define an area of interest as an `ee.Geometry`
 
 ```javascript
 var coords = [[-123.925, 42.996],
