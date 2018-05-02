@@ -216,12 +216,12 @@ for(var year = startYear; year <= endYear; year++) {
 
   var tempCollection = ee.ImageCollection(img.select(['B5'])) ;         
 
-  if(year == startYear){
+  if(year == startYear) {
     var srCollection = tempCollection;
-  } else{
+  } else {
     srCollection = srCollection.merge(tempCollection);
   }
-}
+};
 ```
 
 5. Append the image collection to the LandTrendr run parameter dictionary
@@ -233,7 +233,7 @@ run_params.timeSeries = srCollection;
 6. Run the LandTrendr algorithm
 
 ```javascript    
-var lt = ee.Algorithms.Test.LandTrendr(run_params);
+var LTresult = ee.Algorithms.Test.LandTrendr(run_params);
 ```
 
 **Two really important sub-steps** in image collection building that are not explicitly addressed in the above walk through is 1) to mask cloud and cloud shadow pixels during annual image compositing (step 4) and 2) to ensure that the spectral band or index that is 
@@ -242,6 +242,41 @@ to be segmented is oriented so that vegetation loss is represented by a positive
 
 
 ## <a id='ltgeeoutputs'></a>LT-GEE Outputs
+
+![lt outputs](https://github.com/eMapR/LT-GEE/blob/master/imgs/lt_outputs.png)
+
+
+```javascript
+[
+  [1985, 1986, 1987, 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, ...] // Year
+  [ 811,  809,  821,  813,  836,  834,  833,  818,  826,  820,  765,  827,  775, ...] // Source 
+  [ 827,  825,  823,  821,  819,  817,  814,  812,  810,  808,  806,  804,  802, ...] // Fitted,
+  [   1,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    1, ...] // Is Vertex,
+]
+```
+
+
+LandTrendr array slicing
+
+
+||This|is|the|1-axis|
+|-|-|-|-|-|
+|This ||row 0 ||Year
+|is    ||row 1 ||Source
+|the   ||row 2 ||Fitted
+|0-axis ||row 3||Is Vertex
+
+
+
+```javascript
+var LTresult = ee.Algorithms.Test.LandTrendr(run_params);
+var LTarray = LTresult.select(['LandTrendr'])
+var year = LTarray.arraySlice(0,0,1); 
+var fitted = LTarray.arraySlice(0,2,3);
+```
+
+
+
 
 
 ## <a id='examples'></a>Example Scripts
