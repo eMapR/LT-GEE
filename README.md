@@ -243,7 +243,24 @@ to be segmented is oriented so that vegetation loss is represented by a positive
 
 ## <a id='ltgeeoutputs'></a>LT-GEE Outputs
 
+The results of LT-GEE are not immediately ready for display or export as maps of change or fitted time series data. Think of each pixel as a bundle of data that needs to be unpacked. The packaging of the data per pixel is similar to a nested list in Python or R. The primary list looks something like this:
+
+```
+[[Annual Segmentation Info], Fitting RMSE, [Fitted time series 1], [Fitted time series n]]
+```
+
+In the GEE construct, this primary list is an image with at least 2 bands, one that contains annual segmentation information and one that contains the RMSE of the segmentation fit. Additionally, if the input image collection to LT-GEE contained more than one band, then each band following  the first will be represented as a spectrally fitted annual series.
+
 ![lt outputs](https://github.com/eMapR/LT-GEE/blob/master/imgs/lt_outputs.png)
+<br><br><br>
+
+
+
+
+
+
+
+
 
 
 ```javascript
