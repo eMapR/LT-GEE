@@ -245,33 +245,51 @@ to be segmented is oriented so that vegetation loss is represented by a positive
 
 The results of LT-GEE are not immediately ready for display or export as maps of change or fitted time series data. Think of each pixel as a bundle of data that needs to be unpacked. The packaging of the data per pixel is similar to a nested list in Python or R. The primary list looks something like this:
 
-```
-[[Annual Segmentation Info], Fitting RMSE, [Fitted time series 1], [Fitted time series n]]
+```javascript
+[[Annual Segmentation Info], Fitting RMSE, [Fitted Time Series n]]
 ```
 
-In the GEE construct, this primary list is an image with at least 2 bands, one that contains annual segmentation information and one that contains the RMSE of the segmentation fit. Additionally, if the input image collection to LT-GEE contained more than one band, then each band following  the first will be represented as a spectrally fitted annual series.
+In the GEE construct, this primary list is an image with at least 2 bands, one that contains annual segmentation information and one that contains the RMSE of the segmentation fit. Additionally, if the input image collection to LT-GEE contained more than one band, then each band following the first will be represented as a spectrally fitted annual series (Fig 7).
 
 ![lt outputs](https://github.com/eMapR/LT-GEE/blob/master/imgs/lt_outputs.png)
+*Fig 7. The results of LT-GEE are essentially a list of lists per pixel that describe segmentation and optionally provide fitted annual spectral data. The output is delivered as a GEE image with at least 2 bands, one that contains annual segmentation information and one that contains the RMSE of the segmentation fit. Additionally, if the input image collection to LT-GEE contained more than one band, then each band following the first will be represented as a spectrally fitted annual series. 
 <br><br><br>
 
+The 'LandTrendr' band is a 4 x nYears dimension array. You can subset it like this:
 
+```javascript
+var LTresult = ee.Algorithms.Test.LandTrendr(run_params); // run LT-GEE
+var segmentationInfo = LTresult.select(['LandTrendr']); // subset the LandTrendr segmentation info
+```
 
-
-
-
-
-
-
+It contains 4 rows and as many columns as there are annual observations for a given pixel through the time series. The 2-D 'LandTrendr' annual segmentation array looks like this: 
 
 ```javascript
 [
   [1985, 1986, 1987, 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, ...] // Year
   [ 811,  809,  821,  813,  836,  834,  833,  818,  826,  820,  765,  827,  775, ...] // Source 
-  [ 827,  825,  823,  821,  819,  817,  814,  812,  810,  808,  806,  804,  802, ...] // Fitted,
-  [   1,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    1, ...] // Is Vertex,
+  [ 827,  825,  823,  821,  819,  817,  814,  812,  810,  808,  806,  804,  802, ...] // Fitted
+  [   1,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    1, ...] // Is Vertex
 ]
 ```
 
++ Row 1 is the observation year
++ Row 2 is the observation value corresponding to the year in row 1, it is equal to the first band in the input collection
++ Row 3 is the observation fitted to line segments defined by breakpoint vertices identified in segmentation
++ Row 4 is a Boolean value indicating whether an observation was identified as a vertex
+
+You can slice out the year and fitted rows as lists like this:
+
+```javascript
+var LTresult = ee.Algorithms.Test.LandTrendr(run_params); // run LT-GEE
+var LTarray = LTresult.select(['LandTrendr']); // subset the LandTrendr segmentation info
+var year = LTarray.arraySlice(0,0,1); // slice out the year row
+var fitted = LTarray.arraySlice(0,2,3); // slice out the fitted values row
+```
+
+The GEE arraySlice function takes the dimension to slice and the start and end points along the dimension to extract 
+
+Here we sliced out the year and fitted rows as lists. 
 
 LandTrendr array slicing
 
@@ -285,12 +303,7 @@ LandTrendr array slicing
 
 
 
-```javascript
-var LTresult = ee.Algorithms.Test.LandTrendr(run_params);
-var LTarray = LTresult.select(['LandTrendr'])
-var year = LTarray.arraySlice(0,0,1); 
-var fitted = LTarray.arraySlice(0,2,3);
-```
+
 
 
 
