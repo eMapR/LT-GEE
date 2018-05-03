@@ -154,7 +154,8 @@ be an informed decision weighted by the sensitivity of it to change in the condi
 shrubs vs trees vs conifers vs deciduous etc. We have found SWIR bands and NBR to be generally quite sensitive to change, but we also 
 know that it is highly variable. You should try segmenting on several bands or indices to see what works best.
 
-
+<a id='importantsteps'></a>**Two really important steps** in image collection building include 1) masking cloud and cloud shadow pixels during annual image compositing (step 4) and 2) to ensure that the spectral band or index that is 
+to be segmented is oriented so that vegetation loss is represented by a positive delta. For instance, NBR in its native orientation results in a negative delta when vegetation is lost from one observation to the next. In this case, NBR must be multiplied by -1 before being segmented.  
 
 
 
@@ -228,9 +229,8 @@ run_params.timeSeries = srCollection;
 var LTresult = ee.Algorithms.Test.LandTrendr(run_params);
 ```
 
-**Two really important sub-steps** in image collection building that are not explicitly addressed in the above walk through is 1) to mask cloud and cloud shadow pixels during annual image compositing (step 4) and 2) to ensure that the spectral band or index that is 
-to be segmented is oriented so that vegetation loss is represented by a positive delta. For instance, the Normalized Burn Ratio 
-(NBR: [NIR-SWIR]/[NIR+SWIR]) in its native orientation results in a negative delta when vegetation is lost from one observation to the next. In this case, NBR must be multiplied by negative 1 before being segmented.  
+Please note that for the sake or a basic example LT-GEE run we are not addressing the [two really important steps](#importantsteps) in collection building: 1) to mask cloud and cloud shadow pixels during annual image compositing (step 4) and 2) to ensure that the spectral band or index that is 
+to be segmented is oriented so that vegetation loss is represented by a positive delta.
 
 
 ## <a id='ltgeeoutputs'></a>LT-GEE Outputs
