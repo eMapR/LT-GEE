@@ -132,7 +132,7 @@ LandTrendr for Google Earth Engine requires two things:
 
 ### Image Collection
 
-The image collection needs to an observation that is consistent through time. It should not include noise from
+The image data composing a collection need to represent an observation that is consistent through time. It should not include noise from
 atmosphere, clouds and shadows, sensor differences, or other anomalies. The annual changes in a time series should be the result of 
 changes in the physical features of a landscape. We recommend using the *USGS Landsat Surface Reflectance Tier 1* datasets.
 These data have been atmospherically corrected, and include a cloud, shadow, water and snow mask produced 
@@ -150,18 +150,18 @@ those images so that you have reasonable annual spatial coverage of clear-view p
 apply is up to you. We have used nearness to a target day-of-year and also medoid compositing, we prefer the later and include
 it in the provided [examples](#examples). LandTrendr will segment the first band in the image collection and generate annual fitted-to-vertx (FTV) data for each subsequent band. Consequently, you need to manipulate your collection so that the band or spectral index you 
 want segmented is the first band, and any additional bands you want fitted to vertices should follow. The band or index you select for segmentation should
-be an informed decision weighted by the sensitivity of it to change in the conditions of the landscape you are working with. The best spectral representation of change can be different for
-shrubs vs trees vs conifers vs deciduous etc. We have found SWIR bands and NBR to be generally quite sensitive to change, but we also 
+be based on an informed decision weighted by the sensitivity of it to change in the conditions of the landscape you are working with. The best spectral representation of change can be different for
+shrubs vs trees vs conifers vs deciduous etc. We have found SWIR bands, and indices leveraging them, to be generally quite sensitive to change, but we also 
 know that it is highly variable. You should try segmenting on several bands or indices to see what works best.
 
-<a id='importantsteps'></a>**Two really important steps** in image collection building include 1) masking cloud and cloud shadow pixels during annual image compositing and 2) to ensure that the spectral band or index that is 
+<a id='importantsteps'></a>**Two really important steps** in image collection building include 1) masking cloud and cloud shadow pixels during annual image compositing and to 2) ensure that the spectral band or index that is 
 to be segmented is oriented so that vegetation loss is represented by a positive delta. For instance, NBR in its native orientation results in a negative delta when vegetation is lost from one observation to the next. In this case, NBR must be multiplied by -1 before being segmented.  
 
 
 
 ## <a id='runninglt'></a>Running LT-GEE
 
-In its most most basic form, running LandTrendr in Google Earth Engine requires 6 steps. The following code snippets help illustrate the steps (dont use them - they are only a demonstration aid!).
+In its most most basic form, running LandTrendr in Google Earth Engine requires 6 steps. The following code snippets help illustrate the steps (dont use them - they are only a demonstration aid).
 
 1. Define starting and ending years of the times series
 
@@ -229,11 +229,19 @@ run_params.timeSeries = srCollection;
 var LTresult = ee.Algorithms.Test.LandTrendr(run_params);
 ```
 
-Please note that for the sake or a basic example LT-GEE run we are not addressing the [two really important steps](#importantsteps) in collection building: 1) to mask cloud and cloud shadow pixels during annual image compositing (step 4) and 2) to ensure that the spectral band or index that is 
-to be segmented is oriented so that vegetation loss is represented by a positive delta.
+Please note that for the sake of a basic example LT-GEE run, we are not addressing the [two really important steps](#importantsteps) in collection building: 1) to mask cloud and cloud shadow pixels during annual image compositing (step 4) and 2) to ensure that the spectral band or index that is 
+to be segmented is oriented so that vegetation loss is represented by a positive delta (we used a SWIR band, which is the correct orientation for use in LT-GEE).
 
 
 ## <a id='ltgeeoutputs'></a>LT-GEE Outputs
+
+The results of LT-GEE include:
+
++ The year of observations per pixel time series; x-axis values in 2-D spectral-temporal space; (default)
++ The source value of observations per pixel time series; y-axis values in 2-D spectral-temporal space; (default)
++ The source value of observations fitted to segment lines between vertices per pixel time series; y-axis values in 2-D spectral-temporal space; (default)
++ The root mean square error (RMSE) for the difference between the source and segmentation-fitted values; (default)
++ Values fitted to lines Optionally 
 
 The results of LT-GEE are not immediately ready for display or export as maps of change or fitted time series data. Think of each pixel as a bundle of data that needs to be unpacked. The packaging of the data per pixel is similar to a nested list in Python or R. The primary list looks something like this:
 
