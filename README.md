@@ -123,11 +123,6 @@ or what was the trajectory of a pixel time series prior to disturbance segments 
 *Fig 6. Diagram of segment attributes. From these attributes we can summarize and query change per pixel over the landscape.*
 <br><br>
 
-LandTrendr is run on each pixel in a user-defined area of interest. The initial step segments the time series to identify 
-vertices and a subsequent step interpolates a new stack of annual time series image data that has been fit to lines between
-the vertices by interpolation - we call this <a id='ftv'></a>fit-to-vertices (FTV). From these data we can map state and change anywhere in
-the world annually from 1984-present.
-<br>
 
 ## <a id='requirements'></a>LT-GEE Requirements
 LandTrendr for Google Earth Engine requires two things: 
