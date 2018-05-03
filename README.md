@@ -154,7 +154,7 @@ be an informed decision weighted by the sensitivity of it to change in the condi
 shrubs vs trees vs conifers vs deciduous etc. We have found SWIR bands and NBR to be generally quite sensitive to change, but we also 
 know that it is highly variable. You should try segmenting on several bands or indices to see what works best.
 
-<a id='importantsteps'></a>**Two really important steps** in image collection building include 1) masking cloud and cloud shadow pixels during annual image compositing (step 4) and 2) to ensure that the spectral band or index that is 
+<a id='importantsteps'></a>**Two really important steps** in image collection building include 1) masking cloud and cloud shadow pixels during annual image compositing and 2) to ensure that the spectral band or index that is 
 to be segmented is oriented so that vegetation loss is represented by a positive delta. For instance, NBR in its native orientation results in a negative delta when vegetation is lost from one observation to the next. In this case, NBR must be multiplied by -1 before being segmented.  
 
 
