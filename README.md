@@ -42,10 +42,9 @@ and have a basic understanding of LandTrendr
 
 ## <a id='landtrendr'></a>LandTrendr
 
-Each pixel in an image time series
-stack has a story to tell. For example, the following pixel (Fig 1) hails from a conifer-dominated,
-industrial forest region of the Pacific Northwest (USA), its address is Lon: -123.845, Lat: 45.889. At the
-beginning of its record, it was a mature, second-growth conifer stand, and for 17 years little changed.
+Each pixel in an image time series has a story to tell, LandTrendr aims to tell it succinctly. Let's look at an example; here we have a pixel intersecting Lon: -123.845, Lat: 45.889 (Fig 1) from a conifer-dominated,
+industrial forest region of the Pacific Northwest, USA. At the
+beginning of its record, it was a mature, second-growth conifer stand, and for 17 years, little changed.
 Then, between the summers of 2000 and 2001 a service road was built through it, removing some of its vegetation. 
 Over the next year it experienced a clearcut harvest, removing all of its remaining
 vegetation. For the last 14 years it has been regenerating. Most
@@ -59,25 +58,24 @@ forest pixel from an industrial forest region of the Pacific Northwest (USA) tha
 a dramatic, rapid loss of vegetation, and subsequent regeneration.*
 <br><br>
 
-The unabridged version of this pixel's story includes many other small changes in the forest stand it represents, but given 
-the precision of the satellite sensor and errors in processing, these are the types of pixel history descriptions we are 
-confident are represented well in the image time series. LandTrendr is a brevity algorithm that listens to the annual, 
-gritty detail of a pixel's story and writes an abridged version. 
+This description of its history, is of course abridged, and only conveys a moderate resolution perspective of state and change in forest character. The unabridged version of this pixel's story includes many other small changes in the forest stand it represents, but given 
+the precision of the satellite sensor and errors in processing, the provided description is the type of pixel history interpretation we are 
+confident are represented well in the image time series. LandTrendr is a brevity algorithm that listens to the annual, noisy detail of a pixel's story and writes an abridged version.
 
 In practice, LandTrendr takes a single point-of-view from a pixel's spectral history, like a band or an index, and goes 
-through a process to identify breakpoints or durable changes in spectral trajectory, and records the year that changes 
+through a process to identify breakpoints separating periods of durable change in spectral trajectory, and records the year that changes 
 occurred. These breakpoints, defined by year and spectral index value, allow us to represent the spectral history of a 
-pixel as a series of vertices bounding line segments (Fig 2). 
+pixel as a series of vertices bounding line segments (Fig 2).
 
 ![segmentation](https://github.com/eMapR/LT-GEE/blob/master/imgs/segmentation.png)
 *Fig 2. LandTrendr pixel time series segmentation. Image data is reduced to a single band or spectral index and then 
 divided into a series of straight line segments by breakpoint (vertex) identification.*
 <br><br>
 
-There are two neat features that result from this line segment world view of spectral history.
+There are two neat features that result from this segmented view of spectral history.
 
 1. The ability to interpolate new values for years between vertices.
-2. Simple geometry calculations on line segments provide information about distinct epochs
+2. Simple geometry calculations on line segments provide information about distinct spectral epochs
 
 The ability to interpolate new values for years between vertices is very useful. It ensures that each observation is aligned 
 to a trajectory consistent with where the pixel has been and where it is going. We can think of this as hindsight-enhanced image 
@@ -268,19 +266,19 @@ It contains 4 rows and as many columns as there are annual observations for a gi
 
 ```javascript
 [
-  [1985, 1986, 1987, 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, ...] // *Year* list 
-  [ 811,  809,  821,  813,  836,  834,  833,  818,  826,  820,  765,  827,  775, ...] // *Source* list
-  [ 827,  825,  823,  821,  819,  817,  814,  812,  810,  808,  806,  804,  802, ...] // *Fitted* list
-  [   1,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    1, ...] // *Is Vertex* list
+  [1985, 1986, 1987, 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, ...] // Year list 
+  [ 811,  809,  821,  813,  836,  834,  833,  818,  826,  820,  765,  827,  775, ...] // Source list
+  [ 827,  825,  823,  821,  819,  817,  814,  812,  810,  808,  806,  804,  802, ...] // Fitted list
+  [   1,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    1, ...] // Is Vertex list
 ]
 ```
 
-Row 1 is the observation year<br>
-Row 2 is the observation value corresponding to the year in row 1, it is equal to the first band in the input collection<br>
-Row 3 is the observation fitted to line segments defined by breakpoint vertices identified in segmentation<br>
-Row 4 is a Boolean value indicating whether an observation was identified as a vertex
+Row 1 is the observation year.<br>
+Row 2 is the observation value corresponding to the year in row 1, it is equal to the first band in the input collection.<br>
+Row 3 is the observation fitted to line segments defined by breakpoint vertices identified in segmentation.<br>
+Row 4 is a Boolean value indicating whether an observation was identified as a vertex.
 
-You can slice out the year and fitted rows as lists like this:
+You can extract a row using the GEE `arraySlice` function. Here is an example of the extracting the year and fitted value rows as separate lists:
 
 ```javascript
 var LTresult = ee.Algorithms.Test.LandTrendr(run_params); // run LT-GEE
