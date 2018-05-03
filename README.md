@@ -149,7 +149,7 @@ is best to retrieve multiple images for a season, mask out clouds and cloud shad
 those images so that you have reasonable annual spatial coverage of clear-view pixels. The best-pixel-compositing method you 
 apply is up to you. We have used nearness to a target day-of-year and also medoid compositing, we prefer the later and include
 it in the provided [examples](#examples). LandTrendr will segment the first band in the image collection and generate annual fitted-to-vertx (FTV) data for each subsequent band. Consequently, you need to manipulate your collection so that the band or spectral index you 
-want segmented is the first band, and any additional bands to want fitted to vertices should follow. The band or index you select for segmentation should
+want segmented is the first band, and any additional bands you want fitted to vertices should follow. The band or index you select for segmentation should
 be an informed decision weighted by the sensitivity of it to change in the conditions of the landscape you are working with. The best spectral representation of change can be different for
 shrubs vs trees vs conifers vs deciduous etc. We have found SWIR bands and NBR to be generally quite sensitive to change, but we also 
 know that it is highly variable. You should try segmenting on several bands or indices to see what works best.
