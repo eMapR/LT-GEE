@@ -235,13 +235,19 @@ to be segmented is oriented so that vegetation loss is represented by a positive
 
 ## <a id='ltgeeoutputs'></a>LT-GEE Outputs
 
-The results of LT-GEE include:
+The results of LT-GEE include (Fig 8):
 
 + The year of observations per pixel time series; x-axis values in 2-D spectral-temporal space; (default)
 + The source value of observations per pixel time series; y-axis values in 2-D spectral-temporal space; (default)
-+ The source value of observations fitted to segment lines between vertices per pixel time series; y-axis values in 2-D spectral-temporal space; (default)
-+ The root mean square error (RMSE) for the difference between the source and segmentation-fitted values; (default)
-+ Values fitted to lines Optionally 
++ The source value of observations fitted to segment lines between vertices (FTV) per pixel time series; y-axis values in 2-D spectral-temporal space; (default)
++ The root mean square error (RMSE) of the FTV values, relative to the source values; (default)
++ Complete time series FTV values for additional bands in the collection greater than band 1; y-axis values in 2-D spectral-temporal space; (optional)
+
+![lt outputs series](https://github.com/eMapR/LT-GEE/blob/master/imgs/outputs_series.png)
+*Fig 8. A visual diagram of what data are returned from LT-GEE. Every legend item is returned as an output.* 
+<br><br><br>
+
+
 
 The results of LT-GEE are not immediately ready for display or export as maps of change or fitted time series data. Think of each pixel as a bundle of data that needs to be unpacked. The packaging of the data per pixel is similar to a nested list in Python or R. The primary list looks something like this:
 
