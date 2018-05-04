@@ -357,7 +357,7 @@ of change, and pre-change event spectral data can all be mapped.
 
 ![change map](https://github.com/eMapR/LT-GEE/blob/master/imgs/yod_mapped.png)
 
-[Example script](https://code.earthengine.google.com/8b247c3a18fb9cc2e2fe781724fe352e)
+[Example script](https://code.earthengine.google.com/fead5b85912695c4d313a6e0a445fc91)
 <br><br><br><br>
 
 ## <a id='documentation'></a>Documentation
