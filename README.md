@@ -165,42 +165,26 @@ to be segmented is oriented so that vegetation loss is represented by a positive
 ### LT parameters
 
 The LT-GEE function takes 9 arguments: 8 control parameters that adjust how spectal-temporal segmentation is done, and the annual image collection. The original LandTrendr [paper](https://github.com/eMapR/LT-GEE/blob/master/docs/kennedy_etal_2010_landtrendr.pdf) describes the effect and sensitivity of changing some of these argument values. We recommend trying slight variations in settings to see what works best for the environment you are working in. One of the great things about having LT in GEE, is that parameter settings are easy and fast to iterate through to find a best set.
+<br><br>
 
-***timeSeries (ImageCollection):***
 
-Collection from which to extract trends (it's assumed that each image in the collection represents one year). The first band is used to find breakpoints, and all subsequent bands are fitted using those breakpoints.
 
-***maxSegments (Integer):***
 
-Maximum number of segments to be fitted on the time series.
 
-***spikeThreshold (Float, default: 0.9):***
+| Parameter | Type | Default | Definition |
+| ------------- |-------------| -------------|-------------| 
+| *maxSegments* | Integer | | Maximum number of segments to be fitted on the time series.|
+| *spikeThreshold* | Float | 0.9 | Threshold for dampening the spikes (1.0 means no dampening).| 
+| *vertexCountOvershoot* | Integer | 3 | The inital model can overshoot the maxSegments + 1 vertices by this amount. Later, it will be prunned down to maxSegments + 1. |
+| *preventOneYearRecovery* | Boolean |false | Prevent segments that represent one year recoveries. |
+| *recoveryThreshold* | Float | 0.25 | If a segment has a recovery rate faster than 1/recoveryThreshold (in years), then the segment is disallowed. |
+| *pvalThreshold* | Float | 0.1 | If the p-value of the fitted model exceeds this threshold, then the current model is discarded and another one is fitted using the Levenberg-Marquardt optimizer. |
+| *bestModelProportion* | Float | 1.25 | Takes the model with most vertices that has a p-value that is at most this proportion away from the model with lowest p-value.|
+| *minObservationsNeeded* | Integer | 6 | Min observations needed to perform output fitting.|
+| *timeSeries* | ImageCollection |  | Collection from which to extract trends (it's assumed that each image in the collection represents one year). The first band is used to find breakpoints, and all subsequent bands are fitted using those breakpoints.|
 
-Threshold for dampening the spikes (1.0 means no dampening).
 
-***vertexCountOvershoot (Integer, default: 3):***
 
-The inital model can overshoot the maxSegments + 1 vertices by this amount. Later, it will be prunned down to maxSegments + 1.
-
-***preventOneYearRecovery (Boolean, default: false):***
-
-Prevent segments that represent one year recoveries.
-
-***recoveryThreshold (Float, default: 0.25):***
-
-If a segment has a recovery rate faster than 1/recoveryThreshold (in years), then the segment is disallowed.
-
-***pvalThreshold (Float, default: 0.1):***
-
-If the p-value of the fitted model exceeds this threshold, then the current model is discarded and another one is fitted using the Levenberg-Marquardt optimizer.
-
-***bestModelProportion (Float, default: 1.25):***
-
-Takes the model with most vertices that has a p-value that is at most this proportion away from the model with lowest p-value.
-
-***minObservationsNeeded (Integer, default: 6):***
-
-Min observations needed to perform output fitting.
 
 ## <a id='runninglt'></a>Running LT-GEE
 
