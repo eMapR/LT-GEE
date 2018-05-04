@@ -393,18 +393,7 @@ of change, and pre-change event spectral data can all be mapped.
 [Example script](https://code.earthengine.google.com/fead5b85912695c4d313a6e0a445fc91)
 <br><br><br><br>
 
-## <a id='documentation'></a>Function Documentation
 
-
-
-
-### Argument definitions
-
-
-
-
-
-ee.Algorithms.Test.LandTrendr()
 
 
 ## <a id='faq'></a>FAQ
