@@ -14,7 +14,8 @@ Jump right into an **[example](#changemap)** of disturbance mapping
 + [Running LT-GEE](#runninglt)
 + [LT-GEE Outputs](#ltgeeoutputs)
 + [Example Scripts](#examples)
-+ [Documentation](#documentation)
++ [Function Documentation](#documentation)
++ [FAQ](#faq)
 + [References](#references)
 
 ## <a id='introduction'></a>Introduction
@@ -31,18 +32,16 @@ aspects of the IDL implementation. It is also light-years faster than the IDL
 implementation, where computing time is measured in minutes instead of days.
 
 This guide is intended to introduce the basics of running LandTrendr in GEE. 
-It walks though parameters definitions, building an image collection, and 
-formatting the outputs for three use cases. It is assumed that you have a 
+It describes the LandTrendr conceptual framework, what is required to run LT-GEE, how to run it, what the outputs are and how they are formatted, and provides three example scripts. It is assumed that you have a 
 [GEE account](https://signup.earthengine.google.com/#!/), that you are 
 somewhat familiar with the [GEE JavaScript API](https://developers.google.com/earth-engine/), 
 and have a basic understanding of LandTrendr 
 ([method](https://github.com/eMapR/LT-GEE/blob/master/docs/kennedy_etal_2010_landtrendr.pdf), 
 [application](https://github.com/eMapR/LT-GEE/blob/master/docs/kennedy_etal_2012_disturbance_nwfp.pdf)).
 
-
 ## <a id='landtrendr'></a>LandTrendr
 
-Each pixel in an image time series has a story to tell, LandTrendr aims to tell it succinctly. Let's look at an example; here we have a pixel intersecting Lon: -123.845, Lat: 45.889 (Fig 1) from a conifer-dominated,
+Each pixel in an image time series has a story to tell, LandTrendr aims to tell them succinctly. Let's look at an example; here we have a pixel intersecting Lon: -123.845, Lat: 45.889 (Fig 1) from a conifer-dominated,
 industrial forest region of the Pacific Northwest, USA. At the
 beginning of its record, it was a mature, second-growth conifer stand, and for 17 years, little changed.
 Then, between the summers of 2000 and 2001 a service road was built through it, removing some of its vegetation. 
@@ -58,9 +57,9 @@ forest pixel from an industrial forest region of the Pacific Northwest (USA) tha
 a dramatic, rapid loss of vegetation, and subsequent regeneration.*
 <br><br>
 
-This description of its history, is of course abridged, and only conveys a moderate resolution perspective of state and change in forest character. The unabridged version of this pixel's story includes many other small changes in the forest stand it represents, but given 
+The description of this example pixel's history is of course abridged, and only conveys a moderate resolution perspective of state and change in forest character. The unabridged version of this pixel's story includes many other small changes in the forest stand it represents, but given 
 the precision of the satellite sensor and errors in processing, the provided description is the type of pixel history interpretation we are 
-confident are represented well in the image time series. LandTrendr is a brevity algorithm that listens to the annual, noisy detail of a pixel's story and writes an abridged version.
+confident are represented well in the image time series. LandTrendr is a brevity algorithm that listens to the annual, verbose, noisy detail of a pixel's story and writes an abridged version.
 
 In practice, LandTrendr takes a single point-of-view from a pixel's spectral history, like a band or an index, and goes 
 through a process to identify breakpoints separating periods of durable change in spectral trajectory, and records the year that changes 
@@ -76,6 +75,8 @@ There are two neat features that result from this segmented view of spectral his
 
 1. The ability to interpolate new values for years between vertices.
 2. Simple geometry calculations on line segments provide information about distinct spectral epochs
+
+### Fit-to-vertex Image Data
 
 The ability to interpolate new values for years between vertices is very useful. It ensures that each observation is aligned 
 to a trajectory consistent with where the pixel has been and where it is going. We can think of this as hindsight-enhanced image 
@@ -93,7 +94,7 @@ map prediction.*
 
 Since breakpoints or vertices are defined by a year we also have the ability to impose breakpoints identified in one spectral band 
 or index on any other. For instance, we can segment a pixel time series cast as Normalized Burn Ratio (NBR: [NIR-SWIR]/[NIR+SWIR]) 
-to identify vertices, and then segment a short wave infrared (SWIR) band based on the NBR-identified vertices (Fig 4).  
+to identify vertices, and then segment a short-wave infrared (SWIR) band based on the NBR-identified vertices (Fig 4).  
 
 ![other index ftv](https://github.com/eMapR/LT-GEE/blob/master/imgs/other_index_ftv.png)
 *Fig 4. Impose the segmentation structure of one spectral representation on another. Here we have identified four breakpoints or 
@@ -108,14 +109,16 @@ which can be powerful predictors of land cover, agent of change, and state trans
 ![all index ftv](https://github.com/eMapR/LT-GEE/blob/master/imgs/all_index_ftv.png)
 *Fig 5. A stack of spectral representations can be standardized to the segmentation structure of a single spectral band or index. Here 
 we are demonstrating the standardization of tasseled cap brightness, greenness, and wetness to the segmentation structure of NBR. 
-This allows us to take advantage of multiple dimension spectral space to describe the properties of spectral epochs and breakpoints 
+This allows us to take advantage of multi-dimensional spectral space to describe the properties of spectral epochs and breakpoints 
 to predict land cover, change process, and transitions from a consistent perspective (NBR).*
 <br><br>
 
+### Epoche Information
+
 The second neat feature of a segmented world view of spectral history is that simple geometry calculations can summarize attributes of 
-spectral epochs (Fig 6). Temporal duration and spectral magnitude can be calculated for each segment, based on the vertex time and 
+spectral epochs (Fig 6). Temporal duration and spectral magnitude can be calculated for each segment based on the vertex time and 
 spectral dimensions. These attributes allow us to easily query the data about when changes occur, how frequently they occur, on 
-average how long do they last, what is the average magnitude of disturbance segments, etc. We can also query information about 
+average how long do they last, what is the average magnitude of disturbance (or recovery) segments, etc. We can also query information about 
 adjacent segments to focal segments. For instance, we can ask, what it the average rate of recovery following a disturbance segment, 
 or what was the trajectory of a pixel time series prior to disturbance segments that we’ve attributed to fire.    
 
@@ -132,7 +135,7 @@ LandTrendr for Google Earth Engine requires two things:
 
 ### Image Collection
 
-The image data composing a collection need to represent an observation that is consistent through time. It should not include noise from
+The image data composing a collection needs to represent an observation that is consistent through time. It should not include noise from
 atmosphere, clouds and shadows, sensor differences, or other anomalies. The annual changes in a time series should be the result of 
 changes in the physical features of a landscape. We recommend using the *USGS Landsat Surface Reflectance Tier 1* datasets.
 These data have been atmospherically corrected, and include a cloud, shadow, water and snow mask produced 
@@ -152,12 +155,52 @@ it in the provided [examples](#examples). LandTrendr will segment the first band
 want segmented is the first band, and any additional bands you want fitted to vertices should follow. The band or index you select for segmentation should
 be based on an informed decision weighted by the sensitivity of it to change in the conditions of the landscape you are working with. The best spectral representation of change can be different for
 shrubs vs trees vs conifers vs deciduous etc. We have found SWIR bands, and indices leveraging them, to be generally quite sensitive to change, but we also 
-know that it is highly variable. You should try segmenting on several bands or indices to see what works best.
+know that it is highly variable. You should try segmenting on several bands or indices to see what works best. We also recommend trying a few different date windows and widths for generating annual composites.
+
+In the [example](#examples) scripts we provide, we composite image dates for the northern hemisphere growing season (mid-June through mid-September), which seems to work pretty well for 25-50 degrees latitude. Folks working in the southern hemisphere will need to modify the example scripts if you are to include images from your growing season, since it crosses the new year: December 2016 through Feburary 2017, for example. You'll also have to deal with how to label the year of the annual image composite - should it be the former or later year of the growing season composite?   
 
 <a id='importantsteps'></a>**Two really important steps** in image collection building include 1) masking cloud and cloud shadow pixels during annual image compositing and to 2) ensure that the spectral band or index that is 
 to be segmented is oriented so that vegetation loss is represented by a positive delta. For instance, NBR in its native orientation results in a negative delta when vegetation is lost from one observation to the next. In this case, NBR must be multiplied by -1 before being segmented.  
 
+### LT parameters
 
+The LT-GEE function takes 9 arguments: 8 control parameters that adjust how spectal-temporal segmentation is done, and the annual image collection. The original LandTrendr [paper](https://github.com/eMapR/LT-GEE/blob/master/docs/kennedy_etal_2010_landtrendr.pdf) describes the effect and sensitivity of changing some of these argument values. We recommend trying slight variations in settings to see what works best for the environment you are working in. One of the great things about having LT in GEE, is that parameter settings are easy and fast to iterate through to find a best set.
+
+***timeSeries (ImageCollection):***
+
+Collection from which to extract trends (it's assumed that each image in the collection represents one year). The first band is used to find breakpoints, and all subsequent bands are fitted using those breakpoints.
+
+***maxSegments (Integer):***
+
+Maximum number of segments to be fitted on the time series.
+
+***spikeThreshold (Float, default: 0.9):***
+
+Threshold for dampening the spikes (1.0 means no dampening).
+
+***vertexCountOvershoot (Integer, default: 3):***
+
+The inital model can overshoot the maxSegments + 1 vertices by this amount. Later, it will be prunned down to maxSegments + 1.
+
+***preventOneYearRecovery (Boolean, default: false):***
+
+Prevent segments that represent one year recoveries.
+
+***recoveryThreshold (Float, default: 0.25):***
+
+If a segment has a recovery rate faster than 1/recoveryThreshold (in years), then the segment is disallowed.
+
+***pvalThreshold (Float, default: 0.1):***
+
+If the p-value of the fitted model exceeds this threshold, then the current model is discarded and another one is fitted using the Levenberg-Marquardt optimizer.
+
+***bestModelProportion (Float, default: 1.25):***
+
+Takes the model with most vertices that has a p-value that is at most this proportion away from the model with lowest p-value.
+
+***minObservationsNeeded (Integer, default: 6):***
+
+Min observations needed to perform output fitting.
 
 ## <a id='runninglt'></a>Running LT-GEE
 
@@ -322,7 +365,8 @@ The FTV or fit to vertice data bands are included as outputs
 ## <a id='examples'></a>Example Scripts
 
 
-The three use case examples described include:
+Three use case examples are provided, each of them begins with the same process of parameter definition and collection building and then varies on what is done with the results from the LT-GEE call.
+
 
 **1. Exploration and parameterization**
 
@@ -360,7 +404,7 @@ of change, and pre-change event spectral data can all be mapped.
 [Example script](https://code.earthengine.google.com/fead5b85912695c4d313a6e0a445fc91)
 <br><br><br><br>
 
-## <a id='documentation'></a>Documentation
+## <a id='documentation'></a>Function Documentation
 
 
 
@@ -368,48 +412,15 @@ of change, and pre-change event spectral data can all be mapped.
 ### Argument definitions
 
 
-Each of these use cases begins with the same process of parameter definition and collection building.
 
-***timeSeries (ImageCollection):***
-
-Collection from which to extract trends (it's assumed that each image in the collection represents one year). The first band is used to find breakpoints, and all subsequent bands are fitted using those breakpoints.
-
-***maxSegments (Integer):***
-
-Maximum number of segments to be fitted on the time series.
-
-***spikeThreshold (Float, default: 0.9):***
-
-Threshold for dampening the spikes (1.0 means no dampening).
-
-***vertexCountOvershoot (Integer, default: 3):***
-
-The inital model can overshoot the maxSegments + 1 vertices by this amount. Later, it will be prunned down to maxSegments + 1.
-
-***preventOneYearRecovery (Boolean, default: false):***
-
-Prevent segments that represent one year recoveries.
-
-***recoveryThreshold (Float, default: 0.25):***
-
-If a segment has a recovery rate faster than 1/recoveryThreshold (in years), then the segment is disallowed.
-
-***pvalThreshold (Float, default: 0.1):***
-
-If the p-value of the fitted model exceeds this threshold, then the current model is discarded and another one is fitted using the Levenberg-Marquardt optimizer.
-
-***bestModelProportion (Float, default: 1.25):***
-
-Takes the model with most vertices that has a p-value that is at most this proportion away from the model with lowest p-value.
-
-***minObservationsNeeded (Integer, default: 6):***
-
-Min observations needed to perform output fitting.
 
 
 ee.Algorithms.Test.LandTrendr()
 
 
+## <a id='faq'></a>FAQ
+
+>Q: I have read or heard that `for` loops and client-side conditionals like `if` statements are GEE no-nos, yet you include them in your example scripts. What's the deal?<br><br>A: *We don't mix server-side and client-side objects and operations, which, as we understand it, are the main issues. We are also not GEE wizards, so please, we are calling on everyone to help make better, more GEE-friendly template scripts to share.*
 
 ## <a id='references'></a>References
 
