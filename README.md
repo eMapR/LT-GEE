@@ -16,11 +16,10 @@ Jump right into an **[example](#changemap)** of disturbance mapping
 ## Sections
 + [Introduction](#introduction)
 + [LandTrendr](#landtrendr)
-+ [LT-GEE Requirements](#requirements)
-+ [Running LT-GEE](#runninglt)
-+ [LT-GEE Outputs](#ltgeeoutputs)
++ [Requirements](#requirements)
++ [Running](#runninglt)
++ [Outputs](#ltgeeoutputs)
 + [Example Scripts](#examples)
-+ [Function Documentation](#documentation)
 + [FAQ](#faq)
 + [References](#references)
 
