@@ -283,16 +283,20 @@ The results of LT-GEE include (Fig 8):
 
 
 
-The results of LT-GEE are not immediately ready for display or export as maps of change or fitted time series data. Think of each pixel as a bundle of data that needs to be unpacked. The packaging of the data per pixel is similar to a nested list in Python or R. The primary list looks something like this:
+The results of LT-GEE are not immediately ready for analysis, display, or export as maps of change or fitted time series data. Think of each pixel as a bundle of data that needs to be unpacked. The packaging of the data per pixel is similar to a nested list in Python or R. The primary list looks something like this:
 
 ```
 [[Annual Segmentation Info], Fitting RMSE, [Fitted Time Series n]]
 ```
 
-In the GEE construct, this primary list is an image with at least 2 bands, one that contains annual segmentation information and one that contains the RMSE of the segmentation fit. Additionally, if the input image collection to LT-GEE contained more than one band, then each band following the first will be represented as a spectrally fitted annual series (Fig 7).
+In the GEE construct, this primary list is an image with at least 2 bands, one that contains annual segmentation information and one that contains the RMSE of the segmentation fit. Additionally, if the input image collection to LT-GEE contained more than one band, then each band following the first will be represented as a spectrally fitted annual series (Fig 7 and Fig 8).
 
 ![lt outputs](https://github.com/eMapR/LT-GEE/blob/master/imgs/lt_outputs.png)
 *Fig 7. The results of LT-GEE are essentially a list of lists per pixel that describe segmentation and optionally provide fitted annual spectral data (FTV). The output is delivered as a GEE image with at least 2 bands, one that contains annual segmentation information and one that contains the RMSE of the segmentation fit. Additionally, if the input image collection to LT-GEE contained more than one band, then each band following the first will be represented as a spectrally fitted annual series (FTV).* 
+<br>
+
+![print results](https://github.com/eMapR/LT-GEE/blob/master/imgs/print_results.png)
+*Fig 8. The results of LT-GEE printed to the GEE console.* 
 <br><br><br>
 
 ### LandTrendr Band 
@@ -362,7 +366,18 @@ print(LTresult)
 
 Then expand in the 'Image' and 'Band' objects in the console.
 
-![print results](https://github.com/eMapR/LT-GEE/blob/master/imgs/print_results.png)
+
+
+### Convert from array image to image
+
+var years = [];                                                           // make an empty array to hold year band names
+for (var i = startYear; i <= endYear; ++i) years.push('yr'+i.toString()); // fill the array with years from the startYear to the endYear and convert them to string
+var ltFitStack = lt.select([1])                                           // select out the 2nd band data which is the segmentation-fitted spectral index 
+                   .arrayFlatten([years]); 
+
+## Working with outputs
+
+
 
 
 
