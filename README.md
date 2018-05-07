@@ -133,7 +133,8 @@ or what was the trajectory of a pixel time series prior to disturbance segments 
 
 
 ## <a id='requirements'></a>LT-GEE Requirements
-LandTrendr for Google Earth Engine requires two things: 
+
+LandTrendr for Google Earth Engine requires two things:
 
 1. An annual image collection 
 2. A set of parameters to control segmentation
@@ -162,18 +163,15 @@ be based on an informed decision weighted by the sensitivity of it to change in 
 shrubs vs trees vs conifers vs deciduous etc. We have found SWIR bands, and indices leveraging them, to be generally quite sensitive to change, but we also 
 know that it is highly variable. You should try segmenting on several bands or indices to see what works best. We also recommend trying a few different date windows and widths for generating annual composites.
 
-In the [example](#examples) scripts we provide, we composite image dates for the northern hemisphere growing season (mid-June through mid-September), which seems to work pretty well for 25-50 degrees latitude. Folks working in the southern hemisphere will need to modify the example scripts if you are to include images from your growing season, since it crosses the new year: December 2016 through Feburary 2017, for example. You'll also have to deal with how to label the year of the annual image composite - should it be the former or later year of the growing season composite?   
+In the [example](#examples) scripts provided, we composite image dates for the northern hemisphere growing season (mid-June through mid-September), which seems to work pretty well for 25-50 degrees latitude. Folks working in the southern hemisphere will need to modify the example scripts if you are to include images from your growing season, since it crosses the new year: December 2016 through Feburary 2017, for example. You'll also have to deal with how to label the year of the annual image composite - should it be the former or later year of the growing season composite?   
 
 <a id='importantsteps'></a>**Two really important steps** in image collection building include 1) masking cloud and cloud shadow pixels during annual image compositing and to 2) ensure that the spectral band or index that is 
-to be segmented is oriented so that vegetation loss is represented by a positive delta. For instance, NBR in its native orientation results in a negative delta when vegetation is lost from one observation to the next. In this case, NBR must be multiplied by -1 before being segmented.  
+to be segmented is oriented so that vegetation loss is represented by a positive delta. For instance, NBR in its native orientation results in a negative delta when vegetation is lost from one observation to the next. In this case, NBR must be multiplied by -1 before being segmented. Conversely, if Landsat TM band 5 (SWIR) is selected for segmentation, inversion of the spectral values is not required, since natively, vegetation loss is represented by a positive delta.   
 
-### LT parameters
+### <a id='parameters'></a> LT parameters
 
-The LT-GEE function takes 9 arguments: 8 control parameters that adjust how spectal-temporal segmentation is done, and the annual image collection. The original LandTrendr [paper](https://github.com/eMapR/LT-GEE/blob/master/docs/kennedy_etal_2010_landtrendr.pdf) describes the effect and sensitivity of changing some of these argument values. We recommend trying slight variations in settings to see what works best for the environment you are working in. One of the great things about having LT in GEE, is that parameter settings are easy and fast to iterate through to find a best set.
+The LT-GEE function takes 9 arguments: 8 control parameters that adjust how spectal-temporal segmentation is done, and the annual image collection. The original LandTrendr [paper](https://github.com/eMapR/LT-GEE/blob/master/docs/kennedy_etal_2010_landtrendr.pdf) describes the effect and sensitivity of changing some of these argument values. We recommend trying variations in settings to see what works best for the environment you are working in. One of the great things about having LT in GEE is that parameter settings are easy and fast to iterate through to find a best set.
 <br><br>
-
-
-
 
 
 | Parameter | Type | Default | Definition |
@@ -193,7 +191,11 @@ The LT-GEE function takes 9 arguments: 8 control parameters that adjust how spec
 
 ## <a id='runninglt'></a>Running LT-GEE
 
-In its most most basic form, running LandTrendr in Google Earth Engine requires 6 steps. The following code snippets help illustrate the steps (dont use them - they are only a demonstration aid).
+LT-GEE is run using the function: `ee.Algorithms.TimeseriesSegmentation.LandTrendr()` which takes a dictionary of parameter arguments as input. 
+
+In its most most basic form, running LandTrendr in Google Earth Engine requires 6 steps. The following code snippets help illustrate the steps. 
+
+*The following snippets are only a demonstration aid. In application, use the provided code [examples](#examples) to learn and build from.* 
 
 1. Define starting and ending years of the times series
 
@@ -214,7 +216,7 @@ var coords = [[-123.925, 42.996],
 var aoi = ee.Geometry.Polygon(coords);
 ```
 
-3. Define the LandTrendr run parameters as a dictionary. See the [documentation](#documentation) section for parameter definitions
+3. Define the LandTrendr run parameters as a dictionary. See the [parameters](#parameters) section for definitions. Note that the image collection will be appended to this dictionary in a later step.
 
 ```javascript	
 var run_params = { 
@@ -229,7 +231,7 @@ var run_params = {
 };
 ```
 
-4. Build an image collection that includes only one image per year subset to a single band or index (you can include other bands - the first will be segmented, the others will be fit to the vertices). Note that we are using a mock function to reduce annual image collections to a single image - this can be accomplished many ways using various best-pixel-compositing methods.
+4. Build an image collection that includes only one image per year, subset to a single band or index (you can include other bands - the first will be segmented, the others will be fit to the vertices). Note that we are using a mock function to reduce annual image collections to a single image - this can be accomplished many ways using various best-pixel-compositing methods.
 
 ```javascript
 for(var year = startYear; year <= endYear; year++) {
@@ -258,7 +260,7 @@ run_params.timeSeries = srCollection;
 6. Run the LandTrendr algorithm
 
 ```javascript    
-var LTresult = ee.Algorithms.Test.LandTrendr(run_params);
+var LTresult = ee.Algorithms.TimeseriesSegmentation.LandTrendr(run_params);
 ```
 
 Please note that for the sake of a basic example LT-GEE run, we are not addressing the [two really important steps](#importantsteps) in collection building: 1) to mask cloud and cloud shadow pixels during annual image compositing (step 4) and 2) to ensure that the spectral band or index that is 
