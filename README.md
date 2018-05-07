@@ -291,11 +291,11 @@ The results of LT-GEE are not immediately ready for analysis, display, or export
 
 In the GEE construct, this primary list is an image with at least 2 bands, one that contains annual segmentation information and one that contains the RMSE of the segmentation fit. Additionally, if the input image collection to LT-GEE contained more than one band, then each band following the first will be represented as a spectrally fitted annual series (Fig 7 and Fig 8).
 
-![lt outputs](https://github.com/eMapR/LT-GEE/blob/master/imgs/lt_outputs.png)
+![lt outputs](https://github.com/eMapR/LT-GEE/blob/master/imgs/lt_outputs.png)<br>
 *Fig 7. The results of LT-GEE are essentially a list of lists per pixel that describe segmentation and optionally provide fitted annual spectral data (FTV). The output is delivered as a GEE image with at least 2 bands, one that contains annual segmentation information and one that contains the RMSE of the segmentation fit. Additionally, if the input image collection to LT-GEE contained more than one band, then each band following the first will be represented as a spectrally fitted annual series (FTV).* 
 <br>
 
-![print results](https://github.com/eMapR/LT-GEE/blob/master/imgs/print_results.png)
+![print results](https://github.com/eMapR/LT-GEE/blob/master/imgs/print_results.png)<br>
 *Fig 8. The results of LT-GEE printed to the GEE console.* 
 <br><br><br>
 
