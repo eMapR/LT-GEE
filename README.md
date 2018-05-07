@@ -134,7 +134,7 @@ or what was the trajectory of a pixel time series prior to disturbance segments 
 
 ## <a id='requirements'></a>LT-GEE Requirements
 
-LandTrendr for Google Earth Engine requires two things:
+LT-GEE requires two things:
 
 1. An annual image collection 
 2. A set of parameters to control segmentation
@@ -241,7 +241,7 @@ for(var year = startYear; year <= endYear; year++) {
   
   img = reduceToSingeImageMockFunction(img);
 
-  var tempCollection = ee.ImageCollection(img.select(['B5'])) ;         
+  var tempCollection = ee.ImageCollection(img.select(['B5']));         
 
   if(year == startYear) {
     var srCollection = tempCollection;
@@ -292,7 +292,7 @@ The results of LT-GEE are not immediately ready for display or export as maps of
 In the GEE construct, this primary list is an image with at least 2 bands, one that contains annual segmentation information and one that contains the RMSE of the segmentation fit. Additionally, if the input image collection to LT-GEE contained more than one band, then each band following the first will be represented as a spectrally fitted annual series (Fig 7).
 
 ![lt outputs](https://github.com/eMapR/LT-GEE/blob/master/imgs/lt_outputs.png)
-*Fig 7. The results of LT-GEE are essentially a list of lists per pixel that describe segmentation and optionally provide fitted annual spectral data. The output is delivered as a GEE image with at least 2 bands, one that contains annual segmentation information and one that contains the RMSE of the segmentation fit. Additionally, if the input image collection to LT-GEE contained more than one band, then each band following the first will be represented as a spectrally fitted annual series.* 
+*Fig 7. The results of LT-GEE are essentially a list of lists per pixel that describe segmentation and optionally provide fitted annual spectral data (FTV). The output is delivered as a GEE image with at least 2 bands, one that contains annual segmentation information and one that contains the RMSE of the segmentation fit. Additionally, if the input image collection to LT-GEE contained more than one band, then each band following the first will be represented as a spectrally fitted annual series (FTV).* 
 <br><br><br>
 
 ### LandTrendr Band 
@@ -315,10 +315,10 @@ It contains 4 rows and as many columns as there are annual observations for a gi
 ]
 ```
 
-Row 1 is the observation year.<br>
-Row 2 is the observation value corresponding to the year in row 1, it is equal to the first band in the input collection.<br>
-Row 3 is the observation fitted to line segments defined by breakpoint vertices identified in segmentation.<br>
-Row 4 is a Boolean value indicating whether an observation was identified as a vertex.
++ Row 1 is the observation year.<br>
++ Row 2 is the observation value corresponding to the year in row 1, it is equal to the first band in the input collection.<br>
++ Row 3 is the observation value corresponding to the year in row 1, fitted to line segments defined by breakpoint vertices identified in segmentation.<br>
++ Row 4 is a Boolean value indicating whether an observation was identified as a vertex.
 
 You can extract a row using the GEE `arraySlice` function. Here is an example of the extracting the year and fitted value rows as separate lists:
 
@@ -329,15 +329,11 @@ var year = LTarray.arraySlice(0, 0, 1); // slice out the year row
 var fitted = LTarray.arraySlice(0, 2, 3); // slice out the fitted values row
 ```
 
-The GEE arraySlice function takes the dimension you want to subset and the start and end points along the dimension to extract 
-
-Here we sliced out the year and fitted rows as lists. 
-
-LandTrendr array slicing
+The GEE `arraySlice` function takes the dimension you want to subset and the start and end points along the dimension to extract as inputs.
 
 ### RMSE
 
-The 'rmse' band is a scalar value that is the root mean square error between the original values and the segmentation-fitted values
+The 'rmse' band is a scalar value that is the root mean square error between the original values and the segmentation-fitted values. 
 
 It can be subset like this:
 
@@ -348,8 +344,25 @@ var segmentationInfo = LTresult.select(['rmse']); // subset the rmse band
 
 ### FTV
 
-The FTV or fit to vertice data bands are included as outputs
+If the the input image collection included more than one band, the proceeding bands will be included in the output image as FTV or fit-to-vertice data bands. The segmentation, defined by year of observation, of the first band in the image collection is imparted on these bands. If there were missing years in the input image collection, they will be interpolated in the FTV bands. If years at the beginning or end of the series are present, the value value will be set as the first/last known value.
 
+It can be subset from the primary output image by selection of the band name, which will be the the concatenation of the band name from the input image collection and '_fit', as in 'B4_fit'. Here is an example of subsetting an FTV 'fit' band:
+
+```javascript
+var LTresult = ee.Algorithms.Test.LandTrendr(run_params); // run LT-GEE
+var segmentationInfo = LTresult.select(['B4_fit']); // subset the B4_fit band
+```
+
+If you're unsure of the band names, you can view the band names by printing the results to the GEE console. 
+
+```javascript
+var LTresult = ee.Algorithms.Test.LandTrendr(run_params); // run LT-GEE
+print(LTresult)
+```
+
+Then expand in the 'Image' and 'Band' objects in the console.
+
+![print results](https://github.com/eMapR/LT-GEE/blob/master/imgs/print_results.png)
 
 
 
