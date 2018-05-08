@@ -349,7 +349,7 @@ var segmentationInfo = LTresult.select(['rmse']); // subset the rmse band
 
 ### FTV
 
-If the the input image collection included more than one band, the proceeding bands will be included in the output image as FTV or fit-to-vertice data bands. The segmentation, defined by year of observation, of the first band in the image collection is imparted on these bands. If there were missing years in the input image collection, they will be interpolated in the FTV bands. If years at the beginning or end of the series are present, the value value will be set as the first/last known value.
+If the the input image collection included more than one band, the proceeding bands will be included in the output image as FTV or fit-to-vertice data bands. The segmentation, defined by year of observation, of the first band in the image collection is imparted on these bands. If there were missing years in the input image collection, they will be interpolated in the FTV bands. If years at the beginning or end of the series are present, the value will be set as the first/last known value.
 
 It can be subset from the primary output image by selection of the band name, which will be the the concatenation of the band name from the input image collection and '_fit', as in 'B4_fit'. Here is an example of subsetting an FTV 'fit' band:
 
@@ -370,7 +370,48 @@ Then expand in the 'Image' and 'Band' objects in the console.
 
 ## <a id='workingWithOutputs'></a>Working with Outputs
 
-The results coming from the LT-GEE algorithm are packaged as array images. If you are unfamiliar with the array image format, please see the [GEE documentation](https://developers.google.com/earth-engine/arrays_intro). As array images, it is best to think of each pixel composing an area as a separate container of information. Each container is independent of others and can have varying observation lengths determined by the difference between the number of years in the time series and the number of masked observations in that time series. As image arrays, each row of data described in the ['LandTrendr' Band](#landtrendrBand) section can be easily accessed, manipulated, and participate in calculations. This is also true for the FTV bands ('fit_*'). Though highly flexible, the image array format makes viewing, exporting, and conceptualizing the data difficult. An alternate view of the data can be achieved by projecting (`arrayProject`) and/or flattening (`arrayFlatten`) the arrays to construct a traditional image with bands representing observation values per year in the time series.
+The results coming from the LT-GEE algorithm are packaged as array images. If you are unfamiliar with the array image format, please see the [GEE documentation](https://developers.google.com/earth-engine/arrays_intro). As array images, it is best to think of each pixel as a separate container of information. Each container is independent of others and can have varying observation lengths determined by the difference between the number of years in the time series and the number of masked observations in that time series. Image arrays are highly flexible, and in the case of the 'LandTrendr' band output, it allows slicing on 2 dimensions, which is handy for extracting corresponding information across variables. Though useful for manipulating the segmentation information, the image array construct is not very good for visualization and exporting. This section will walk through:
+
+1. Some operations that can be performed on the 'LandTrendr' band image array to isolate a certain segment of a time series
+2. Filter the isolated segment by an attribute
+3. Transform the attributes of the filtered, isolated segment to an image for viewing 
+4. Convert a fitted (FTV) band from an image array to an image with a band per year in the time series
+
+
+
+
+
+regarding across  in this case for each row of data described in the ['LandTrendr' Band](#landtrendrBand) section can be easily accessed, manipulated, and participate in calculations.  in the format of wide data where each column is an observation and each row is a variable describing attributes of each observation (Table 2). This format works well for some opperations, but other are best handled in long format (Table 3). This section will walk through   Another useful feature of the array image format is that it can be sliced on the year dimensions and retain all rows slice.   This is also true for the FTV bands ('fit_*'). Though highly flexible, the image array format makes viewing, exporting, and conceptualizing the data difficult. An alternate view of the data can be achieved by projecting (`arrayProject`) and/or flattening (`arrayFlatten`) the arrays to construct a traditional image with bands representing observation values per year in the time series.
+
+||Col. 1|Col. 2|Col. 3|Col. 4|...|
+|-|-|-|-|-|-|
+|**Row 1 (Year)**|1985|1986|1987|1988|...
+|**Row 2 (Source)**|811|809|821|813|...
+|**Row 3 (FTV)**|827|825|823|821|...
+|**Row 4 (Vertex)**|1|0|0|0|...
+*Table 2. Wide format of 
+
+|Year|Variable|Value|Band Num.|Band Name
+|-|-|-|-|-|
+|1985|Source|811|1|Source_1985
+|1986|Source|809|2|Source_1986
+|1987|Source|821|3|Source_1987
+|1988|Source|813|4|Source_1988
+|...
+|1985|Fitted|827|...|Fitted_1985
+|1986|Fitted|825|...|Fitted_1986
+|1987|Fitted|824|...|Fitted_1987
+|1988|Fitted|821|...|Fitted_1988
+|...
+|1985|Vertex|1|...|Vertex_1985
+|1986|Vertex|0|...|Vertex_1986
+|1987|Vertex|0|...|Vertex_1987
+|1988|Vertex|0|...|Vertex_1988
+|...
+
+
+
+
 
 ### Subsetting vertex information
 
