@@ -389,7 +389,8 @@ regarding across  in this case for each row of data described in the ['LandTrend
 |**Row 2 (Source)**|811|809|821|813|...
 |**Row 3 (FTV)**|827|825|823|821|...
 |**Row 4 (Vertex)**|1|0|0|0|...
-*Table 2. Wide format of 
+
+*Table 2. Wide format of...* 
 
 |Year|Variable|Value|Band Num.|Band Name
 |-|-|-|-|-|
@@ -408,6 +409,8 @@ regarding across  in this case for each row of data described in the ['LandTrend
 |1987|Vertex|0|...|Vertex_1987
 |1988|Vertex|0|...|Vertex_1988
 |...
+
+*Table 3. Wide format of...* 
 
 
 
