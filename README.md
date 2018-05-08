@@ -19,6 +19,7 @@ Jump right into an **[example](#changemap)** of disturbance mapping
 + [Requirements](#requirements)
 + [Running](#runninglt)
 + [Outputs](#ltgeeoutputs)
++ [Working with Outputs](#workingWithOutputs)
 + [Example Scripts](#examples)
 + [FAQ](#faq)
 + [References](#references)
@@ -293,13 +294,13 @@ In the GEE construct, this primary list is an image with at least 2 bands, one t
 
 ![lt outputs](https://github.com/eMapR/LT-GEE/blob/master/imgs/lt_outputs.png)<br>
 *Fig 7. The results of LT-GEE are essentially a list of lists per pixel that describe segmentation and optionally provide fitted annual spectral data (FTV). The output is delivered as a GEE image with at least 2 bands, one that contains annual segmentation information and one that contains the RMSE of the segmentation fit. Additionally, if the input image collection to LT-GEE contained more than one band, then each band following the first will be represented as a spectrally fitted annual series (FTV).* 
-<br>
+<br><br>
 
 ![print results](https://github.com/eMapR/LT-GEE/blob/master/imgs/print_results.png)<br>
-*Fig 8. The results of LT-GEE printed to the GEE console.* 
+*Fig 8. The results of LT-GEE printed to the GEE console. The 'LandTrendr' and 'rmse' are included by default, 'B4_fit' is included because Landsat TM/+ETM band 4 (B4) was included as the second band in the input collection.* 
 <br><br><br>
 
-### LandTrendr Band 
+### <a id='landtrendrBand'></a>LandTrendr Band 
 
 The 'LandTrendr' band is a 4 x nYears dimension array. You can subset it like this:
 
@@ -367,15 +368,54 @@ print(LTresult)
 Then expand in the 'Image' and 'Band' objects in the console.
 
 
+## <a id='workingWithOutputs'></a>Working with Outputs
 
-### Convert from array image to image
+The results coming from the LT-GEE algorithm are packaged as array images. If you are unfamiliar with the array image format, please see the [GEE documentation](https://developers.google.com/earth-engine/arrays_intro). As array images, it is best to think of each pixel composing an area as a separate container of information. Each container is independent of others and can have varying observation lengths determined by the difference between the number of years in the time series and the number of masked observations in that time series. As image arrays, each row of data described in the ['LandTrendr' Band](#landtrendrBand) section can be easily accessed, manipulated, and participate in calculations. This is also true for the FTV bands ('fit_*'). Though highly flexible, the image array format makes viewing, exporting, and conceptualizing the data difficult. An alternate view of the data can be achieved by projecting (`arrayProject`) and/or flattening (`arrayFlatten`) the arrays to construct a traditional image with bands representing observation values per year in the time series.
 
-var years = [];                                                           // make an empty array to hold year band names
-for (var i = startYear; i <= endYear; ++i) years.push('yr'+i.toString()); // fill the array with years from the startYear to the endYear and convert them to string
-var ltFitStack = lt.select([1])                                           // select out the 2nd band data which is the segmentation-fitted spectral index 
-                   .arrayFlatten([years]); 
+### Subsetting vertex information
 
-## Working with outputs
+The ['LandTrendr' Band](#landtrendrBand) outputs exist as an image array containing information for every observation not masked in the input collection. We hope that you'll discover ways to utilize all the information, but we have focused on information regarding only the observations identified as vertices in the spectral-temporal segmentation. To extract only these observations we can use the 4th row of the 'LandTrendr' band, which is a Boolean indicating whether an observation is a vertex or not, to mask all the other rows:
+
+```javascript
+var vertexMask = lt.arraySlice(0, 3, 4); // slice out the 'Is Vertex' row - yes(1)/no(0)
+var vertices = lt.arrayMask(vertexMask); // use the 'Is Vertex' row as a mask for all rows
+```
+
+Now we only have vertex observations in the array. With this we can query information about vertices, and we can also calculate information about segments, like magnitude of change and duration. The follows snippets   
+
+```javascript
+var left = vertices.arraySlice(1, 0, -1);    // slice out the vertices as the start of segments
+var right = vertices.arraySlice(1, 1, null); // slice out the vertices as the end of segments
+var startYear = left.arraySlice(0, 0, 1);    // get year dimension of LT data from the segment start vertices
+var startVal = left.arraySlice(0, 2, 3);     // get spectral index dimension of LT data from the segment start vertices
+var endYear = right.arraySlice(0, 0, 1);     // get year dimension of LT data from the segment end vertices 
+var endVal = right.arraySlice(0, 2, 3);      // get spectral index dimension of LT data from the segment end vertices
+
+var dur = endYear.subtract(startYear);       // subtract the segment start year from the segment end year to calculate the duration of segments 
+var mag = endVal.subtract(startVal);         // substract the segment start index value from the segment end index value to calculate the delta of segments
+```
+
+Keep in mind that the segment delta may be inversed from it's native orientation, based on whether you inverted the spectral values in the input collection. From here you can use the `arraySort` function to order segments by duration (shortest, longest) and/or magnitude (high magnitude, low magnitude).
+
+Let's put together a greatest-disturbance information stack:
+
+```javascript
+// concatenate segment start year, delta, duration, and starting spectral index value to an array 
+var distImg = ee.Image.cat([startYear.add(1), mag, dur, startVal.multiply(distDir)]).toArray(0); // make an image of segment attributes - multiply by the distDir parameter to re-orient the spectral index if it was flipped for segmentation - do it here so that the subtraction to calculate segment delta in the above line is consistent - add 1 to the detection year, because the vertex year is not the first year that change is detected, it is the following year
+ 
+// sort the segments in the disturbance attribute image delta by spectral index change delta  
+var distImgSorted = distImg.arraySort(mag.multiply(-1)); // flip the delta around so that the greatest delta segment is first in order
+
+// slice out the first (greatest) delta
+var tempDistImg = distImgSorted.arraySlice(1, 0, 1).unmask(ee.Image(ee.Array([[0],[0],[0],[0]]))); // get the first segment in the sorted array
+
+// make an image from the array of attributes for the greatest disturbance
+var finalDistImg = ee.Image.cat(tempDistImg.arraySlice(0,0,1).arrayProject([1]).arrayFlatten([['yod']]), // slice out year of disturbance detection and re-arrange to an image band 
+                                tempDistImg.arraySlice(0,1,2).arrayProject([1]).arrayFlatten([['mag']]), // slice out the disturbance magnitude and re-arrange to an image band 
+                                tempDistImg.arraySlice(0,2,3).arrayProject([1]).arrayFlatten([['dur']]), // slice out the disturbance duration and re-arrange to an image band
+                                tempDistImg.arraySlice(0,3,4).arrayProject([1]).arrayFlatten([['preval']])); // slice out the pre-disturbance spectral value and re-arrange to an image band
+```  
+
 
 
 
