@@ -9,7 +9,11 @@ implementation in the Google Earth Engine platform**
 ### *** We expect the public release of the LandTrendr algorithm to happen the week of May 7th - stay tuned! ***
 
 *Please note that the provided example scripts are currently calling the testing function ee.Algorithms.Test.LandTrendr(), which is inaccessible without proper permission, so the scripts will fail if you try them now. Once the algorithm is publicly released, the function call in the scripts will change and you should have success.*
+<br><br>
+
+### **This documentation is under construction (5/8/18)**
 <br><br><br>
+
 
 Jump right into an **[example](#changemap)** of disturbance mapping
 
