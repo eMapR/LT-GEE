@@ -483,17 +483,32 @@ var mmuPatches = bigFastDist.select(['yod'])            // patchify based on dis
 bigFastDist = bigFastDist.updateMask(mmuPatches);       // mask the pixels/patches that are less than minimum mapping unit
 ```
 
+### Transform an FTV array to an image stack
 
+The previous sections described how to manipulate the 'LandTrendr' band array. In this section we'll turn our attention to an example of an FTV band. If LT-GEE was run on a collection that included more than a single band, then the subsequent bands will be included in the LT-GEE output as FTV bands, where all observations between the user-defined starting and ending years will be fit the segmentation structure of the first band.  
 
+Run LT-GEE on a collection that includes NBR as band 1 and Band 4 (NIR) as a second band. The output will include a Band 4 fitted to NBR segmentation, which we'll select by calling its band name, the concatenation of the band name from the LT-GEE input collection and '_fit'. 
 
+```javascript
+var LTresult = ee.Algorithms.Test.LandTrendr(run_params); // run LT-GEE
+var B4ftv = LTresult.select(['B4_fit']); // subset the B4_fit band
+```
 
+The 'B4ftv' variable is a 1 dimensional array. To convert it to an image with bands representing years, we use the `arrayFlatten` function. The `arrayFlatten` function takes a list of band labels with dimensions that match the dimensions of the image array to be flattened. We have 1 dimension and each observation along the single axis represents a year, so we just need to make a list of years and supply it as input to `arrayFlatten`.  
+
+```javascript
+var years = [];                                                           // make an empty array to hold year band names
+for (var i = startYear; i <= endYear; ++i) years.push('yr'+i.toString()); // fill the array with years from the startYear to the endYear and convert them to string
+var B4ftvStack = B4ftv.arrayFlatten([years]);                             // flatten this out into bands, assigning the year as the band name
+```
+
+Now the FTV image array is a standard image band stack that can be easily displayed or exported.
 
 
 ## <a id='examples'></a>Example Scripts
 
 
-Three use case examples are provided, each of them begins with the same process of parameter definition and collection building and then varies on what is done with the results from the LT-GEE call.
-
+Three use case examples are provided, each of them begins with the same process of parameter definition and collection building and then varies on what is done with the results from the LT-GEE call. Keep in mind that these are simple building blocks to learn from. The parameter settings, methods for building collections, and the way we handle outputs in these examples are not intended to be standard protocol. We hope that the GEE community will help us develop better scripts and push what we can learn about our dynamic Earth using the LT-GEE tool. 
 
 **1. Exploration and parameterization**
 
@@ -501,7 +516,7 @@ LandTrendr can be run in point mode to visualize the segmentation for a pixel.
 This is really useful for quickly testing the performance of various parameter 
 settings and spectral indices, as well as simply viewing and interpreting change 
 in the x-y space of time and spectral value for both the source and LandTrendr 
-trajectory-fitted data.
+trajectory-fitted data. We recommend starting here to understand how best to set parameters for your mapping project.
 
 ![time series](https://github.com/eMapR/LT-GEE/blob/master/imgs/time_series.png)
 
@@ -513,7 +528,7 @@ trajectory-fitted data.
 LandTrendr can be run in a data generation mode where every pixel time series 
 within the bounds of a given region is segmented and a data cube containing 
 the segmented line structure and trajectory-fitted time series stack is returned. 
-The results are the basic building blocks for historical landscape state and change mapping.
+The results are the basic building blocks for historical landscape state and change mapping. Before generating data cubes, it is best to explore and parameterize LT-GEE using the 1st example script.
 
 ![data stack](https://github.com/eMapR/LT-GEE/blob/master/imgs/stack.gif)
 
@@ -524,7 +539,7 @@ The results are the basic building blocks for historical landscape state and cha
 
 Change events can be extracted and mapped from LandTrendr's segmented line vertices. 
 Information regarding the year of change event detection, magnitude of change, duration 
-of change, and pre-change event spectral data can all be mapped.
+of change, and pre-change event spectral data can all be mapped. In this example we take the data cude genreated in the previous example and extract the greatest disturbance per pixel in a region.
 
 ![change map](https://github.com/eMapR/LT-GEE/blob/master/imgs/yod_mapped.png)
 
