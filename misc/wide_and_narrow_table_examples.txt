@@ -1,0 +1,37 @@
+
+||Col. 1|Col. 2|Col. 3|Col. 4|...|
+|-|-|-|-|-|-|
+|**Row 1 (Year)**|1985|1986|1987|1988|...
+|**Row 2 (Source)**|811|809|821|813|...
+|**Row 3 (FTV)**|827|825|823|821|...
+|**Row 4 (Vertex)**|1|0|0|0|...
+
+*Table 2. Wide format of...* 
+
+
+
+|Year|Variable|Value|Band Num.|Band Name
+|-|-|-|-|-|
+|1985|Source|811|1|Source_1985
+|1986|Source|809|2|Source_1986
+|1987|Source|821|3|Source_1987
+|1988|Source|813|4|Source_1988
+|...
+|1985|Fitted|827|...|Fitted_1985
+|1986|Fitted|825|...|Fitted_1986
+|1987|Fitted|824|...|Fitted_1987
+|1988|Fitted|821|...|Fitted_1988
+|...
+|1985|Vertex|1|...|Vertex_1985
+|1986|Vertex|0|...|Vertex_1986
+|1987|Vertex|0|...|Vertex_1987
+|1988|Vertex|0|...|Vertex_1988
+|...
+
+*Table 3. Narrow format of...* 
+
+
+
+
+
+

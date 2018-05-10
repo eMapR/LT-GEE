@@ -276,6 +276,10 @@ to be segmented is oriented so that vegetation loss is represented by a positive
 
 The results of LT-GEE include (Fig 8):
 
+
+
+
+
 + The year of observations per pixel time series; x-axis values in 2-D spectral-temporal space; (default)
 + The source value of observations per pixel time series; y-axis values in 2-D spectral-temporal space; (default)
 + The source value of observations fitted to segment lines between vertices (FTV) per pixel time series; y-axis values in 2-D spectral-temporal space; (default)
@@ -374,62 +378,31 @@ Then expand in the 'Image' and 'Band' objects in the console.
 
 ## <a id='workingWithOutputs'></a>Working with Outputs
 
-The results coming from the LT-GEE algorithm are packaged as array images. If you are unfamiliar with the array image format, please see the [GEE documentation](https://developers.google.com/earth-engine/arrays_intro). As array images, it is best to think of each pixel as a separate container of information. Each container is independent of others and can have varying observation lengths determined by the difference between the number of years in the time series and the number of masked observations in that time series. Image arrays are highly flexible, and in the case of the 'LandTrendr' band output, it allows slicing on 2 dimensions, which is handy for extracting corresponding information across variables. Though useful for manipulating the segmentation information, the image array construct is not very good for visualization and exporting. This section will walk through:
+The results coming from the LT-GEE algorithm are packaged as array images. If you are unfamiliar with the array image format, please see the [GEE documentation](https://developers.google.com/earth-engine/arrays_intro). As array images, it is best to think of each pixel as a separate container of information. Each container is independent of others and can have varying observation lengths determined by the difference between the number of years in the time series and the number of masked observations in that time series. Image arrays are highly flexible, and in the case of the 'LandTrendr' band output, it allows slicing on 2 dimensions (observation [axis 1], and attribute [axis 0]), which is particularly handy for extracting all attributes for a given observation or set of observations (like observations identified as verticies). Though useful for slicing and manipulating segmentation information, the image array construct is not very good for visualization and exporting. This section will walk through:
 
-1. Some operations that can be performed on the 'LandTrendr' band image array to isolate a certain segment of a time series
-2. Filter the isolated segment by an attribute
+1. Some operations that can be performed on the 'LandTrendr' band image array to extract segment information
+2. Isolate the greatest vegetation loss segment of a time series
+3. Filter the greatest vegetation loss segment by an attribute
 3. Transform the attributes of the filtered, isolated segment to an image for viewing 
 4. Convert a fitted (FTV) band from an image array to an image with a band per year in the time series
 
-
-
+Before getting started, lets look at the 
 
 
 regarding across  in this case for each row of data described in the ['LandTrendr' Band](#landtrendrBand) section can be easily accessed, manipulated, and participate in calculations.  in the format of wide data where each column is an observation and each row is a variable describing attributes of each observation (Table 2). This format works well for some opperations, but other are best handled in long format (Table 3). This section will walk through   Another useful feature of the array image format is that it can be sliced on the year dimensions and retain all rows slice.   This is also true for the FTV bands ('fit_*'). Though highly flexible, the image array format makes viewing, exporting, and conceptualizing the data difficult. An alternate view of the data can be achieved by projecting (`arrayProject`) and/or flattening (`arrayFlatten`) the arrays to construct a traditional image with bands representing observation values per year in the time series.
 
-||Col. 1|Col. 2|Col. 3|Col. 4|...|
-|-|-|-|-|-|-|
-|**Row 1 (Year)**|1985|1986|1987|1988|...
-|**Row 2 (Source)**|811|809|821|813|...
-|**Row 3 (FTV)**|827|825|823|821|...
-|**Row 4 (Vertex)**|1|0|0|0|...
+### Getting segment information
 
-*Table 2. Wide format of...* 
-
-|Year|Variable|Value|Band Num.|Band Name
-|-|-|-|-|-|
-|1985|Source|811|1|Source_1985
-|1986|Source|809|2|Source_1986
-|1987|Source|821|3|Source_1987
-|1988|Source|813|4|Source_1988
-|...
-|1985|Fitted|827|...|Fitted_1985
-|1986|Fitted|825|...|Fitted_1986
-|1987|Fitted|824|...|Fitted_1987
-|1988|Fitted|821|...|Fitted_1988
-|...
-|1985|Vertex|1|...|Vertex_1985
-|1986|Vertex|0|...|Vertex_1986
-|1987|Vertex|0|...|Vertex_1987
-|1988|Vertex|0|...|Vertex_1988
-|...
-
-*Table 3. Wide format of...* 
-
-
-
-
-
-### Subsetting vertex information
-
-The ['LandTrendr' Band](#landtrendrBand) outputs exist as an image array containing information for every observation not masked in the input collection. We hope that you'll discover ways to utilize all the information, but we have focused on information regarding only the observations identified as vertices in the spectral-temporal segmentation. To extract only these observations we can use the 4th row of the 'LandTrendr' band, which is a Boolean indicating whether an observation is a vertex or not, to mask all the other rows:
+The ['LandTrendr' Band](#landtrendrBand) output exist as an image array containing information for every observation not masked in the input collection. We hope that you'll discover ways to utilize all the information, but we have focused on information regarding only the observations identified as vertices in the spectral-temporal segmentation. To extract only these observations we can use the 4th row of the 'LandTrendr' band, which is a Boolean indicating whether an observation is a vertex or not, to mask all the other rows (year, source value, fitted value):
 
 ```javascript
 var vertexMask = lt.arraySlice(0, 3, 4); // slice out the 'Is Vertex' row - yes(1)/no(0)
 var vertices = lt.arrayMask(vertexMask); // use the 'Is Vertex' row as a mask for all rows
 ```
 
-Now we only have vertex observations in the array. With this we can query information about vertices, and we can also calculate information about segments, like magnitude of change and duration. The follows snippets   
+Now we only have vertex observations in the `vertices` array. With this we can query information about vertices, count the number of vertices, and we can also generate information about segments defined by vertices, like magnitude of change and duration. 
+
+In the following snippet we will calculate segment attributes, by first shifting a copy of the `vertices` array along axis 1 (columns/annual observations) so that we can subtract one from the other to obtain start and end year as well as start and end value  for each segment in a given pixel's time series   
 
 ```javascript
 var left = vertices.arraySlice(1, 0, -1);    // slice out the vertices as the start of segments
@@ -438,18 +411,34 @@ var startYear = left.arraySlice(0, 0, 1);    // get year dimension of LT data fr
 var startVal = left.arraySlice(0, 2, 3);     // get spectral index dimension of LT data from the segment start vertices
 var endYear = right.arraySlice(0, 0, 1);     // get year dimension of LT data from the segment end vertices 
 var endVal = right.arraySlice(0, 2, 3);      // get spectral index dimension of LT data from the segment end vertices
-
-var dur = endYear.subtract(startYear);       // subtract the segment start year from the segment end year to calculate the duration of segments 
-var mag = endVal.subtract(startVal);         // substract the segment start index value from the segment end index value to calculate the delta of segments
 ```
 
-Keep in mind that the segment delta may be inversed from it's native orientation, based on whether you inverted the spectral values in the input collection. From here you can use the `arraySort` function to order segments by duration (shortest, longest) and/or magnitude (high magnitude, low magnitude).
+Now, for each segment in a given pixel's time series we know the start and end year and value. With this information we can calculate the time duration of each spectral-temporal segment and also the delta, or spectral change, over the time period by subtracting starting year and value from ending year and value for each segment.
+
+```javascript
+var dur = endYear.subtract(startYear);       // subtract the segment start year from the segment end year to calculate the duration of segments 
+var mag = endVal.subtract(startVal);         // substract the segment start index value from the segment end index value to calculate the delta of segments
+
+// concatenate segment start year, delta, duration, and starting spectral index value to an array 
+var distImg = ee.Image.cat([startYear.add(1), mag, dur, startVal.multiply(distDir)]).toArray(0); // make an image of segment attributes - multiply by the distDir parameter to re-orient the spectral index if it was flipped for segmentation - do it here so that the subtraction to calculate segment delta in the above line is consistent - add 1 to the detection year, because the vertex year is not the first year that change is detected, it is the following year
+
+```
+
+Keep in mind that the segment delta may be inversed from it's native orientation, based on whether you inverted the spectral values in the input collection. This is good, though, because then we always know that a positive delta indicates increasing vegetation and a negative delta indicates decreasing vegetation. 
+
+### Isolate a single segment of interest
+
+Segments represent state transitions between gradients within and between land cover types. Transitions can over short or long periods of time, they can be major or minor changes, and starting and ending states can vary. In this section we'll take the segment information and extract out from all segments in a given pixel's time series only the greatest magnitude vegetation loss segment. To achieve this, we can sort the segment information array by the magnitude of change or segment delta and slice out the first segment's information.
+
+First however, we need to put together a new array so that we have 
+
+
+From here you can use the `arraySort` function to order segments by duration (shortest, longest) and/or magnitude (high magnitude, low magnitude).
 
 Let's put together a greatest-disturbance information stack:
 
 ```javascript
-// concatenate segment start year, delta, duration, and starting spectral index value to an array 
-var distImg = ee.Image.cat([startYear.add(1), mag, dur, startVal.multiply(distDir)]).toArray(0); // make an image of segment attributes - multiply by the distDir parameter to re-orient the spectral index if it was flipped for segmentation - do it here so that the subtraction to calculate segment delta in the above line is consistent - add 1 to the detection year, because the vertex year is not the first year that change is detected, it is the following year
+
  
 // sort the segments in the disturbance attribute image delta by spectral index change delta  
 var distImgSorted = distImg.arraySort(mag.multiply(-1)); // flip the delta around so that the greatest delta segment is first in order
