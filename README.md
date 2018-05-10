@@ -11,7 +11,7 @@ implementation in the Google Earth Engine platform**
 *Please note that the provided example scripts are currently calling the LT-GEE testing function, ee.Algorithms.Test.LandTrendr(), which is inaccessible without proper permission, so the scripts will fail if you try them now. Once the algorithm is publicly released, the function call in the scripts will change and you should have success.*
 <br><br>
 
-### **This documentation is under construction (5/8/18)**
+### **This documentation is under construction (5/10/18)**
 <br><br><br>
 
 
