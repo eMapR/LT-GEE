@@ -6,7 +6,7 @@
 implementation in the Google Earth Engine platform**
 <br>
 
-### *** We apologize for the delay in the public release of the LT-GEE algorithm - we are waiting on the GEE engining team to push it - 5/21/218 :snail: :watch:   ***
+### *** We apologize for the delay in the public release of the LT-GEE algorithm - we are waiting on the GEE engining team to push it - 5/21/218 :snail: :watch: :unamused: ***
 
 *Please note that the provided example scripts are currently calling the LT-GEE testing function, ee.Algorithms.Test.LandTrendr(), which is inaccessible without proper permission, so the scripts will fail if you try them now. Once the algorithm is publicly released, the function call in the scripts will change and you should have success.*
 <br><br>
