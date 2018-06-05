@@ -6,12 +6,12 @@
 implementation in the Google Earth Engine platform**
 <br>
 
-### *** We apologize for the delay in the public release of the LT-GEE algorithm - we are waiting on the GEE engineering team to push it - unfortunately they are preparing for the [Google Earth Engine User Summit](https://events.withgoogle.com/google-earth-engine-user-summit-2017/) so it may take some more time :snail: :watch: :unamused: (5/29/18)***
+### *** We apologize for the delay in the public release of the LT-GEE algorithm - we are waiting on the GEE engineering team to push it - unfortunately they are preparing for the [Google Earth Engine User Summit](https://events.withgoogle.com/google-earth-engine-user-summit-2017/) so it may take some more time :snail: :watch: :unamused: (6/5/18)***
 
 *Please note that the provided example scripts are currently calling the LT-GEE testing function, ee.Algorithms.Test.LandTrendr(), which is inaccessible without proper permission, so the scripts will fail if you try them now. Once the algorithm is publicly released, the function call in the scripts will change and you should have success.*
 <br><br>
 
-### **This documentation is under construction (5/29/18)**
+### **This documentation is under construction (6/5/18)**
 <br><br><br>
 
 
@@ -25,6 +25,7 @@ Jump right into an **[example](#changemap)** of disturbance mapping
 + [Outputs](#ltgeeoutputs)
 + [Working with Outputs](#workingWithOutputs)
 + [Example Scripts](#examples)
++ [Applications](#applications)
 + [FAQ](#faq)
 + [References](#references)
 
@@ -35,7 +36,7 @@ for change detection in a time series of moderate resolution satellite imagery (
 and for generating trajectory-based spectral time series data largely absent of 
 inter-annual signal noise. LandTrendr was originally implemented in IDL 
 (Interactive Data Language), but with the help of engineers at Google, it has 
-been ported ([paper](https://github.com/eMapR/LT-GEE/blob/master/docs/kennedy_etal_2018_lt-gee.pdf)) to the Google Earth Engine (GEE) platform 
+been ported ([paper](http://www.mdpi.com/2072-4292/10/5/691)) to the Google Earth Engine (GEE) platform 
 ([overview](https://earthengine.google.com/), [paper](https://github.com/eMapR/LT-GEE/blob/master/docs/gorelick_etal_2017_google_earth_engine.pdf)). 
 The GEE framework nearly eliminates the onerous data management and image-preprocessing 
 aspects of the IDL implementation. It is also light-years faster than the IDL 
@@ -539,13 +540,73 @@ The results are the basic building blocks for historical landscape state and cha
 
 Change events can be extracted and mapped from LandTrendr's segmented line vertices. 
 Information regarding the year of change event detection, magnitude of change, duration 
-of change, and pre-change event spectral data can all be mapped. In this example we take the data cude genreated in the previous example and extract the greatest disturbance per pixel in a region.
+of change, and pre-change event spectral data can all be mapped. In this example we take the data cube generated in the previous example and extract the greatest disturbance per pixel in a region.
 
 ![change map](https://github.com/eMapR/LT-GEE/blob/master/imgs/yod_mapped.png)
 
 [Example script](https://code.earthengine.google.com/fead5b85912695c4d313a6e0a445fc91)
 <br><br><br><br>
 
+
+
+
+[Applications](#applications)
+
+## <a id='applications'></a>Applications
+
+We have developed a few UI applications for exploring LT-GEE time series data. They can be found in our public GEE repository.
+To access the applications, visit this URL ([https://code.earthengine.google.com/?accept_repo=users/emaprlab/public]). It will
+add the *users/emaprlab/public* repository to your GEE account. Once added, it can be found within the *Reader* permission group of your GEE scripts library.
+
+### UI LandTrendr Pixel Time Series Plotter
+
+The UI LandTrendr Pixel Time Series Plotter will plot the Landsat surface reflectance source and LandTrendr-fitted index for 
+a selected location. The script is useful for simply exploring and visualizing the spectral-temporal space of a pixel, for comparing
+the effectiveness of a series of indices for identifying landscape change, and for parameterizing LandTrendr to work best for your 
+study region.
+
+#### Steps
+
+1. Click on the script to load it and then click the *Run* button to initialize the application.
+2. Drag the map panel to the top of the page for better viewing.
+3. Define a year range over which to generate annual surface reflectance composites.
+4. Define the date range over which to generate annual composites. The format is (month-day) with two digits for both month and day. Note that if your study area is in the southern hemisphere and you want to include dates that cross the year boundary to capture the summer season, this is not possible yet - it is on our list!
+5. Select spectral indices and bands to view. You can select or or many.
+6. Optionally define a pixel coordinate set to view the time series of, alternatively you'll simply click on the map. Note that the coordinates are in units of latitude and longitude formated as decimal degrees (WGS 84  EPSG:4326). Also note that when you click a point on the map, the coordinates of the point will populate these entry boxes.
+7. Define the LandTrendr segmentation parameters.
+8. Either click a location on the map or hit the *Submit* button. If you want to change anything about the run, but keep the coordinate that you clicked on, just make the changes and then hit the *Submit* button - the coordinates for the clicked location are saved to the pixel coordinates input boxes.
+
+Wait a minute or two and plots of source and LandTrendr-fitted time series data will appear for all the indices you selected. The next time you click a point or submit the inputs, any current plots will be cleared and the new set will be displayed.
+
+#### Under the hood
+
++ Collection building is same as that described in the example scripts above
++ Landsat 8 is transformed to the properties of Landsat 7 using slopes and intercepts from reduced major axis regressions reported in Roy et al  2016 Table 2
++ Masking out clouds, cloud shadows, and snow using CFMASK product from USGS 
++ Medoid annual compositing
+
+
+### UI LandTrendr Disturbance Mapper
+
+........
+
+1. Click on the script to load it and then click the *Run* button to initialize the application.
+2. Drag the map panel to the top of the page for better viewing.
+3. Define a year range over which to generate annual surface reflectance composites.
+4. Define the date range over which to generate annual composites. The format is (month-day) with two digits for both month and day Note that if your study area is in the southern hemisphere and you want to include dates that cross the year boundary to capture the summer season, this is not possible yet - it is on our list!
+5. Select spectral indices and bands to view. You can select or or many
+
+#### Under the hood
+
++ Collection building is same as that described in the example scripts above
++ Landsat 8 is transformed to the properties of Landsat 7 using slopes and intercepts from reduced major axis regressions reported in Roy et al  2016 Table 2
++ Masking out clouds, cloud shadows, and snow using CFMASK product from USGS 
++ Medoid annual compositing
+
+#### ToDo
+
++ Export the map layers
++ Allow input of a user drawn area or import of a feature asset or fusion table
 
 
 
@@ -562,3 +623,5 @@ of change, and pre-change event spectral data can all be mapped. In this example
 >[Kennedy, R. E., Yang, Z., Cohen, W. B., Pfaff, E., Braaten, J., & Nelson, P. (2012). Spatial and temporal patterns of forest disturbance and regrowth within the area of the Northwest Forest Plan. Remote Sensing of Environment, 122, 117-133.](https://github.com/eMapR/LT-GEE/blob/master/docs/kennedy_etal_2012_disturbance_nwfp.pdf)
 
 >[Kennedy, R.E., Yang, Z., Gorelick, N., Braaten, J., Cavalcante, L., Cohen, W.B., Healey, S. (2018). Implementation of the LandTrendr Algorithm on Google Earth Engine. Remote Sensing. 10, 691.](https://github.com/eMapR/LT-GEE/blob/master/docs/kennedy_etal_2018_lt-gee.pdf)
+
+>[Roy, D. P., Kovalskyy, V., Zhang, H. K., Vermote, E. F., Yan, L., Kumar, S. S., & Egorov, A. (2016). Characterization of Landsat-7 to Landsat-8 reflective wavelength and normalized difference vegetation index continuity. Remote Sensing of Environment, 185, 57-70.](https://www.sciencedirect.com/science/article/pii/S0034425715302455)
