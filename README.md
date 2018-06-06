@@ -25,7 +25,7 @@ Jump right into an **[example](#changemap)** of disturbance mapping
 + [Outputs](#ltgeeoutputs)
 + [Working with Outputs](#workingWithOutputs)
 + [Example Scripts](#examples)
-+ [Applications](#applications)
++ [UI Applications](#applications)
 + [FAQ](#faq)
 + [References](#references)
 
@@ -550,12 +550,12 @@ of change, and pre-change event spectral data can all be mapped. In this example
 
 
 
-[Applications](#applications)
+[UI Applications](#applications)
 
 ## <a id='applications'></a>Applications
 
 We have developed a few UI applications for exploring LT-GEE time series data. They can be found in our public GEE repository.
-To access the applications, visit this URL ([https://code.earthengine.google.com/?accept_repo=users/emaprlab/public]). It will
+To access the applications, visit this URL (https://code.earthengine.google.com/?accept_repo=users/emaprlab/public). It will
 add the *users/emaprlab/public* repository to your GEE account. Once added, it can be found within the *Reader* permission group of your GEE scripts library.
 
 ### UI LandTrendr Pixel Time Series Plotter
@@ -564,6 +564,8 @@ The UI LandTrendr Pixel Time Series Plotter will plot the Landsat surface reflec
 a selected location. The script is useful for simply exploring and visualizing the spectral-temporal space of a pixel, for comparing
 the effectiveness of a series of indices for identifying landscape change, and for parameterizing LandTrendr to work best for your 
 study region.
+
+![dist map app](https://github.com/eMapR/LT-GEE/blob/master/imgs/time_series_app.jpg)
 
 #### Steps
 
@@ -588,13 +590,21 @@ Wait a minute or two and plots of source and LandTrendr-fitted time series data 
 
 ### UI LandTrendr Disturbance Mapper
 
-........
+The UI LandTrendr Disturbance Mapper will display map layers of disturbance attributes including: year of disturbance detection, magnitude of disturbance, duration of disturbance, and pre-disturbance spectral value. 
+
+![dist map app](https://github.com/eMapR/LT-GEE/blob/master/imgs/dist_map_app.jpg)
+
+#### Steps
 
 1. Click on the script to load it and then click the *Run* button to initialize the application.
 2. Drag the map panel to the top of the page for better viewing.
-3. Define a year range over which to generate annual surface reflectance composites.
+3. Define a year range over which to identify disturbances over - best to set this close to the maximum range, you can filter disturbances by year in a different setting below. 
 4. Define the date range over which to generate annual composites. The format is (month-day) with two digits for both month and day Note that if your study area is in the southern hemisphere and you want to include dates that cross the year boundary to capture the summer season, this is not possible yet - it is on our list!
-5. Select spectral indices and bands to view. You can select or or many
+5. Select spectral index or bands to use for disturbance detection.
+6. Optionally define a pixel coordinate set to define the center of the disturbance map, alternatively you'll simply click on the map. Note that the coordinates are in units of latitude and longitude formated as decimal degrees (WGS 84  EPSG:4326). Also note that when you click a point on the map, the coordinates of the point will populate these entry boxes.
+7. Inspector mode selector. While defining and drawing a map of disturbance, leave this unchecked. Once the map layers have begun to draw, you can toggle this mode to click on the map and view information about the selected location in the *Inspector* tab. If you want to redraw the map, you must de-activate this mode by unchecking the box.
+8. Define a buffer around the center point defined by a map click or provided in the latitude and longitude coordinate boxes from step 6. The units are in kilometers. It will draw and clip the map to the bounds of the square region created by the buffer around the point of interest.
+9. Define the disturbance type you are interested in. This 
 
 #### Under the hood
 
@@ -607,7 +617,7 @@ Wait a minute or two and plots of source and LandTrendr-fitted time series data 
 
 + Export the map layers
 + Allow input of a user drawn area or import of a feature asset or fusion table
-
++ auto stretch to different indices - right now it is defaulting stretch for NBR
 
 
 ## <a id='faq'></a>FAQ
