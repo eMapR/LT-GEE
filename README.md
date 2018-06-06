@@ -26,6 +26,7 @@ Jump right into an **[example](#changemap)** of disturbance mapping
 + [Working with Outputs](#workingWithOutputs)
 + [Example Scripts](#examples)
 + [UI Applications](#applications)
++ [Shortcut Functions](#functions)
 + [FAQ](#faq)
 + [References](#references)
 
@@ -521,7 +522,9 @@ trajectory-fitted data. We recommend starting here to understand how best to set
 
 ![time series](https://github.com/eMapR/LT-GEE/blob/master/imgs/time_series.png)
 
-[Example script](https://code.earthengine.google.com/ee6e010c858576680dfca232096ef24b)
+[Example script](https://code.earthengine.google.com/b9f49519ae005158849b1b4fef5d8cc2)
+
+*GEE path*: users/emaprlab/public:Scripts/LandTrendr Examples/LandTrendr Pixel Time Series Plotter
 <br><br><br><br>
 
 **2. Data generation**
@@ -533,7 +536,10 @@ The results are the basic building blocks for historical landscape state and cha
 
 ![data stack](https://github.com/eMapR/LT-GEE/blob/master/imgs/stack.gif)
 
-[Example script](https://code.earthengine.google.com/50609523f83a2ea2fae23a963d338e12)
+[Example script](https://code.earthengine.google.com/558d02b2fb53b1cdc8089a2084e11678)
+
+*GEE path*: users/emaprlab/public:Scripts/LandTrendr Examples/LandTrendr Vertex and Fitted Data Generation
+
 <br><br><br><br>
 
 <a id='changemap'></a>**3. Change mapping**
@@ -544,7 +550,9 @@ of change, and pre-change event spectral data can all be mapped. In this example
 
 ![change map](https://github.com/eMapR/LT-GEE/blob/master/imgs/yod_mapped.png)
 
-[Example script](https://code.earthengine.google.com/82cd3040b04402b5843ad0fbbc7cb88d)
+[Example script](https://code.earthengine.google.com/03eed078311c86e1c3b311150fe11780)
+
+*GEE path*: users/emaprlab/public:Scripts/LandTrendr Examples/LandTrendr Greatest Disturbance Mapping
 <br><br><br><br>
 
 
@@ -626,6 +634,82 @@ The UI LandTrendr Disturbance Mapper will display map layers of disturbance attr
 + auto stretch to different indices - right now it is defaulting stretch for NBR
 + Force absolute value for magnitude filter inputs
 + Handle input of unscaled decimal values for the pre-dist and magntiude filter parameters 
+
+
+
+## <a id='functions'></a>Shortcut Functions
+
+We have created a LandTrendr JavaScript module that contains several shortcut functions to run LandTrendr and deal with the outputs. To access these functions, you must visits this URL to add the eMapR public GEE repository 
+
+We have developed a LandTrendr JavaScript module that contains several shortcut functions to build LandTrendr input collections, run LandTrendr, and deal with the outputs. The module be accessed from our public GEE repository. To include them in your applications, you must first visit this URL (https://code.earthengine.google.com/?accept_repo=users/emaprlab/public). It will add the users/emaprlab/public repository to your GEE account. Once added, it can be found within the Reader permission group of your GEE scripts library. You'll find the LandTrendr module at *Modules/LandTrendr.js*.
+
+To use the shortcut functions, you must import the *LandTrendr.js* module into your script using the following line - place it at the top of the script. 
+
+```
+var ltgee = require('users/emaprlab/public:Modules/LandTrendr.js');
+```
+
+### Functions
+
++ **buildSRcollection**: Builds an annual cloud and cloud shadow masked medoid composite of Landsat surface reflectance TM-equivalent bands 1,2,3,4,5,7. This collection can be useful outside of use by LandTrendr, but is also the base for creating the input collection for LandTrendr
++ **buildLTcollection**: Builds a collection as input to LandTrendr. It will prepare a collection where the first band is the band to base spectral-temporal segmentation and the subsequent bands will be fitted to segmentation structure of the segmentation band 
++ **runLT**: Run LandTrendr given a set of parameters. A wrapper around *buildSRcollection* and *buildLTcollection* functions.
++ **getSegmentInfo**: Generates an array of information about segments from the breakpoint vertices identified by LandTrendr.
++ **getFittedData**: Generates an annual band stack for given index provided as *ftvList* indices to either *buildLTcollection* or *runLT*. Flattens the FTV array format to bands per given index.
+
+#### buildSRcollection
+
+`buildSRcollection(startYear, endYear, startDay, endDay, aoi)`
+
++ **startYear (Integer)**: The minimum year in the desired range of annual collection
++ **endYear (Integer)**: The maximum year in the desired range of annual collection
++ **startDay (String | month day formatted as 'mm-dd')**: The minimum date in the desired seasonal range over which to generate annual composite.
++ **endDay (String | month day formatted as 'mm-dd')**: The maximum date in the desired seasonal range over which to generate annual composite.
++ **aoi (Geometry)**: The area-of-interest over which to mosaic images
+
+Example:
+```
+var ltgee = require('users/emaprlab/public:Modules/LandTrendr.js');
+
+var startYear = 1985;
+var endYear = 2017;
+var startDay = '06-20';
+var endDay = '09-20';
+var aoi = ee.Geometry.Point(-122.8848, 43.7929);
+
+Map.centerObject(aoi,10);
+Map.addLayer(aoi);
+
+var annualSRcollection = ltgee.buildSRcollection(startYear, endYear, startDay, endDay, aoi);
+print(annualSRcollection);
+```
+
+#### buildLTcollection
+
+`buildLTcollection(collection, index, ftvList)`
+
++ **collection (Image Collection)**: An annual surface reflectance collection generated by the `buildSRcollection` function. 
++ **index (String)**: The index from the list in the ________ section to be segmented by LandTrendr.
++ **ftvList (List of strings)**: A list of one or more indices from the list in the ________ section to be fitted to the segmentation of the `index` parameter.
+
+Example:
+```
+var ltgee = require('users/emaprlab/public:Modules/LandTrendr.js');
+
+var startYear = 1985;
+var endYear = 2017;
+var startDay = '06-20';
+var endDay = '09-20';
+var aoi = ee.Geometry.Point(-122.8848, 43.7929);
+var index = 'NBR';
+var ftvList = ['NDVI', 'B4', 'B3'];
+
+Map.centerObject(aoi,10);
+Map.addLayer(aoi);
+var annualSRcollection = ltgee.buildSRcollection(startYear, endYear, startDay, endDay, aoi);
+var annualLTcollection = ltgee.buildLTcollection(annualSRcollection, index, ftvList);
+```
+
 
 
 ## <a id='faq'></a>FAQ
