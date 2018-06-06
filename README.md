@@ -197,7 +197,7 @@ The LT-GEE function takes 9 arguments: 8 control parameters that adjust how spec
 
 ## <a id='runninglt'></a>Running LT-GEE
 
-LT-GEE is run using the function: `ee.Algorithms.TimeseriesSegmentation.LandTrendr()` which takes a dictionary of parameter arguments as input. 
+LT-GEE is run using the function: `ee.Algorithms.TemporalSegmentation.LandTrendr` which takes a dictionary of parameter arguments as input. 
 
 In its most most basic form, running LandTrendr in Google Earth Engine requires 6 steps. The following code snippets help illustrate the steps. 
 
@@ -266,7 +266,7 @@ run_params.timeSeries = srCollection;
 6. Run the LandTrendr algorithm
 
 ```javascript    
-var LTresult = ee.Algorithms.TimeseriesSegmentation.LandTrendr(run_params);
+var LTresult = ee.Algorithms.TemporalSegmentation.LandTrendr(run_params);
 ```
 
 Please note that for the sake of a basic example LT-GEE run, we are not addressing the [two really important steps](#importantsteps) in collection building: 1) to mask cloud and cloud shadow pixels during annual image compositing (step 4) and 2) to ensure that the spectral band or index that is 
@@ -314,7 +314,7 @@ In the GEE construct, this primary list is an image with at least 2 bands, one t
 The 'LandTrendr' band is a 4 x nYears dimension array. You can subset it like this:
 
 ```javascript
-var LTresult = ee.Algorithms.Test.LandTrendr(run_params); // run LT-GEE
+var LTresult = ee.Algorithms.TemporalSegmentation.LandTrendr(run_params); // run LT-GEE
 var segmentationInfo = LTresult.select(['LandTrendr']); // subset the LandTrendr segmentation info
 ```
 
@@ -337,7 +337,7 @@ It contains 4 rows and as many columns as there are annual observations for a gi
 You can extract a row using the GEE `arraySlice` function. Here is an example of the extracting the year and fitted value rows as separate lists:
 
 ```javascript
-var LTresult = ee.Algorithms.Test.LandTrendr(run_params); // run LT-GEE
+var LTresult = ee.Algorithms.TemporalSegmentation.LandTrendr(run_params); // run LT-GEE
 var LTarray = LTresult.select(['LandTrendr']); // subset the LandTrendr segmentation info
 var year = LTarray.arraySlice(0, 0, 1); // slice out the year row
 var fitted = LTarray.arraySlice(0, 2, 3); // slice out the fitted values row
@@ -352,7 +352,7 @@ The 'rmse' band is a scalar value that is the root mean square error between the
 It can be subset like this:
 
 ```javascript
-var LTresult = ee.Algorithms.Test.LandTrendr(run_params); // run LT-GEE
+var LTresult = ee.Algorithms.TemporalSegmentation.LandTrendr(run_params); // run LT-GEE
 var segmentationInfo = LTresult.select(['rmse']); // subset the rmse band
 ```
 
@@ -363,14 +363,14 @@ If the the input image collection included more than one band, the proceeding ba
 It can be subset from the primary output image by selection of the band name, which will be the the concatenation of the band name from the input image collection and '_fit', as in 'B4_fit'. Here is an example of subsetting an FTV 'fit' band:
 
 ```javascript
-var LTresult = ee.Algorithms.Test.LandTrendr(run_params); // run LT-GEE
+var LTresult = ee.Algorithms.TemporalSegmentation.LandTrendr(run_params); // run LT-GEE
 var B4ftv = LTresult.select(['B4_fit']); // subset the B4_fit band
 ```
 
 If you're unsure of the band names, you can view the band names by printing the results to the GEE console. 
 
 ```javascript
-var LTresult = ee.Algorithms.Test.LandTrendr(run_params); // run LT-GEE
+var LTresult = ee.Algorithms.TemporalSegmentation.LandTrendr(run_params); // run LT-GEE
 print(LTresult)
 ```
 
@@ -397,7 +397,7 @@ regarding across  in this case for each row of data described in the ['LandTrend
 The ['LandTrendr' Band](#landtrendrBand) output exist as an image array containing information for every observation not masked in the input collection. We hope that you'll discover ways to utilize all the information, but we have focused on information regarding only the observations identified as vertices in the spectral-temporal segmentation. To extract only these observations we can use the 4th row of the 'LandTrendr' band, which is a Boolean indicating whether an observation is a vertex or not, to mask all the other rows (year, source value, fitted value):
 
 ```javascript
-var lt = ee.Algorithms.Test.LandTrendr(run_params)  // run LandTrendr spectral temporal segmentation algorithm
+var lt = ee.Algorithms.TemporalSegmentation.LandTrendr(run_params)  // run LandTrendr spectral temporal segmentation algorithm
                            .select('LandTrendr');   // select the LandTrendr band
 var vertexMask = lt.arraySlice(0, 3, 4); // slice out the 'Is Vertex' row - yes(1)/no(0)
 var vertices = lt.arrayMask(vertexMask); // use the 'Is Vertex' row as a mask for all rows
@@ -491,7 +491,7 @@ The previous sections described how to manipulate the 'LandTrendr' band array. I
 Run LT-GEE on a collection that includes NBR as band 1 and Band 4 (NIR) as a second band. The output will include a Band 4 fitted to NBR segmentation, which we'll select by calling its band name, the concatenation of the band name from the LT-GEE input collection and '_fit'. 
 
 ```javascript
-var LTresult = ee.Algorithms.Test.LandTrendr(run_params); // run LT-GEE
+var LTresult = ee.Algorithms.TemporalSegmentation.LandTrendr(run_params); // run LT-GEE
 var B4ftv = LTresult.select(['B4_fit']); // subset the B4_fit band
 ```
 
@@ -521,7 +521,7 @@ trajectory-fitted data. We recommend starting here to understand how best to set
 
 ![time series](https://github.com/eMapR/LT-GEE/blob/master/imgs/time_series.png)
 
-[Example script](https://code.earthengine.google.com/3aef4bddbae77d3205b0408a84c83a4b)
+[Example script](https://code.earthengine.google.com/ee6e010c858576680dfca232096ef24b)
 <br><br><br><br>
 
 **2. Data generation**
@@ -533,7 +533,7 @@ The results are the basic building blocks for historical landscape state and cha
 
 ![data stack](https://github.com/eMapR/LT-GEE/blob/master/imgs/stack.gif)
 
-[Example script](https://code.earthengine.google.com/c11bcd88ed5b3cc4ff027c7ac295a16d)
+[Example script](https://code.earthengine.google.com/50609523f83a2ea2fae23a963d338e12)
 <br><br><br><br>
 
 <a id='changemap'></a>**3. Change mapping**
@@ -544,7 +544,7 @@ of change, and pre-change event spectral data can all be mapped. In this example
 
 ![change map](https://github.com/eMapR/LT-GEE/blob/master/imgs/yod_mapped.png)
 
-[Example script](https://code.earthengine.google.com/fead5b85912695c4d313a6e0a445fc91)
+[Example script](https://code.earthengine.google.com/82cd3040b04402b5843ad0fbbc7cb88d)
 <br><br><br><br>
 
 
