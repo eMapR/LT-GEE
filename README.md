@@ -174,7 +174,7 @@ In the [example](#examples) scripts provided, we composite image dates for the n
 <a id='importantsteps'></a>**Two really important steps** in image collection building include 1) masking cloud and cloud shadow pixels during annual image compositing and to 2) ensure that the spectral band or index that is 
 to be segmented is oriented so that vegetation loss is represented by a positive delta. For instance, NBR in its native orientation results in a negative delta when vegetation is lost from one observation to the next. In this case, NBR must be multiplied by -1 before being segmented. Conversely, if Landsat TM band 5 (SWIR) is selected for segmentation, inversion of the spectral values is not required, since natively, vegetation loss is represented by a positive delta.   
 
-### <a id='parameters'></a> LT parameters
+### <a id='ltparameters'></a> LT parameters
 
 The LT-GEE function takes 9 arguments: 8 control parameters that adjust how spectal-temporal segmentation is done, and the annual image collection. The original LandTrendr [paper](https://github.com/eMapR/LT-GEE/blob/master/docs/kennedy_etal_2010_landtrendr.pdf) describes the effect and sensitivity of changing some of these argument values. We recommend trying variations in settings to see what works best for the environment you are working in. One of the great things about having LT in GEE is that parameter settings are easy and fast to iterate through to find a best set.
 <br><br>
@@ -222,7 +222,7 @@ var coords = [[-123.925, 42.996],
 var aoi = ee.Geometry.Polygon(coords);
 ```
 
-3. Define the LandTrendr run parameters as a dictionary. See the [parameters](#parameters) section for definitions. Note that the image collection will be appended to this dictionary in a later step.
+3. Define the LandTrendr run parameters as a dictionary. See the [parameters](#ltparameters) section for definitions. Note that the image collection will be appended to this dictionary in a later step.
 
 ```javascript	
 var run_params = { 
@@ -550,9 +550,7 @@ of change, and pre-change event spectral data can all be mapped. In this example
 
 
 
-[UI Applications](#applications)
-
-## <a id='applications'></a>Applications
+## <a id='applications'></a>UI Applications
 
 We have developed a few UI applications for exploring LT-GEE time series data. They can be found in our public GEE repository.
 To access the applications, visit this URL (https://code.earthengine.google.com/?accept_repo=users/emaprlab/public). It will
@@ -575,7 +573,7 @@ study region.
 4. Define the date range over which to generate annual composites. The format is (month-day) with two digits for both month and day. Note that if your study area is in the southern hemisphere and you want to include dates that cross the year boundary to capture the summer season, this is not possible yet - it is on our list!
 5. Select spectral indices and bands to view. You can select or or many.
 6. Optionally define a pixel coordinate set to view the time series of, alternatively you'll simply click on the map. Note that the coordinates are in units of latitude and longitude formated as decimal degrees (WGS 84  EPSG:4326). Also note that when you click a point on the map, the coordinates of the point will populate these entry boxes.
-7. Define the LandTrendr segmentation parameters.
+7. Define the LandTrendr segmentation parameters. See the [LT Parameters](#ltparameters) section for definitions.
 8. Either click a location on the map or hit the *Submit* button. If you want to change anything about the run, but keep the coordinate that you clicked on, just make the changes and then hit the *Submit* button - the coordinates for the clicked location are saved to the pixel coordinates input boxes.
 
 Wait a minute or two and plots of source and LandTrendr-fitted time series data will appear for all the indices you selected. The next time you click a point or submit the inputs, any current plots will be cleared and the new set will be displayed.
@@ -598,13 +596,20 @@ The UI LandTrendr Disturbance Mapper will display map layers of disturbance attr
 
 1. Click on the script to load it and then click the *Run* button to initialize the application.
 2. Drag the map panel to the top of the page for better viewing.
-3. Define a year range over which to identify disturbances over - best to set this close to the maximum range, you can filter disturbances by year in a different setting below. 
+3. Define a year range over which to identify disturbances - best to set this close to the maximum range, you can filter disturbances by year in a different setting below. 
 4. Define the date range over which to generate annual composites. The format is (month-day) with two digits for both month and day Note that if your study area is in the southern hemisphere and you want to include dates that cross the year boundary to capture the summer season, this is not possible yet - it is on our list!
-5. Select spectral index or bands to use for disturbance detection.
+5. Select spectral index or band to use for disturbance detection.
 6. Optionally define a pixel coordinate set to define the center of the disturbance map, alternatively you'll simply click on the map. Note that the coordinates are in units of latitude and longitude formated as decimal degrees (WGS 84  EPSG:4326). Also note that when you click a point on the map, the coordinates of the point will populate these entry boxes.
-7. Inspector mode selector. While defining and drawing a map of disturbance, leave this unchecked. Once the map layers have begun to draw, you can toggle this mode to click on the map and view information about the selected location in the *Inspector* tab. If you want to redraw the map, you must de-activate this mode by unchecking the box.
-8. Define a buffer around the center point defined by a map click or provided in the latitude and longitude coordinate boxes from step 6. The units are in kilometers. It will draw and clip the map to the bounds of the square region created by the buffer around the point of interest.
-9. Define the disturbance type you are interested in. This 
+7. Define a buffer around the center point defined by a map click or provided in the latitude and longitude coordinate boxes from step 6. The units are in kilometers. It will draw and clip the map to the bounds of the square region created by the buffer around the point of interest.
+8. Define the disturbance type you are interested in - this applies only if there are multiple disturbances in a pixel time series. It is a relative qualifier among a series of disturbances for a pixel time series.
+9. Optionally filter disturbances by the year of detection. Adjust the sliders to constrain the results to a given range of years. The filter is only applied if the *Filter by Year* box is checked.
+10. Optionally filter disturbances by magnitude. Magnitude filtering is achieved by interpolation of a magnitude threshold from 1 year to 20 years. Define the magntiude threshold considered a disturbance for disturbances that are one year in duration and also 20 years in duration. If you want to apply the same threshold value across all durations, enter the same value in each box. The values should be the minimum spectral delta value that is considered a disturbance. They should be the absolute value and multiplied by 1000 for decimal-based surface reflectance bands and spectral indices (we multiply all the decimal-based data by 1000 so that we can convert the data type to signed 16-bit and retain some precision). The filter is only applied if the *Filter by Magnitude* box is checked.
+11. Optionally filter by pre-disturbance spectral value. This filter will limit the resulting disturbances by those that have a spectral value prior to the disturbance either greater/less then (depending on index) or equal to the defined value. The units are a of the spectral index selected for segmentation and should be scaled by 1000 (if you are you only want disturbances that had an NBR value of 0.4 prior to disturbance, you would set this parameter to 400). The filter is only applied if the *Filter by Pre-Dist Value* box is checked.
+12. Optionally filter by a minimum disturbance patch size, as defined by 8-neighbor connectivity of pixels having the same disturbance year of detection. The value is the minimum number of pixel in a patch. The filter is only applied if the *Filter by MMU* box is checked. 
+13. Define the LandTrendr segmentation parameters. See the [LT Parameters](#ltparameters) section for definitions.      
+
+
+***Inspector mode*** selector. In the center top of the map there is a check box for whether to interact with the map in *Inspector mode* or not. When inspector mode is activated, map clicks engage the GEE Inspector functionality so that you can explore map layer values for a point (see the Inspector tab). When deactivated, a map click will start mapping disturbances for the region surrounding the clicked point. 
 
 #### Under the hood
 
@@ -613,11 +618,14 @@ The UI LandTrendr Disturbance Mapper will display map layers of disturbance attr
 + Masking out clouds, cloud shadows, and snow using CFMASK product from USGS 
 + Medoid annual compositing
 
+
 #### ToDo
 
-+ Export the map layers
++ Option to xxport the map layers
 + Allow input of a user drawn area or import of a feature asset or fusion table
 + auto stretch to different indices - right now it is defaulting stretch for NBR
++ Force absolute value for magnitude filter inputs
++ Handle input of unscaled decimal values for the pre-dist and magntiude filter parameters 
 
 
 ## <a id='faq'></a>FAQ
