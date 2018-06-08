@@ -1,4 +1,4 @@
-# Example Scripts
+# Example Scripts {#example-scripts}
 
 
 Three use case examples are provided, each of them begins with the same process of parameter definition and collection building and then varies on what is done with the results from the LT-GEE call. Keep in mind that these are simple building blocks to learn from. The parameter settings, methods for building collections, and the way we handle outputs in these examples are not intended to be standard protocol. We hope that the GEE community will help us develop better scripts and push what we can learn about our dynamic Earth using the LT-GEE tool. 

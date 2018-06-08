@@ -2,8 +2,9 @@
 #title: "LT-GEE"
 site: bookdown::bookdown_site
 documentclass: book
-output: 
+output:
   bookdown::gitbook:
+    #split_by: none
     config:
       toc:
         collapse: section
