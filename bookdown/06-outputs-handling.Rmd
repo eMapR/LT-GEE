@@ -1,0 +1,124 @@
+# Working with Outputs
+
+The results coming from the LT-GEE algorithm are packaged as array images. If you are unfamiliar with the array image format, please see the [GEE documentation](https://developers.google.com/earth-engine/arrays_intro). As array images, it is best to think of each pixel as a separate container of information. Each container is independent of others and can have varying observation lengths determined by the difference between the number of years in the time series and the number of masked observations in that time series. Image arrays are highly flexible, and in the case of the 'LandTrendr' band output, it allows slicing on 2 dimensions (observation [axis 1], and attribute [axis 0]), which is particularly handy for extracting all attributes for a given observation or set of observations (like observations identified as verticies). Though useful for slicing and manipulating segmentation information, the image array construct is not very good for visualization and exporting. This section will walk through:
+  
+1. Some operations that can be performed on the 'LandTrendr' band image array to extract segment information
+2. Isolate the greatest delta segment of a time series
+3. Filter the greatest delta segment by vegetation loss magnitude and loss duration 
+4. Apply a minimum mapping unit filter to identified disturbance pixels to reduce spatial noise 
+5. Convert a fitted (FTV) band from an image array to an image with a band per year in the time series
+
+Before getting started, lets look at the 
+
+
+regarding across  in this case for each row of data described in the ['LandTrendr' Band](#landtrendrBand) section can be easily accessed, manipulated, and participate in calculations.  in the format of wide data where each column is an observation and each row is a variable describing attributes of each observation (Table 2). This format works well for some opperations, but other are best handled in long format (Table 3). This section will walk through   Another useful feature of the array image format is that it can be sliced on the year dimensions and retain all rows slice.   This is also true for the FTV bands ('fit_*'). Though highly flexible, the image array format makes viewing, exporting, and conceptualizing the data difficult. An alternate view of the data can be achieved by projecting (`arrayProject`) and/or flattening (`arrayFlatten`) the arrays to construct a traditional image with bands representing observation values per year in the time series.
+  
+## Getting segment information
+  
+The ['LandTrendr' Band](#landtrendrBand) output exist as an image array containing information for every observation not masked in the input collection. We hope that you'll discover ways to utilize all the information, but we have focused on information regarding only the observations identified as vertices in the spectral-temporal segmentation. To extract only these observations we can use the 4th row of the 'LandTrendr' band, which is a Boolean indicating whether an observation is a vertex or not, to mask all the other rows (year, source value, fitted value):
+    
+```javascript
+var lt = ee.Algorithms.TemporalSegmentation.LandTrendr(run_params)  // run LandTrendr spectral temporal segmentation algorithm
+                                           .select('LandTrendr');   // select the LandTrendr band
+var vertexMask = lt.arraySlice(0, 3, 4); // slice out the 'Is Vertex' row - yes(1)/no(0)
+var vertices = lt.arrayMask(vertexMask); // use the 'Is Vertex' row as a mask for all rows
+```
+    
+Now we only have vertex observations in the `vertices` array. With this we can query information about vertices, count the number of vertices, and we can also generate information about segments defined by vertices, like magnitude of change and segment duration. 
+    
+In the following snippet we will create a series of variables that describe the 1) start year, 2) end year, 3) start value, and 4) end value for each segment in a given pixel's time series. To do this, we first shift a copy of the `vertices` array along axis 1 (columns/annual observations) by 1 column so that we can subtract one from the other to obtain start and end year as well as start and end value for each segment.  
+
+```javascript
+var left = vertices.arraySlice(1, 0, -1);    // slice out the vertices as the start of segments
+var right = vertices.arraySlice(1, 1, null); // slice out the vertices as the end of segments
+var startYear = left.arraySlice(0, 0, 1);    // get year dimension of LT data from the segment start vertices
+var startVal = left.arraySlice(0, 2, 3);     // get spectral index dimension of LT data from the segment start vertices
+var endYear = right.arraySlice(0, 0, 1);     // get year dimension of LT data from the segment end vertices 
+var endVal = right.arraySlice(0, 2, 3);      // get spectral index dimension of LT data from the segment end vertices
+```
+
+Now, for each segment in a given pixel's time series we know the start and end year and value. With this information we can calculate the duration of each segment and also the delta, or magnitude of change by subtracting starting year and value from ending year and value for each segment.
+
+```javascript
+var dur = endYear.subtract(startYear);       // subtract the segment start year from the segment end year to calculate the duration of segments 
+var mag = endVal.subtract(startVal);         // substract the segment start index value from the segment end index value to calculate the delta of segments
+var rate = mag.divide(dur);                  // calculate the rate of spectral change
+```
+
+Next, we'll make an array that contains all segment attributes. 
+
+```javascript
+var segInfo = ee.Image.cat([startYear.add(1), endYear, startVal, endVal, mag, dur, rate])
+                      .toArray(0)
+                      .mask(vertexMask.mask());
+```
+
+Keep in mind that the segment delta and rate may be inversed from it's native orientation, based on whether you inverted the spectral values in the input collection. This is good, though, because then we always know that a positive delta/rate indicates increasing vegetation and a negative delta/rate indicates decreasing vegetation.
+
+This segmentation information array is the base for exploring, querying, and mapping change.
+
+## Isolate a single segment of interest
+
+Segments represent state transitions between gradients within and between land cover types. Transitions can occur over short or long periods of time, they can be major or minor, and starting and ending states can vary. In this section we'll take the segment information and extract out from all segments in a given pixel's time series only the greatest magnitude vegetation loss segment. To achieve this, we can sort the segment information array by the magnitude of change, and then slice out the first (greatest magnitude) segment's information.
+
+```javascript
+var sortByThis = segInfo.arraySlice(0,4,5).toArray(0).multiply(-1); // need to flip the delta here, since arraySort is working by ascending order
+var segInfoSorted = segInfo.arraySort(sortByThis); // sort the array by magnitude
+var bigDelta = segInfoSorted.arraySlice(1, 0, 1); // get the first segment in the sorted array (greatest magnitude vegetation loss segment)
+```
+
+## Filter an isolated segment by an attribute
+
+Once we have a single segment of interest isolated (greatest vegetation loss, in this case) we can transform the array into an image and perform filtering by other attributes of the segment of interest.
+
+```javascript
+var bigDeltaImg = ee.Image.cat(bigDelta.arraySlice(0,0,1).arrayProject([1]).arrayFlatten([['yod']]),
+                               bigDelta.arraySlice(0,1,2).arrayProject([1]).arrayFlatten([['endYr']]),
+                               bigDelta.arraySlice(0,2,3).arrayProject([1]).arrayFlatten([['startVal']]).multiply(distDir),
+                               bigDelta.arraySlice(0,3,4).arrayProject([1]).arrayFlatten([['endVal']]).multiply(distDir),
+                               bigDelta.arraySlice(0,4,5).arrayProject([1]).arrayFlatten([['mag']]).multiply(distDir),
+                               bigDelta.arraySlice(0,5,6).arrayProject([1]).arrayFlatten([['dur']]),
+                               bigDelta.arraySlice(0,6,7).arrayProject([1]).arrayFlatten([['rate']]).multiply(distDir));
+```
+
+Now we have a traditional image with bands for each segment attribute. From here we can create and apply a mask to identify only vegetation loss magnitudes greater/less than (depends on spectral index orientation) a minimum value and less than 4 years in duration.
+
+```javascript
+var distMask =  bigDeltaImg.select(['mag']).lt(100)
+                                           .and(bigDeltaImg.select(['dur']).lt(4));
+
+var bigFastDist = bigDeltaImg.mask(distMask).int16(); // need to set as int16 bit to use connectedPixelCount for minimum mapping unit filter
+```
+
+## Filter by patch size
+
+Finally we can eliminate spatial noise by applying a minimum mapping unit, based on the year of disturbance detection (you could patchify pixels by other attributes too)
+
+```javascript
+var mmuPatches = bigFastDist.select(['yod'])                // patchify based on disturbances having the same year of detection
+                            .connectedPixelCount(mmu, true) // count the number of pixel in a candidate patch
+                            .gte(11);                       // are the the number of pixels per candidate patch greater than user-defined minimum mapping unit?
+var bigFastDist = bigFastDist.updateMask(mmuPatches);       // mask the pixels/patches that are less than minimum mapping unit
+```
+
+## Transform an FTV array to an image stack
+
+The previous sections described how to manipulate the 'LandTrendr' band array. In this section we'll turn our attention to an example of an FTV band. If LT-GEE was run on a collection that included more than a single band, then the subsequent bands will be included in the LT-GEE output as FTV bands, where all observations between the user-defined starting and ending years will be fit the segmentation structure of the first band.  
+
+Run LT-GEE on a collection that includes NBR as band 1 and Band 4 (NIR) as a second band. The output will include a Band 4 fitted to NBR segmentation, which we'll select by calling its band name, the concatenation of the band name from the LT-GEE input collection and '_fit'. 
+
+```javascript
+var LTresult = ee.Algorithms.TemporalSegmentation.LandTrendr(run_params); // run LT-GEE
+var B4ftv = LTresult.select(['B4_fit']); // subset the B4_fit band
+```
+
+The 'B4ftv' variable is a 1 dimensional array. To convert it to an image with bands representing years, we use the `arrayFlatten` function. The `arrayFlatten` function takes a list of band labels with dimensions that match the dimensions of the image array to be flattened. We have 1 dimension and each observation along the single axis represents a year, so we just need to make a list of years and supply it as input to `arrayFlatten`.  
+
+```javascript
+var years = [];                                                           // make an empty array to hold year band names
+for (var i = startYear; i <= endYear; ++i) years.push('yr'+i.toString()); // fill the array with years from the startYear to the endYear and convert them to string
+var B4ftvStack = B4ftv.arrayFlatten([years]);                             // flatten this out into bands, assigning the year as the band name
+```
+
+Now the FTV image array is a standard image band stack that can be easily displayed or exported.
+

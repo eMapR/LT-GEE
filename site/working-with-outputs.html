@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title></title>
+  <meta name="description" content="">
+  <meta name="generator" content="bookdown 0.7 and GitBook 2.6.7">
+
+  <meta property="og:title" content="" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="" />
+  
+  
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="lt-gee-outputs.html">
+<link rel="next" href="example-scripts.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><strong><a href="./">LT-GEE Documentation</a></strong></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>LT-GEE</a></li>
+<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
+<li class="chapter" data-level="2" data-path="landtrendr.html"><a href="landtrendr.html"><i class="fa fa-check"></i><b>2</b> LandTrendr</a><ul>
+<li class="chapter" data-level="2.1" data-path="landtrendr.html"><a href="landtrendr.html#fit-to-vertex-image-data"><i class="fa fa-check"></i><b>2.1</b> Fit-to-vertex Image Data</a></li>
+<li class="chapter" data-level="2.2" data-path="landtrendr.html"><a href="landtrendr.html#epoche-information"><i class="fa fa-check"></i><b>2.2</b> Epoche Information</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="lt-gee-requirements.html"><a href="lt-gee-requirements.html"><i class="fa fa-check"></i><b>3</b> LT-GEE Requirements</a><ul>
+<li class="chapter" data-level="3.1" data-path="lt-gee-requirements.html"><a href="lt-gee-requirements.html#image-collection"><i class="fa fa-check"></i><b>3.1</b> Image Collection</a></li>
+<li class="chapter" data-level="3.2" data-path="lt-gee-requirements.html"><a href="lt-gee-requirements.html#lt-parameters"><i class="fa fa-check"></i><b>3.2</b> LT parameters</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="running-lt-gee.html"><a href="running-lt-gee.html"><i class="fa fa-check"></i><b>4</b> Running LT-GEE</a></li>
+<li class="chapter" data-level="5" data-path="lt-gee-outputs.html"><a href="lt-gee-outputs.html"><i class="fa fa-check"></i><b>5</b> LT-GEE Outputs</a><ul>
+<li class="chapter" data-level="5.1" data-path="lt-gee-outputs.html"><a href="lt-gee-outputs.html#landtrendr-band"><i class="fa fa-check"></i><b>5.1</b> LandTrendr Band</a></li>
+<li class="chapter" data-level="5.2" data-path="lt-gee-outputs.html"><a href="lt-gee-outputs.html#rmse"><i class="fa fa-check"></i><b>5.2</b> RMSE</a></li>
+<li class="chapter" data-level="5.3" data-path="lt-gee-outputs.html"><a href="lt-gee-outputs.html#ftv"><i class="fa fa-check"></i><b>5.3</b> FTV</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="working-with-outputs.html"><a href="working-with-outputs.html"><i class="fa fa-check"></i><b>6</b> Working with Outputs</a><ul>
+<li class="chapter" data-level="6.1" data-path="working-with-outputs.html"><a href="working-with-outputs.html#getting-segment-information"><i class="fa fa-check"></i><b>6.1</b> Getting segment information</a></li>
+<li class="chapter" data-level="6.2" data-path="working-with-outputs.html"><a href="working-with-outputs.html#isolate-a-single-segment-of-interest"><i class="fa fa-check"></i><b>6.2</b> Isolate a single segment of interest</a></li>
+<li class="chapter" data-level="6.3" data-path="working-with-outputs.html"><a href="working-with-outputs.html#filter-an-isolated-segment-by-an-attribute"><i class="fa fa-check"></i><b>6.3</b> Filter an isolated segment by an attribute</a></li>
+<li class="chapter" data-level="6.4" data-path="working-with-outputs.html"><a href="working-with-outputs.html#filter-by-patch-size"><i class="fa fa-check"></i><b>6.4</b> Filter by patch size</a></li>
+<li class="chapter" data-level="6.5" data-path="working-with-outputs.html"><a href="working-with-outputs.html#transform-an-ftv-array-to-an-image-stack"><i class="fa fa-check"></i><b>6.5</b> Transform an FTV array to an image stack</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="example-scripts.html"><a href="example-scripts.html"><i class="fa fa-check"></i><b>7</b> Example Scripts</a><ul>
+<li class="chapter" data-level="7.1" data-path="example-scripts.html"><a href="example-scripts.html#exploration-and-parameterization"><i class="fa fa-check"></i><b>7.1</b> Exploration and parameterization</a></li>
+<li class="chapter" data-level="7.2" data-path="example-scripts.html"><a href="example-scripts.html#data-generation"><i class="fa fa-check"></i><b>7.2</b> Data generation</a></li>
+<li class="chapter" data-level="7.3" data-path="example-scripts.html"><a href="example-scripts.html#change-mapping"><i class="fa fa-check"></i><b>7.3</b> Change mapping</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="ui-applications.html"><a href="ui-applications.html"><i class="fa fa-check"></i><b>8</b> UI Applications</a><ul>
+<li class="chapter" data-level="8.1" data-path="ui-applications.html"><a href="ui-applications.html#ui-landtrendr-pixel-time-series-plotter"><i class="fa fa-check"></i><b>8.1</b> UI LandTrendr Pixel Time Series Plotter</a><ul>
+<li class="chapter" data-level="8.1.1" data-path="ui-applications.html"><a href="ui-applications.html#steps"><i class="fa fa-check"></i><b>8.1.1</b> Steps</a></li>
+<li class="chapter" data-level="8.1.2" data-path="ui-applications.html"><a href="ui-applications.html#under-the-hood"><i class="fa fa-check"></i><b>8.1.2</b> Under the hood</a></li>
+</ul></li>
+<li class="chapter" data-level="8.2" data-path="ui-applications.html"><a href="ui-applications.html#ui-landtrendr-disturbance-mapper"><i class="fa fa-check"></i><b>8.2</b> UI LandTrendr Disturbance Mapper</a><ul>
+<li class="chapter" data-level="8.2.1" data-path="ui-applications.html"><a href="ui-applications.html#steps-1"><i class="fa fa-check"></i><b>8.2.1</b> Steps</a></li>
+<li class="chapter" data-level="8.2.2" data-path="ui-applications.html"><a href="ui-applications.html#under-the-hood-1"><i class="fa fa-check"></i><b>8.2.2</b> Under the hood</a></li>
+<li class="chapter" data-level="8.2.3" data-path="ui-applications.html"><a href="ui-applications.html#todo"><i class="fa fa-check"></i><b>8.2.3</b> ToDo</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="shortcut-functions.html"><a href="shortcut-functions.html"><i class="fa fa-check"></i><b>9</b> Shortcut Functions</a><ul>
+<li class="chapter" data-level="9.1" data-path="shortcut-functions.html"><a href="shortcut-functions.html#functions"><i class="fa fa-check"></i><b>9.1</b> Functions</a><ul>
+<li class="chapter" data-level="9.1.1" data-path="shortcut-functions.html"><a href="shortcut-functions.html#buildsrcollection"><i class="fa fa-check"></i><b>9.1.1</b> buildSRcollection</a></li>
+<li class="chapter" data-level="9.1.2" data-path="shortcut-functions.html"><a href="shortcut-functions.html#buildltcollection"><i class="fa fa-check"></i><b>9.1.2</b> buildLTcollection</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="faq.html"><a href="faq.html"><i class="fa fa-check"></i><b>10</b> FAQ</a></li>
+<li class="chapter" data-level="11" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i><b>11</b> References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./"></a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="working-with-outputs" class="section level1">
+<h1><span class="header-section-number">6</span> Working with Outputs</h1>
+<p>The results coming from the LT-GEE algorithm are packaged as array images. If you are unfamiliar with the array image format, please see the <a href="https://developers.google.com/earth-engine/arrays_intro">GEE documentation</a>. As array images, it is best to think of each pixel as a separate container of information. Each container is independent of others and can have varying observation lengths determined by the difference between the number of years in the time series and the number of masked observations in that time series. Image arrays are highly flexible, and in the case of the ‘LandTrendr’ band output, it allows slicing on 2 dimensions (observation [axis 1], and attribute [axis 0]), which is particularly handy for extracting all attributes for a given observation or set of observations (like observations identified as verticies). Though useful for slicing and manipulating segmentation information, the image array construct is not very good for visualization and exporting. This section will walk through:</p>
+<ol style="list-style-type: decimal">
+<li>Some operations that can be performed on the ‘LandTrendr’ band image array to extract segment information</li>
+<li>Isolate the greatest delta segment of a time series</li>
+<li>Filter the greatest delta segment by vegetation loss magnitude and loss duration</li>
+<li>Apply a minimum mapping unit filter to identified disturbance pixels to reduce spatial noise</li>
+<li>Convert a fitted (FTV) band from an image array to an image with a band per year in the time series</li>
+</ol>
+<p>Before getting started, lets look at the</p>
+<p>regarding across in this case for each row of data described in the <a href="#landtrendrBand">‘LandTrendr’ Band</a> section can be easily accessed, manipulated, and participate in calculations. in the format of wide data where each column is an observation and each row is a variable describing attributes of each observation (Table 2). This format works well for some opperations, but other are best handled in long format (Table 3). This section will walk through Another useful feature of the array image format is that it can be sliced on the year dimensions and retain all rows slice. This is also true for the FTV bands (’fit_*’). Though highly flexible, the image array format makes viewing, exporting, and conceptualizing the data difficult. An alternate view of the data can be achieved by projecting (<code>arrayProject</code>) and/or flattening (<code>arrayFlatten</code>) the arrays to construct a traditional image with bands representing observation values per year in the time series.</p>
+<div id="getting-segment-information" class="section level2">
+<h2><span class="header-section-number">6.1</span> Getting segment information</h2>
+<p>The <a href="#landtrendrBand">‘LandTrendr’ Band</a> output exist as an image array containing information for every observation not masked in the input collection. We hope that you’ll discover ways to utilize all the information, but we have focused on information regarding only the observations identified as vertices in the spectral-temporal segmentation. To extract only these observations we can use the 4th row of the ‘LandTrendr’ band, which is a Boolean indicating whether an observation is a vertex or not, to mask all the other rows (year, source value, fitted value):</p>
+<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> lt <span class="op">=</span> <span class="va">ee</span>.<span class="va">Algorithms</span>.<span class="va">TemporalSegmentation</span>.<span class="at">LandTrendr</span>(run_params)  <span class="co">// run LandTrendr spectral temporal segmentation algorithm</span>
+                                           .<span class="at">select</span>(<span class="st">&#39;LandTrendr&#39;</span>)<span class="op">;</span>   <span class="co">// select the LandTrendr band</span>
+<span class="kw">var</span> vertexMask <span class="op">=</span> <span class="va">lt</span>.<span class="at">arraySlice</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">3</span><span class="op">,</span> <span class="dv">4</span>)<span class="op">;</span> <span class="co">// slice out the &#39;Is Vertex&#39; row - yes(1)/no(0)</span>
+<span class="kw">var</span> vertices <span class="op">=</span> <span class="va">lt</span>.<span class="at">arrayMask</span>(vertexMask)<span class="op">;</span> <span class="co">// use the &#39;Is Vertex&#39; row as a mask for all rows</span></code></pre></div>
+<p>Now we only have vertex observations in the <code>vertices</code> array. With this we can query information about vertices, count the number of vertices, and we can also generate information about segments defined by vertices, like magnitude of change and segment duration.</p>
+<p>In the following snippet we will create a series of variables that describe the 1) start year, 2) end year, 3) start value, and 4) end value for each segment in a given pixel’s time series. To do this, we first shift a copy of the <code>vertices</code> array along axis 1 (columns/annual observations) by 1 column so that we can subtract one from the other to obtain start and end year as well as start and end value for each segment.</p>
+<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> left <span class="op">=</span> <span class="va">vertices</span>.<span class="at">arraySlice</span>(<span class="dv">1</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="op">-</span><span class="dv">1</span>)<span class="op">;</span>    <span class="co">// slice out the vertices as the start of segments</span>
+<span class="kw">var</span> right <span class="op">=</span> <span class="va">vertices</span>.<span class="at">arraySlice</span>(<span class="dv">1</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="kw">null</span>)<span class="op">;</span> <span class="co">// slice out the vertices as the end of segments</span>
+<span class="kw">var</span> startYear <span class="op">=</span> <span class="va">left</span>.<span class="at">arraySlice</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">1</span>)<span class="op">;</span>    <span class="co">// get year dimension of LT data from the segment start vertices</span>
+<span class="kw">var</span> startVal <span class="op">=</span> <span class="va">left</span>.<span class="at">arraySlice</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span>)<span class="op">;</span>     <span class="co">// get spectral index dimension of LT data from the segment start vertices</span>
+<span class="kw">var</span> endYear <span class="op">=</span> <span class="va">right</span>.<span class="at">arraySlice</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">1</span>)<span class="op">;</span>     <span class="co">// get year dimension of LT data from the segment end vertices </span>
+<span class="kw">var</span> endVal <span class="op">=</span> <span class="va">right</span>.<span class="at">arraySlice</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span>)<span class="op">;</span>      <span class="co">// get spectral index dimension of LT data from the segment end vertices</span></code></pre></div>
+<p>Now, for each segment in a given pixel’s time series we know the start and end year and value. With this information we can calculate the duration of each segment and also the delta, or magnitude of change by subtracting starting year and value from ending year and value for each segment.</p>
+<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> dur <span class="op">=</span> <span class="va">endYear</span>.<span class="at">subtract</span>(startYear)<span class="op">;</span>       <span class="co">// subtract the segment start year from the segment end year to calculate the duration of segments </span>
+<span class="kw">var</span> mag <span class="op">=</span> <span class="va">endVal</span>.<span class="at">subtract</span>(startVal)<span class="op">;</span>         <span class="co">// substract the segment start index value from the segment end index value to calculate the delta of segments</span>
+<span class="kw">var</span> rate <span class="op">=</span> <span class="va">mag</span>.<span class="at">divide</span>(dur)<span class="op">;</span>                  <span class="co">// calculate the rate of spectral change</span></code></pre></div>
+<p>Next, we’ll make an array that contains all segment attributes.</p>
+<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> segInfo <span class="op">=</span> <span class="va">ee</span>.<span class="va">Image</span>.<span class="at">cat</span>([<span class="va">startYear</span>.<span class="at">add</span>(<span class="dv">1</span>)<span class="op">,</span> endYear<span class="op">,</span> startVal<span class="op">,</span> endVal<span class="op">,</span> mag<span class="op">,</span> dur<span class="op">,</span> rate])
+                      .<span class="at">toArray</span>(<span class="dv">0</span>)
+                      .<span class="at">mask</span>(<span class="va">vertexMask</span>.<span class="at">mask</span>())<span class="op">;</span></code></pre></div>
+<p>Keep in mind that the segment delta and rate may be inversed from it’s native orientation, based on whether you inverted the spectral values in the input collection. This is good, though, because then we always know that a positive delta/rate indicates increasing vegetation and a negative delta/rate indicates decreasing vegetation.</p>
+<p>This segmentation information array is the base for exploring, querying, and mapping change.</p>
+</div>
+<div id="isolate-a-single-segment-of-interest" class="section level2">
+<h2><span class="header-section-number">6.2</span> Isolate a single segment of interest</h2>
+<p>Segments represent state transitions between gradients within and between land cover types. Transitions can occur over short or long periods of time, they can be major or minor, and starting and ending states can vary. In this section we’ll take the segment information and extract out from all segments in a given pixel’s time series only the greatest magnitude vegetation loss segment. To achieve this, we can sort the segment information array by the magnitude of change, and then slice out the first (greatest magnitude) segment’s information.</p>
+<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> sortByThis <span class="op">=</span> <span class="va">segInfo</span>.<span class="at">arraySlice</span>(<span class="dv">0</span><span class="op">,</span><span class="dv">4</span><span class="op">,</span><span class="dv">5</span>).<span class="at">toArray</span>(<span class="dv">0</span>).<span class="at">multiply</span>(<span class="op">-</span><span class="dv">1</span>)<span class="op">;</span> <span class="co">// need to flip the delta here, since arraySort is working by ascending order</span>
+<span class="kw">var</span> segInfoSorted <span class="op">=</span> <span class="va">segInfo</span>.<span class="at">arraySort</span>(sortByThis)<span class="op">;</span> <span class="co">// sort the array by magnitude</span>
+<span class="kw">var</span> bigDelta <span class="op">=</span> <span class="va">segInfoSorted</span>.<span class="at">arraySlice</span>(<span class="dv">1</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">1</span>)<span class="op">;</span> <span class="co">// get the first segment in the sorted array (greatest magnitude vegetation loss segment)</span></code></pre></div>
+</div>
+<div id="filter-an-isolated-segment-by-an-attribute" class="section level2">
+<h2><span class="header-section-number">6.3</span> Filter an isolated segment by an attribute</h2>
+<p>Once we have a single segment of interest isolated (greatest vegetation loss, in this case) we can transform the array into an image and perform filtering by other attributes of the segment of interest.</p>
+<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> bigDeltaImg <span class="op">=</span> <span class="va">ee</span>.<span class="va">Image</span>.<span class="at">cat</span>(<span class="va">bigDelta</span>.<span class="at">arraySlice</span>(<span class="dv">0</span><span class="op">,</span><span class="dv">0</span><span class="op">,</span><span class="dv">1</span>).<span class="at">arrayProject</span>([<span class="dv">1</span>]).<span class="at">arrayFlatten</span>([[<span class="st">&#39;yod&#39;</span>]])<span class="op">,</span>
+                               <span class="va">bigDelta</span>.<span class="at">arraySlice</span>(<span class="dv">0</span><span class="op">,</span><span class="dv">1</span><span class="op">,</span><span class="dv">2</span>).<span class="at">arrayProject</span>([<span class="dv">1</span>]).<span class="at">arrayFlatten</span>([[<span class="st">&#39;endYr&#39;</span>]])<span class="op">,</span>
+                               <span class="va">bigDelta</span>.<span class="at">arraySlice</span>(<span class="dv">0</span><span class="op">,</span><span class="dv">2</span><span class="op">,</span><span class="dv">3</span>).<span class="at">arrayProject</span>([<span class="dv">1</span>]).<span class="at">arrayFlatten</span>([[<span class="st">&#39;startVal&#39;</span>]]).<span class="at">multiply</span>(distDir)<span class="op">,</span>
+                               <span class="va">bigDelta</span>.<span class="at">arraySlice</span>(<span class="dv">0</span><span class="op">,</span><span class="dv">3</span><span class="op">,</span><span class="dv">4</span>).<span class="at">arrayProject</span>([<span class="dv">1</span>]).<span class="at">arrayFlatten</span>([[<span class="st">&#39;endVal&#39;</span>]]).<span class="at">multiply</span>(distDir)<span class="op">,</span>
+                               <span class="va">bigDelta</span>.<span class="at">arraySlice</span>(<span class="dv">0</span><span class="op">,</span><span class="dv">4</span><span class="op">,</span><span class="dv">5</span>).<span class="at">arrayProject</span>([<span class="dv">1</span>]).<span class="at">arrayFlatten</span>([[<span class="st">&#39;mag&#39;</span>]]).<span class="at">multiply</span>(distDir)<span class="op">,</span>
+                               <span class="va">bigDelta</span>.<span class="at">arraySlice</span>(<span class="dv">0</span><span class="op">,</span><span class="dv">5</span><span class="op">,</span><span class="dv">6</span>).<span class="at">arrayProject</span>([<span class="dv">1</span>]).<span class="at">arrayFlatten</span>([[<span class="st">&#39;dur&#39;</span>]])<span class="op">,</span>
+                               <span class="va">bigDelta</span>.<span class="at">arraySlice</span>(<span class="dv">0</span><span class="op">,</span><span class="dv">6</span><span class="op">,</span><span class="dv">7</span>).<span class="at">arrayProject</span>([<span class="dv">1</span>]).<span class="at">arrayFlatten</span>([[<span class="st">&#39;rate&#39;</span>]]).<span class="at">multiply</span>(distDir))<span class="op">;</span></code></pre></div>
+<p>Now we have a traditional image with bands for each segment attribute. From here we can create and apply a mask to identify only vegetation loss magnitudes greater/less than (depends on spectral index orientation) a minimum value and less than 4 years in duration.</p>
+<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> distMask <span class="op">=</span>  <span class="va">bigDeltaImg</span>.<span class="at">select</span>([<span class="st">&#39;mag&#39;</span>]).<span class="at">lt</span>(<span class="dv">100</span>)
+                                           .<span class="at">and</span>(<span class="va">bigDeltaImg</span>.<span class="at">select</span>([<span class="st">&#39;dur&#39;</span>]).<span class="at">lt</span>(<span class="dv">4</span>))<span class="op">;</span>
+
+<span class="kw">var</span> bigFastDist <span class="op">=</span> <span class="va">bigDeltaImg</span>.<span class="at">mask</span>(distMask).<span class="at">int16</span>()<span class="op">;</span> <span class="co">// need to set as int16 bit to use connectedPixelCount for minimum mapping unit filter</span></code></pre></div>
+</div>
+<div id="filter-by-patch-size" class="section level2">
+<h2><span class="header-section-number">6.4</span> Filter by patch size</h2>
+<p>Finally we can eliminate spatial noise by applying a minimum mapping unit, based on the year of disturbance detection (you could patchify pixels by other attributes too)</p>
+<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> mmuPatches <span class="op">=</span> <span class="va">bigFastDist</span>.<span class="at">select</span>([<span class="st">&#39;yod&#39;</span>])                <span class="co">// patchify based on disturbances having the same year of detection</span>
+                            .<span class="at">connectedPixelCount</span>(mmu<span class="op">,</span> <span class="kw">true</span>) <span class="co">// count the number of pixel in a candidate patch</span>
+                            .<span class="at">gte</span>(<span class="dv">11</span>)<span class="op">;</span>                       <span class="co">// are the the number of pixels per candidate patch greater than user-defined minimum mapping unit?</span>
+<span class="kw">var</span> bigFastDist <span class="op">=</span> <span class="va">bigFastDist</span>.<span class="at">updateMask</span>(mmuPatches)<span class="op">;</span>       <span class="co">// mask the pixels/patches that are less than minimum mapping unit</span></code></pre></div>
+</div>
+<div id="transform-an-ftv-array-to-an-image-stack" class="section level2">
+<h2><span class="header-section-number">6.5</span> Transform an FTV array to an image stack</h2>
+<p>The previous sections described how to manipulate the ‘LandTrendr’ band array. In this section we’ll turn our attention to an example of an FTV band. If LT-GEE was run on a collection that included more than a single band, then the subsequent bands will be included in the LT-GEE output as FTV bands, where all observations between the user-defined starting and ending years will be fit the segmentation structure of the first band.</p>
+<p>Run LT-GEE on a collection that includes NBR as band 1 and Band 4 (NIR) as a second band. The output will include a Band 4 fitted to NBR segmentation, which we’ll select by calling its band name, the concatenation of the band name from the LT-GEE input collection and ’_fit’.</p>
+<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> LTresult <span class="op">=</span> <span class="va">ee</span>.<span class="va">Algorithms</span>.<span class="va">TemporalSegmentation</span>.<span class="at">LandTrendr</span>(run_params)<span class="op">;</span> <span class="co">// run LT-GEE</span>
+<span class="kw">var</span> B4ftv <span class="op">=</span> <span class="va">LTresult</span>.<span class="at">select</span>([<span class="st">&#39;B4_fit&#39;</span>])<span class="op">;</span> <span class="co">// subset the B4_fit band</span></code></pre></div>
+<p>The ‘B4ftv’ variable is a 1 dimensional array. To convert it to an image with bands representing years, we use the <code>arrayFlatten</code> function. The <code>arrayFlatten</code> function takes a list of band labels with dimensions that match the dimensions of the image array to be flattened. We have 1 dimension and each observation along the single axis represents a year, so we just need to make a list of years and supply it as input to <code>arrayFlatten</code>.</p>
+<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> years <span class="op">=</span> []<span class="op">;</span>                                                           <span class="co">// make an empty array to hold year band names</span>
+<span class="cf">for</span> (<span class="kw">var</span> i <span class="op">=</span> startYear<span class="op">;</span> i <span class="op">&lt;=</span> endYear<span class="op">;</span> <span class="op">++</span>i) <span class="va">years</span>.<span class="at">push</span>(<span class="st">&#39;yr&#39;</span><span class="op">+</span><span class="va">i</span>.<span class="at">toString</span>())<span class="op">;</span> <span class="co">// fill the array with years from the startYear to the endYear and convert them to string</span>
+<span class="kw">var</span> B4ftvStack <span class="op">=</span> <span class="va">B4ftv</span>.<span class="at">arrayFlatten</span>([years])<span class="op">;</span>                             <span class="co">// flatten this out into bands, assigning the year as the band name</span></code></pre></div>
+<p>Now the FTV image array is a standard image band stack that can be easily displayed or exported.</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="lt-gee-outputs.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="example-scripts.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": false,
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title></title>
+  <meta name="description" content="">
+  <meta name="generator" content="bookdown 0.7 and GitBook 2.6.7">
+
+  <meta property="og:title" content="" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="" />
+  
+  
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="landtrendr.html">
+<link rel="next" href="running-lt-gee.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><strong><a href="./">LT-GEE Documentation</a></strong></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>LT-GEE</a></li>
+<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
+<li class="chapter" data-level="2" data-path="landtrendr.html"><a href="landtrendr.html"><i class="fa fa-check"></i><b>2</b> LandTrendr</a><ul>
+<li class="chapter" data-level="2.1" data-path="landtrendr.html"><a href="landtrendr.html#fit-to-vertex-image-data"><i class="fa fa-check"></i><b>2.1</b> Fit-to-vertex Image Data</a></li>
+<li class="chapter" data-level="2.2" data-path="landtrendr.html"><a href="landtrendr.html#epoche-information"><i class="fa fa-check"></i><b>2.2</b> Epoche Information</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="lt-gee-requirements.html"><a href="lt-gee-requirements.html"><i class="fa fa-check"></i><b>3</b> LT-GEE Requirements</a><ul>
+<li class="chapter" data-level="3.1" data-path="lt-gee-requirements.html"><a href="lt-gee-requirements.html#image-collection"><i class="fa fa-check"></i><b>3.1</b> Image Collection</a></li>
+<li class="chapter" data-level="3.2" data-path="lt-gee-requirements.html"><a href="lt-gee-requirements.html#lt-parameters"><i class="fa fa-check"></i><b>3.2</b> LT parameters</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="running-lt-gee.html"><a href="running-lt-gee.html"><i class="fa fa-check"></i><b>4</b> Running LT-GEE</a></li>
+<li class="chapter" data-level="5" data-path="lt-gee-outputs.html"><a href="lt-gee-outputs.html"><i class="fa fa-check"></i><b>5</b> LT-GEE Outputs</a><ul>
+<li class="chapter" data-level="5.1" data-path="lt-gee-outputs.html"><a href="lt-gee-outputs.html#landtrendr-band"><i class="fa fa-check"></i><b>5.1</b> LandTrendr Band</a></li>
+<li class="chapter" data-level="5.2" data-path="lt-gee-outputs.html"><a href="lt-gee-outputs.html#rmse"><i class="fa fa-check"></i><b>5.2</b> RMSE</a></li>
+<li class="chapter" data-level="5.3" data-path="lt-gee-outputs.html"><a href="lt-gee-outputs.html#ftv"><i class="fa fa-check"></i><b>5.3</b> FTV</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="working-with-outputs.html"><a href="working-with-outputs.html"><i class="fa fa-check"></i><b>6</b> Working with Outputs</a><ul>
+<li class="chapter" data-level="6.1" data-path="working-with-outputs.html"><a href="working-with-outputs.html#getting-segment-information"><i class="fa fa-check"></i><b>6.1</b> Getting segment information</a></li>
+<li class="chapter" data-level="6.2" data-path="working-with-outputs.html"><a href="working-with-outputs.html#isolate-a-single-segment-of-interest"><i class="fa fa-check"></i><b>6.2</b> Isolate a single segment of interest</a></li>
+<li class="chapter" data-level="6.3" data-path="working-with-outputs.html"><a href="working-with-outputs.html#filter-an-isolated-segment-by-an-attribute"><i class="fa fa-check"></i><b>6.3</b> Filter an isolated segment by an attribute</a></li>
+<li class="chapter" data-level="6.4" data-path="working-with-outputs.html"><a href="working-with-outputs.html#filter-by-patch-size"><i class="fa fa-check"></i><b>6.4</b> Filter by patch size</a></li>
+<li class="chapter" data-level="6.5" data-path="working-with-outputs.html"><a href="working-with-outputs.html#transform-an-ftv-array-to-an-image-stack"><i class="fa fa-check"></i><b>6.5</b> Transform an FTV array to an image stack</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="example-scripts.html"><a href="example-scripts.html"><i class="fa fa-check"></i><b>7</b> Example Scripts</a><ul>
+<li class="chapter" data-level="7.1" data-path="example-scripts.html"><a href="example-scripts.html#exploration-and-parameterization"><i class="fa fa-check"></i><b>7.1</b> Exploration and parameterization</a></li>
+<li class="chapter" data-level="7.2" data-path="example-scripts.html"><a href="example-scripts.html#data-generation"><i class="fa fa-check"></i><b>7.2</b> Data generation</a></li>
+<li class="chapter" data-level="7.3" data-path="example-scripts.html"><a href="example-scripts.html#change-mapping"><i class="fa fa-check"></i><b>7.3</b> Change mapping</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="ui-applications.html"><a href="ui-applications.html"><i class="fa fa-check"></i><b>8</b> UI Applications</a><ul>
+<li class="chapter" data-level="8.1" data-path="ui-applications.html"><a href="ui-applications.html#ui-landtrendr-pixel-time-series-plotter"><i class="fa fa-check"></i><b>8.1</b> UI LandTrendr Pixel Time Series Plotter</a><ul>
+<li class="chapter" data-level="8.1.1" data-path="ui-applications.html"><a href="ui-applications.html#steps"><i class="fa fa-check"></i><b>8.1.1</b> Steps</a></li>
+<li class="chapter" data-level="8.1.2" data-path="ui-applications.html"><a href="ui-applications.html#under-the-hood"><i class="fa fa-check"></i><b>8.1.2</b> Under the hood</a></li>
+</ul></li>
+<li class="chapter" data-level="8.2" data-path="ui-applications.html"><a href="ui-applications.html#ui-landtrendr-disturbance-mapper"><i class="fa fa-check"></i><b>8.2</b> UI LandTrendr Disturbance Mapper</a><ul>
+<li class="chapter" data-level="8.2.1" data-path="ui-applications.html"><a href="ui-applications.html#steps-1"><i class="fa fa-check"></i><b>8.2.1</b> Steps</a></li>
+<li class="chapter" data-level="8.2.2" data-path="ui-applications.html"><a href="ui-applications.html#under-the-hood-1"><i class="fa fa-check"></i><b>8.2.2</b> Under the hood</a></li>
+<li class="chapter" data-level="8.2.3" data-path="ui-applications.html"><a href="ui-applications.html#todo"><i class="fa fa-check"></i><b>8.2.3</b> ToDo</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="shortcut-functions.html"><a href="shortcut-functions.html"><i class="fa fa-check"></i><b>9</b> Shortcut Functions</a><ul>
+<li class="chapter" data-level="9.1" data-path="shortcut-functions.html"><a href="shortcut-functions.html#functions"><i class="fa fa-check"></i><b>9.1</b> Functions</a><ul>
+<li class="chapter" data-level="9.1.1" data-path="shortcut-functions.html"><a href="shortcut-functions.html#buildsrcollection"><i class="fa fa-check"></i><b>9.1.1</b> buildSRcollection</a></li>
+<li class="chapter" data-level="9.1.2" data-path="shortcut-functions.html"><a href="shortcut-functions.html#buildltcollection"><i class="fa fa-check"></i><b>9.1.2</b> buildLTcollection</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="faq.html"><a href="faq.html"><i class="fa fa-check"></i><b>10</b> FAQ</a></li>
+<li class="chapter" data-level="11" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i><b>11</b> References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./"></a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="lt-gee-requirements" class="section level1">
+<h1><span class="header-section-number">3</span> LT-GEE Requirements</h1>
+<p>LT-GEE requires two things:</p>
+<ol style="list-style-type: decimal">
+<li>An annual image collection</li>
+<li>A set of parameters to control segmentation</li>
+</ol>
+<div id="image-collection" class="section level2">
+<h2><span class="header-section-number">3.1</span> Image Collection</h2>
+<p>The image data composing a collection needs to represent an observation that is consistent through time. It should not include noise from atmosphere, clouds and shadows, sensor differences, or other anomalies. The annual changes in a time series should be the result of changes in the physical features of a landscape. We recommend using the <em>USGS Landsat Surface Reflectance Tier 1</em> datasets. These data have been atmospherically corrected, and include a cloud, shadow, water and snow mask produced using CFMASK.</p>
+<p>GEE ImageCollection IDs for USGS Landsat Surface Reflectance</p>
+<ul>
+<li>Landsat 5: LANDSAT/LT05/C01/T1_SR</li>
+<li>Landsat 7: LANDSAT/LE07/C01/T1_SR</li>
+<li>Landsat 8: LANDSAT/LC08/C01/T1_SR</li>
+</ul>
+<p>The collection must include only one observation per year. However, because clouds are often present in any given image, it is best to retrieve multiple images for a season, mask out clouds and cloud shadows from each, and then create a composite of those images so that you have reasonable annual spatial coverage of clear-view pixels. The best-pixel-compositing method you apply is up to you. We have used nearness to a target day-of-year and also medoid compositing, we prefer the later and include it in the provided <a href="#examples">examples</a>. LandTrendr will segment the first band in the image collection and generate annual fitted-to-vertx (FTV) data for each subsequent band. Consequently, you need to manipulate your collection so that the band or spectral index you want segmented is the first band, and any additional bands you want fitted to vertices should follow. The band or index you select for segmentation should be based on an informed decision weighted by the sensitivity of it to change in the conditions of the landscape you are working with. The best spectral representation of change can be different for shrubs vs trees vs conifers vs deciduous etc. We have found SWIR bands, and indices leveraging them, to be generally quite sensitive to change, but we also know that it is highly variable. You should try segmenting on several bands or indices to see what works best. We also recommend trying a few different date windows and widths for generating annual composites.</p>
+<p>In the <a href="#examples">example</a> scripts provided, we composite image dates for the northern hemisphere growing season (mid-June through mid-September), which seems to work pretty well for 25-50 degrees latitude. Folks working in the southern hemisphere will need to modify the example scripts if you are to include images from your growing season, since it crosses the new year: December 2016 through Feburary 2017, for example. You’ll also have to deal with how to label the year of the annual image composite - should it be the former or later year of the growing season composite?</p>
+<p><a id='importantsteps'></a><strong>Two really important steps</strong> in image collection building include 1) masking cloud and cloud shadow pixels during annual image compositing and to 2) ensure that the spectral band or index that is to be segmented is oriented so that vegetation loss is represented by a positive delta. For instance, NBR in its native orientation results in a negative delta when vegetation is lost from one observation to the next. In this case, NBR must be multiplied by -1 before being segmented. Conversely, if Landsat TM band 5 (SWIR) is selected for segmentation, inversion of the spectral values is not required, since natively, vegetation loss is represented by a positive delta.</p>
+</div>
+<div id="lt-parameters" class="section level2">
+<h2><span class="header-section-number">3.2</span> LT parameters</h2>
+<p>The LT-GEE function takes 9 arguments: 8 control parameters that adjust how spectal-temporal segmentation is done, and the annual image collection. The original LandTrendr <a href="https://github.com/eMapR/LT-GEE/blob/master/docs/kennedy_etal_2010_landtrendr.pdf">paper</a> describes the effect and sensitivity of changing some of these argument values. We recommend trying variations in settings to see what works best for the environment you are working in. One of the great things about having LT in GEE is that parameter settings are easy and fast to iterate through to find a best set. <br><br></p>
+<table>
+<caption><span id="tab:nice-tab">Table 3.1: </span>LandTrendr parameters</caption>
+<thead>
+<tr class="header">
+<th align="left">Parameter</th>
+<th align="left">Type</th>
+<th align="left">Default</th>
+<th align="left">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">maxSegments</td>
+<td align="left">Integer</td>
+<td align="left"></td>
+<td align="left">Maximum number of segments to be fitted on the time series</td>
+</tr>
+<tr class="even">
+<td align="left">spikeThreshold</td>
+<td align="left">Float</td>
+<td align="left">0.9</td>
+<td align="left">Threshold for dampening the spikes (1.0 means no dampening)</td>
+</tr>
+<tr class="odd">
+<td align="left">vertexCountOvershoot</td>
+<td align="left">Integer</td>
+<td align="left">3</td>
+<td align="left">The inital model can overshoot the maxSegments + 1 vertices by this amount. Later, it will be prunned down to maxSegments + 1</td>
+</tr>
+<tr class="even">
+<td align="left">preventOneYearRecovery</td>
+<td align="left">Boolean</td>
+<td align="left">false</td>
+<td align="left">Prevent segments that represent one year recoveries</td>
+</tr>
+<tr class="odd">
+<td align="left">recoveryThreshold</td>
+<td align="left">Float</td>
+<td align="left">0.25</td>
+<td align="left">If a segment has a recovery rate faster than 1/recoveryThreshold (in years), then the segment is disallowed</td>
+</tr>
+<tr class="even">
+<td align="left">pvalThreshold</td>
+<td align="left">Float</td>
+<td align="left">0.1</td>
+<td align="left">If the p-value of the fitted model exceeds this threshold, then the current model is discarded and another one is fitted using the Levenberg-Marquardt optimizer</td>
+</tr>
+<tr class="odd">
+<td align="left">bestModelProportion</td>
+<td align="left">Float</td>
+<td align="left">1.25</td>
+<td align="left">Takes the model with most vertices that has a p-value that is at most this proportion away from the model with lowest p-value</td>
+</tr>
+<tr class="even">
+<td align="left">minObservationsNeeded</td>
+<td align="left">Integer</td>
+<td align="left">6</td>
+<td align="left">Min observations needed to perform output fitting</td>
+</tr>
+<tr class="odd">
+<td align="left">timeSeries</td>
+<td align="left">ImageCollection</td>
+<td align="left"></td>
+<td align="left">Collection from which to extract trends (it’s assumed that each image in the collection represents one year). The first band is used to find breakpoints, and all subsequent bands are fitted using those breakpoints</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="landtrendr.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="running-lt-gee.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": false,
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

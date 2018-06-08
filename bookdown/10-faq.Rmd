@@ -1,0 +1,3 @@
+# FAQ
+
+> Q: I have read or heard that `for` loops and client-side conditionals like `if` statements are GEE no-nos, yet you include them in your example scripts. What's the deal?<br><br>A: *We don't mix server-side and client-side objects and operations, which, as we understand it, are the main issues. We are also not GEE wizards, so please, we are calling on everyone to help make better, more GEE-friendly template scripts to share.*
