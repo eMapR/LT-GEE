@@ -2,6 +2,7 @@
 #title: "LT-GEE"
 site: bookdown::bookdown_site
 documentclass: book
+favicon: "imgs/favicon.ico"
 output:
   bookdown::gitbook:
     #split_by: none
