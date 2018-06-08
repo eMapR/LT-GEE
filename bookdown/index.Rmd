@@ -16,9 +16,9 @@ output:
     css: style.css
 ---
 
-# LT-GEE Documentation{-}
+# LT-GEE{-}
 
-*By [Justin Braaten](https://github.com/jdbcode) and Oregon State University's [eMapR Lab](http://emapr.ceoas.oregonstate.edu/)*
+*Documentation by [Justin Braaten](https://github.com/jdbcode) of Oregon State University's [eMapR Lab](http://emapr.ceoas.oregonstate.edu/)*
 
 *2018/06/08*
 
