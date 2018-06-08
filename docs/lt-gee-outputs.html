@@ -113,7 +113,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </ul></li>
 <li class="chapter" data-level="4" data-path="running-lt-gee.html"><a href="running-lt-gee.html"><i class="fa fa-check"></i><b>4</b> Running LT-GEE</a></li>
 <li class="chapter" data-level="5" data-path="lt-gee-outputs.html"><a href="lt-gee-outputs.html"><i class="fa fa-check"></i><b>5</b> LT-GEE Outputs</a><ul>
-<li class="chapter" data-level="5.1" data-path="lt-gee-outputs.html"><a href="lt-gee-outputs.html#landtrendr-band"><i class="fa fa-check"></i><b>5.1</b> LandTrendr Band</a></li>
+<li class="chapter" data-level="5.1" data-path="lt-gee-outputs.html"><a href="lt-gee-outputs.html#landtrendr-band"><i class="fa fa-check"></i><b>5.1</b> <a id='landtrendr-band'></a> LandTrendr Band</a></li>
 <li class="chapter" data-level="5.2" data-path="lt-gee-outputs.html"><a href="lt-gee-outputs.html#rmse"><i class="fa fa-check"></i><b>5.2</b> RMSE</a></li>
 <li class="chapter" data-level="5.3" data-path="lt-gee-outputs.html"><a href="lt-gee-outputs.html#ftv"><i class="fa fa-check"></i><b>5.3</b> FTV</a></li>
 </ul></li>
@@ -171,7 +171,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
             <section class="normal" id="section-">
 <div id="lt-gee-outputs" class="section level1">
 <h1><span class="header-section-number">5</span> LT-GEE Outputs</h1>
-<p>The results of LT-GEE include (Fig 8):</p>
+<p>The results of LT-GEE include (Fig 5.1):</p>
 <ul>
 <li>The year of observations per pixel time series; x-axis values in 2-D spectral-temporal space; (default)</li>
 <li>The source value of observations per pixel time series; y-axis values in 2-D spectral-temporal space; (default)</li>
@@ -180,14 +180,14 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li>Complete time series FTV values for additional bands in the collection greater than band 1; y-axis values in 2-D spectral-temporal space; (optional)</li>
 </ul>
 <p><img src='imgs/outputs_series.png'></p>
-<p><em>Fig 8. A visual diagram of what data are returned from LT-GEE. Every legend item is returned as an output.</em> <br><br><br></p>
+<p><em>Fig 5.1. A visual diagram of what data are returned from LT-GEE. Every legend item is returned as an output.</em> <br><br><br></p>
 <p>The results of LT-GEE are not immediately ready for analysis, display, or export as maps of change or fitted time series data. Think of each pixel as a bundle of data that needs to be unpacked. The packaging of the data per pixel is similar to a nested list in Python or R. The primary list looks something like this:</p>
 <pre><code>[[Annual Segmentation Info], Fitting RMSE, [Fitted Time Series n]]</code></pre>
-<p>In the GEE construct, this primary list is an image with at least 2 bands, one that contains annual segmentation information and one that contains the RMSE of the segmentation fit. Additionally, if the input image collection to LT-GEE contained more than one band, then each band following the first will be represented as a spectrally fitted annual series (Fig 7 and Fig 8).</p>
-<p><img src='imgs/lt_outputs.png'><br> <em>Fig 7. The results of LT-GEE are essentially a list of lists per pixel that describe segmentation and optionally provide fitted annual spectral data (FTV). The output is delivered as a GEE image with at least 2 bands, one that contains annual segmentation information and one that contains the RMSE of the segmentation fit. Additionally, if the input image collection to LT-GEE contained more than one band, then each band following the first will be represented as a spectrally fitted annual series (FTV).</em> <br><br></p>
-<p><img src='imgs/print_results.png'><br> <em>Fig 8. The results of LT-GEE printed to the GEE console. The ‘LandTrendr’ and ‘rmse’ are included by default, ‘B4_fit’ is included because Landsat TM/+ETM band 4 (B4) was included as the second band in the input collection.</em> <br><br><br></p>
+<p>In the GEE construct, this primary list is an image with at least 2 bands, one that contains annual segmentation information and one that contains the RMSE of the segmentation fit. Additionally, if the input image collection to LT-GEE contained more than one band, then each band following the first will be represented as a spectrally fitted annual series (Fig 5.2 and Fig 5.3).</p>
+<p><img src='imgs/lt_outputs.png'><br> <em>Fig 5.2. The results of LT-GEE are essentially a list of lists per pixel that describe segmentation and optionally provide fitted annual spectral data (FTV). The output is delivered as a GEE image with at least 2 bands, one that contains annual segmentation information and one that contains the RMSE of the segmentation fit. Additionally, if the input image collection to LT-GEE contained more than one band, then each band following the first will be represented as a spectrally fitted annual series (FTV).</em> <br><br></p>
+<p><img src='imgs/print_results.png'><br> <em>Fig 5.3. The results of LT-GEE printed to the GEE console. The ‘LandTrendr’ and ‘rmse’ are included by default, ‘B4_fit’ is included because Landsat TM/+ETM band 4 (B4) was included as the second band in the input collection.</em> <br><br><br></p>
 <div id="landtrendr-band" class="section level2">
-<h2><span class="header-section-number">5.1</span> LandTrendr Band</h2>
+<h2><span class="header-section-number">5.1</span> <a id='landtrendr-band'></a> LandTrendr Band</h2>
 <p>The ‘LandTrendr’ band is a 4 x nYears dimension array. You can subset it like this:</p>
 <div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> LTresult <span class="op">=</span> <span class="va">ee</span>.<span class="va">Algorithms</span>.<span class="va">TemporalSegmentation</span>.<span class="at">LandTrendr</span>(run_params)<span class="op">;</span> <span class="co">// run LT-GEE</span>
 <span class="kw">var</span> segmentationInfo <span class="op">=</span> <span class="va">LTresult</span>.<span class="at">select</span>([<span class="st">&#39;LandTrendr&#39;</span>])<span class="op">;</span> <span class="co">// subset the LandTrendr segmentation info</span></code></pre></div>
