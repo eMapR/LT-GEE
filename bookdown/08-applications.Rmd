@@ -13,6 +13,8 @@ study region.
 
 <img src='imgs/time_series_app.jpg'>
 
+If you've added the eMapR public repository, run this [script](https://code.earthengine.google.com/c3b614dc024fda3f3e35367b4791f675) to access the GUI. 
+
 ### Steps
 
 1. Click on the script to load it and then click the *Run* button to initialize the application.
@@ -39,6 +41,9 @@ Wait a minute or two and plots of source and LandTrendr-fitted time series data 
 The UI LandTrendr Disturbance Mapper will display map layers of disturbance attributes including: year of disturbance detection, magnitude of disturbance, duration of disturbance, and pre-disturbance spectral value. 
 
 <img src='imgs/dist_map_app.jpg'>
+
+If you've added the eMapR public repository, just run this [script](https://code.earthengine.google.com/f699599bd6b5b1808de188e02e4d7ae5) to access the GUI. 
+
 
 ### Steps
 
