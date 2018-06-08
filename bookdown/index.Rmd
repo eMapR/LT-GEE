@@ -17,7 +17,7 @@ output:
 
 # LT-GEE {-}
 
-#### LandTrendr (Landsat-based detection of trends in disturbance and recovery) implementation in the Google Earth Engine platform** {-}
+#### LandTrendr (Landsat-based detection of trends in disturbance and recovery) implementation on the Google Earth Engine platform {-}
 
 <img src='imgs/lt_gee_symbols.png'>
 
@@ -25,4 +25,4 @@ output:
 
 
 
-**This documentation is under construction (6/7/18)**
+**This documentation is under construction (6/8/18)**

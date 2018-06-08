@@ -1,0 +1,5 @@
+1. set "*LT-GEE/bookdown" as the R working directory
+  setwd("path/to >>>/LT-GEE/bookdown")
+2. edit .Rmd chapter files
+3. render book
+  bookdown::render_book("index.Rmd", "bookdown::gitbook")
