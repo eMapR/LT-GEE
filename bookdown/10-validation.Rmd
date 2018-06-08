@@ -1,0 +1,7 @@
+# Validation
+
+The traditional method for validation of LandTrendr segmentation and derived disturbance maps is the TimeSync application ([paper](https://larse.forestry.oregonstate.edu/sites/larse/files/pub_pdfs/Cohen_etal_2010.pdf)).
+
+Please see this GitHub [repository](https://github.com/eMapR/TimeSync-Legacy) for all the files and instructions you need to get source data from Google Earth Engine and run the desktop Legacy version of the application.
+
+<img src='timesync-legacy.jpg'>

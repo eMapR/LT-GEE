@@ -16,7 +16,11 @@ output:
     css: style.css
 ---
 
-# LT-GEE {-}
+# LT-GEE Documentation{-}
+
+*By [Justin Braaten](https://github.com/jdbcode) and Oregon State University's [eMapR Lab](http://emapr.ceoas.oregonstate.edu/)*
+
+*2018/06/08*
 
 #### LandTrendr (Landsat-based detection of trends in disturbance and recovery) implementation on the Google Earth Engine platform {-}
 

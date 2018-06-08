@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="lt-gee-requirements.html">
-<link rel="next" href="lt-gee-outputs.html">
+<link rel="prev" href="shortcut-functions.html">
+<link rel="next" href="faq.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -169,66 +169,11 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="running-lt-gee" class="section level1">
-<h1><span class="header-section-number">4</span> Running LT-GEE</h1>
-<p>LT-GEE is run using the function: <code>ee.Algorithms.TemporalSegmentation.LandTrendr</code> which takes a dictionary of parameter arguments as input.</p>
-<p>In its most most basic form, running LandTrendr in Google Earth Engine requires 6 steps. The following code snippets help illustrate the steps.</p>
-<p><em>The following snippets are only a demonstration aid. In application, use the provided code <a href="#examples">examples</a> to learn and build from.</em></p>
-<ol style="list-style-type: decimal">
-<li>Define starting and ending years of the times series</li>
-</ol>
-<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> startYear <span class="op">=</span> <span class="dv">1985</span><span class="op">;</span>
-<span class="kw">var</span> endYear   <span class="op">=</span> <span class="dv">2010</span><span class="op">;</span></code></pre></div>
-<ol start="2" style="list-style-type: decimal">
-<li>Define an area to run LandTrendr on as an <code>ee.Geometry</code></li>
-</ol>
-<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> coords <span class="op">=</span> [[<span class="op">-</span><span class="fl">123.925</span><span class="op">,</span> <span class="fl">42.996</span>]<span class="op">,</span>
-              [<span class="op">-</span><span class="fl">122.327</span><span class="op">,</span> <span class="fl">42.996</span>]<span class="op">,</span>
-              [<span class="op">-</span><span class="fl">122.327</span><span class="op">,</span> <span class="fl">43.548</span>]<span class="op">,</span>
-              [<span class="op">-</span><span class="fl">123.925</span><span class="op">,</span> <span class="fl">43.548</span>]<span class="op">,</span>
-              [<span class="op">-</span><span class="fl">123.925</span><span class="op">,</span> <span class="fl">42.996</span>]]<span class="op">;</span>
-
-<span class="kw">var</span> aoi <span class="op">=</span> <span class="va">ee</span>.<span class="va">Geometry</span>.<span class="at">Polygon</span>(coords)<span class="op">;</span></code></pre></div>
-<ol start="3" style="list-style-type: decimal">
-<li>Define the LandTrendr run parameters as a dictionary. See the <a href="#ltparameters">parameters</a> section for definitions. Note that the image collection will be appended to this dictionary in a later step.</li>
-</ol>
-<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> run_params <span class="op">=</span> <span class="op">{</span> 
-  <span class="dt">maxSegments</span><span class="op">:</span>            <span class="dv">6</span><span class="op">,</span>
-  <span class="dt">spikeThreshold</span><span class="op">:</span>         <span class="fl">0.9</span><span class="op">,</span>
-  <span class="dt">vertexCountOvershoot</span><span class="op">:</span>   <span class="dv">3</span><span class="op">,</span>
-  <span class="dt">preventOneYearRecovery</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span>
-  <span class="dt">recoveryThreshold</span><span class="op">:</span>      <span class="fl">0.25</span><span class="op">,</span>
-  <span class="dt">pvalThreshold</span><span class="op">:</span>          <span class="fl">0.05</span><span class="op">,</span>
-  <span class="dt">bestModelProportion</span><span class="op">:</span>    <span class="fl">0.75</span><span class="op">,</span>
-  <span class="dt">minObservationsNeeded</span><span class="op">:</span>  <span class="dv">6</span>
-<span class="op">};</span></code></pre></div>
-<ol start="4" style="list-style-type: decimal">
-<li>Build an image collection that includes only one image per year, subset to a single band or index (you can include other bands - the first will be segmented, the others will be fit to the vertices). Note that we are using a mock function to reduce annual image collections to a single image - this can be accomplished many ways using various best-pixel-compositing methods.</li>
-</ol>
-<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="cf">for</span>(<span class="kw">var</span> year <span class="op">=</span> startYear<span class="op">;</span> year <span class="op">&lt;=</span> endYear<span class="op">;</span> year<span class="op">++</span>) <span class="op">{</span>
-  <span class="kw">var</span> img <span class="op">=</span> <span class="va">ee</span>.<span class="at">ImageCollection</span>(<span class="st">&#39;LANDSAT/LT05/C01/T1_SR&#39;</span>)
-              .<span class="at">filterBounds</span>(aoi)
-              .<span class="at">filterDate</span>(year<span class="op">+</span><span class="st">&#39;-06-15&#39;</span><span class="op">,</span> year<span class="op">+</span><span class="st">&#39;-09-15&#39;</span>)<span class="op">;</span>
-  
-  img <span class="op">=</span> <span class="at">reduceToSingeImageMockFunction</span>(img)<span class="op">;</span>
-
-  <span class="kw">var</span> tempCollection <span class="op">=</span> <span class="va">ee</span>.<span class="at">ImageCollection</span>(<span class="va">img</span>.<span class="at">select</span>([<span class="st">&#39;B5&#39;</span>]))<span class="op">;</span>         
-
-  <span class="cf">if</span>(year <span class="op">==</span> startYear) <span class="op">{</span>
-    <span class="kw">var</span> srCollection <span class="op">=</span> tempCollection<span class="op">;</span>
-  <span class="op">}</span> <span class="cf">else</span> <span class="op">{</span>
-    srCollection <span class="op">=</span> <span class="va">srCollection</span>.<span class="at">merge</span>(tempCollection)<span class="op">;</span>
-  <span class="op">}</span>
-<span class="op">};</span></code></pre></div>
-<ol start="5" style="list-style-type: decimal">
-<li>Append the image collection to the LandTrendr run parameter dictionary</li>
-</ol>
-<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="va">run_params</span>.<span class="at">timeSeries</span> <span class="op">=</span> srCollection<span class="op">;</span></code></pre></div>
-<ol start="6" style="list-style-type: decimal">
-<li>Run the LandTrendr algorithm</li>
-</ol>
-<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> LTresult <span class="op">=</span> <span class="va">ee</span>.<span class="va">Algorithms</span>.<span class="va">TemporalSegmentation</span>.<span class="at">LandTrendr</span>(run_params)<span class="op">;</span></code></pre></div>
-<p>Please note that for the sake of a basic example LT-GEE run, we are not addressing the <a href="#importantsteps">two really important steps</a> in collection building: 1) to mask cloud and cloud shadow pixels during annual image compositing (step 4) and 2) to ensure that the spectral band or index that is to be segmented is oriented so that vegetation loss is represented by a positive delta (we used a SWIR band, which is the correct orientation for use in LT-GEE).</p>
+<div id="validation" class="section level1">
+<h1><span class="header-section-number">10</span> Validation</h1>
+<p>The traditional method for validation of LandTrendr segmentation and derived disturbance maps is the TimeSync application (<a href="https://larse.forestry.oregonstate.edu/sites/larse/files/pub_pdfs/Cohen_etal_2010.pdf">paper</a>).</p>
+<p>Please see this GitHub <a href="https://github.com/eMapR/TimeSync-Legacy">repository</a> for all the files and instructions you need to get source data from Google Earth Engine and run the desktop Legacy version of the application.</p>
+<p><img src='timesync-legacy.jpg'></p>
 
 </div>
             </section>
@@ -236,8 +181,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           </div>
         </div>
       </div>
-<a href="lt-gee-requirements.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="lt-gee-outputs.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="shortcut-functions.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="faq.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
