@@ -1,5 +1,5 @@
 ---
-title: "LT-GEE"
+title: "LT-GEE Guide"
 site: bookdown::bookdown_site
 documentclass: book
 favicon: "imgs/favicon.ico"
@@ -17,13 +17,15 @@ output:
     css: style.css
 ---
 
-#  {-}
+
+
+# Welcome {-}
 
 *Documentation by [Justin Braaten](https://github.com/jdbcode) of Oregon State University's [eMapR Lab](http://emapr.ceoas.oregonstate.edu/)*
 
 *2018/06/08*
 
-#### LandTrendr (Landsat-based detection of trends in disturbance and recovery) implementation on the Google Earth Engine platform {-}
+#### This site is a guide to the Google Earth Engine implementation of the LandTrendr spectral-temporal segmentation algorimth. {-}
 
 <img src='imgs/lt_gee_symbols.png'>
 
@@ -31,4 +33,4 @@ output:
 
 
 
-**This documentation is under construction (6/8/18)**
+***Some sections still under construction (6/8/18)**
