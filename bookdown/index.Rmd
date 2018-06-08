@@ -1,5 +1,5 @@
 ---
-#title: "LT-GEE"
+title: "LT-GEE"
 site: bookdown::bookdown_site
 documentclass: book
 favicon: "imgs/favicon.ico"
@@ -17,7 +17,7 @@ output:
     css: style.css
 ---
 
-# LT-GEE{-}
+#  {-}
 
 *Documentation by [Justin Braaten](https://github.com/jdbcode) of Oregon State University's [eMapR Lab](http://emapr.ceoas.oregonstate.edu/)*
 
