@@ -4,7 +4,7 @@ LT-GEE is run using the function: `ee.Algorithms.TemporalSegmentation.LandTrendr
 
 In its most most basic form, running LandTrendr in Google Earth Engine requires 6 steps. The following code snippets help illustrate the steps. 
 
-*The following snippets are only a demonstration aid. In application, use the provided code [examples](https://emapr.github.io/LT-GEE/example-scripts.html) to learn and build from.* 
+*The following snippets are only a demonstration aid. In application, use the provided code [examples](./example-scripts.html) to learn and build from, and take advantage of the [shortcut functions](./shortcut-functions.html) we've put together to build collections and run LandTrendr* 
 
 1. Define starting and ending years of the times series
 
