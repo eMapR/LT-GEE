@@ -4,4 +4,4 @@ The traditional method for validation of LandTrendr segmentation and derived dis
 
 Please see this GitHub [repository](https://github.com/eMapR/TimeSync-Legacy) for all the files and instructions you need to get source data from Google Earth Engine and run the desktop Legacy version of the application.
 
-<img src='timesync-legacy.jpg'>
+<img src='imgs/timesync-legacy.jpg'>
