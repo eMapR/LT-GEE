@@ -15,7 +15,7 @@ regarding across  in this case for each row of data described in the ['LandTrend
   
 ## Getting segment information
   
-The ['LandTrendr' Band](#landtrendrBand) output exist as an image array containing information for every observation not masked in the input collection. We hope that you'll discover ways to utilize all the information, but we have focused on information regarding only the observations identified as vertices in the spectral-temporal segmentation. To extract only these observations we can use the 4th row of the 'LandTrendr' band, which is a Boolean indicating whether an observation is a vertex or not, to mask all the other rows (year, source value, fitted value):
+The ['LandTrendr' Band](./lt-gee-outputs.html#landtrendr-band) output exist as an image array containing information for every observation not masked in the input collection. We hope that you'll discover ways to utilize all the information, but we have focused on information regarding only the observations identified as vertices in the spectral-temporal segmentation. To extract only these observations we can use the 4th row of the 'LandTrendr' band, which is a Boolean indicating whether an observation is a vertex or not, to mask all the other rows (year, source value, fitted value):
     
 ```javascript
 var lt = ee.Algorithms.TemporalSegmentation.LandTrendr(run_params)  // run LandTrendr spectral temporal segmentation algorithm
