@@ -1,6 +1,8 @@
 # Working with Outputs
 
-The results coming from the LT-GEE algorithm are packaged as array images. If you are unfamiliar with the array image format, please see the [GEE documentation](https://developers.google.com/earth-engine/arrays_intro). As array images, it is best to think of each pixel as a separate container of information. Each container is independent of others and can have varying observation lengths determined by the difference between the number of years in the time series and the number of masked observations in that time series. Image arrays are highly flexible, and in the case of the 'LandTrendr' band output, it allows slicing on 2 dimensions (observation [axis 1], and attribute [axis 0]), which is particularly handy for extracting all attributes for a given observation or set of observations (like observations identified as verticies). Though useful for slicing and manipulating segmentation information, the image array construct is not very good for visualization and exporting. This section will walk through:
+The results coming from the LT-GEE algorithm are packaged as array images. If you are unfamiliar with the array image format, please see the [GEE documentation](https://developers.google.com/earth-engine/arrays_intro). As array images, it is best to think of each pixel as a separate container of information. Each container is independent of others and can have varying observation lengths determined by the difference between the number of years in the time series and the number of masked observations in that time series. Image arrays are highly flexible, and in the case of the 'LandTrendr' band output, it allows slicing on 2 dimensions (observation [axis 1], and attribute [axis 0]), which is particularly handy for extracting all attributes for a given observation or set of observations (like observations identified as vertices). Though useful for slicing and manipulating segmentation information, the image array construct is not very good for visualization and exporting, so we will also demonstrate transforming the arrays to traditional images with bands representing observation values per year in the time series, by projecting (`arrayProject`) and/or flattening (`arrayFlatten`) the the arrays.
+
+specifically, this section will walk through:
   
 1. Some operations that can be performed on the 'LandTrendr' band image array to extract segment information
 2. Isolate the greatest delta segment of a time series
@@ -8,18 +10,15 @@ The results coming from the LT-GEE algorithm are packaged as array images. If yo
 4. Apply a minimum mapping unit filter to identified disturbance pixels to reduce spatial noise 
 5. Convert a fitted (FTV) band from an image array to an image with a band per year in the time series
 
-Before getting started, lets look at the 
-
-
-regarding across  in this case for each row of data described in the ['LandTrendr' Band](./lt-gee-outputs.html#landtrendr-band) section can be easily accessed, manipulated, and participate in calculations.  in the format of wide data where each column is an observation and each row is a variable describing attributes of each observation (Table 2). This format works well for some opperations, but other are best handled in long format (Table 3). This section will walk through   Another useful feature of the array image format is that it can be sliced on the year dimensions and retain all rows slice.   This is also true for the FTV bands ('fit_*'). Though highly flexible, the image array format makes viewing, exporting, and conceptualizing the data difficult. An alternate view of the data can be achieved by projecting (`arrayProject`) and/or flattening (`arrayFlatten`) the arrays to construct a traditional image with bands representing observation values per year in the time series.
+Note that the following code snippets are intended to be a template for learning and building on. We also provide shortcut functions to perform these operations in the [Shortcut Functions](./shortcut-functions.html) section, which greatly simplify these steps.   
   
 ## Getting segment information
   
-The ['LandTrendr' Band](./lt-gee-outputs.html#landtrendr-band) output exist as an image array containing information for every observation not masked in the input collection. We hope that you'll discover ways to utilize all the information, but we have focused on information regarding only the observations identified as vertices in the spectral-temporal segmentation. To extract only these observations we can use the 4th row of the 'LandTrendr' band, which is a Boolean indicating whether an observation is a vertex or not, to mask all the other rows (year, source value, fitted value):
+The ['LandTrendr' Band](./lt-gee-outputs.html#landtrendr-band) output exists as an image array containing information for every observation not masked in the input collection. We hope that you'll discover ways to utilize all the information, but we have focused on information regarding only the observations identified as vertices in the spectral-temporal segmentation. To extract only these observations we can use the 4th row of the 'LandTrendr' band, which is a Boolean indicating whether an observation is a vertex or not, to mask all the other rows (year, source value, fitted value):
     
 ```javascript
 var lt = ee.Algorithms.TemporalSegmentation.LandTrendr(run_params)  // run LandTrendr spectral temporal segmentation algorithm
-                                           .select('LandTrendr');   // select the LandTrendr band
+                                            .select('LandTrendr');   // select the LandTrendr band
 var vertexMask = lt.arraySlice(0, 3, 4); // slice out the 'Is Vertex' row - yes(1)/no(0)
 var vertices = lt.arrayMask(vertexMask); // use the 'Is Vertex' row as a mask for all rows
 ```
@@ -53,13 +52,13 @@ var segInfo = ee.Image.cat([startYear.add(1), endYear, startVal, endVal, mag, du
                       .mask(vertexMask.mask());
 ```
 
-Keep in mind that the segment delta and rate may be inversed from it's native orientation, based on whether you inverted the spectral values in the input collection. This is good, though, because then we always know that a positive delta/rate indicates increasing vegetation and a negative delta/rate indicates decreasing vegetation.
+Keep in mind that the segment delta and rate may be inverted from it's native orientation, based on whether you inverted the spectral values in the input collection. This is good, though, because then we always know that a positive delta/rate indicates increasing vegetation and a negative delta/rate indicates decreasing vegetation.
 
 This segmentation information array is the base for exploring, querying, and mapping change.
 
 ## Isolate a single segment of interest
 
-Segments represent state transitions between gradients within and between land cover types. Transitions can occur over short or long periods of time, they can be major or minor, and starting and ending states can vary. In this section we'll take the segment information and extract out from all segments in a given pixel's time series only the greatest magnitude vegetation loss segment. To achieve this, we can sort the segment information array by the magnitude of change, and then slice out the first (greatest magnitude) segment's information.
+Segments represent a durable spectral trajectory. A pixel's state can remain stable or transition to a different state. Transitions can occur over short or long periods of time, they can be major or minor, and starting and ending states can vary. In this section we'll take the segment information and extract out from all segments in a given pixel's time series only the greatest magnitude vegetation loss segment. To achieve this, we can sort the segment information array by the magnitude of change, and then slice out the first (greatest magnitude) segment's information.
 
 ```javascript
 var sortByThis = segInfo.arraySlice(0,4,5).toArray(0).multiply(-1); // need to flip the delta here, since arraySort is working by ascending order

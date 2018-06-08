@@ -33,4 +33,4 @@ output:
 
 
 
-***Some sections still under construction (6/8/18)**
+***Some sections are still under construction (6/8/18) - check back frequenty in the coming month for additional UI applications and shortcut functions. You might try doing a hard refresh on the site to make sure you see recent changes (what you're looking at might be a previously cached version of the site)**

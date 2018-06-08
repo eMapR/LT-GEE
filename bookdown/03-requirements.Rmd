@@ -9,7 +9,7 @@ LT-GEE requires two things:
 
 The image data composing a collection needs to represent an observation that is consistent through time. It should not include noise from
 atmosphere, clouds and shadows, sensor differences, or other anomalies. The annual changes in a time series should be the result of 
-changes in the physical features of a landscape. We recommend using the *USGS Landsat Surface Reflectance Tier 1* datasets.
+changes in the physical features of a landscape. We recommend using the *USGS Landsat Surface Reflectance Tier 1* data sets.
 These data have been atmospherically corrected, and include a cloud, shadow, water and snow mask produced 
 using CFMASK.
 
@@ -23,20 +23,22 @@ The collection must include only one observation per year. However, because clou
 is best to retrieve multiple images for a season, mask out clouds and cloud shadows from each, and then create a composite of
 those images so that you have reasonable annual spatial coverage of clear-view pixels. The best-pixel-compositing method you 
 apply is up to you. We have used nearness to a target day-of-year and also medoid compositing, we prefer the later and include
-it in the provided [examples](https://emapr.github.io/LT-GEE/example-scripts.html). LandTrendr will segment the first band in the image collection and generate annual fitted-to-vertx (FTV) data for each subsequent band. Consequently, you need to manipulate your collection so that the band or spectral index you 
+it in the provided [examples](https://emapr.github.io/LT-GEE/example-scripts.html). LandTrendr will segment the first band in the image collection and generate annual fitted-to-vertex (FTV) data for each subsequent band. Consequently, you need to manipulate your collection so that the band or spectral index you 
 want segmented is the first band, and any additional bands you want fitted to vertices should follow. The band or index you select for segmentation should
 be based on an informed decision weighted by the sensitivity of it to change in the conditions of the landscape you are working with. The best spectral representation of change can be different for
 shrubs vs trees vs conifers vs deciduous etc. We have found SWIR bands, and indices leveraging them, to be generally quite sensitive to change, but we also 
 know that it is highly variable. You should try segmenting on several bands or indices to see what works best. We also recommend trying a few different date windows and widths for generating annual composites.
 
-In the [example scripts](https://emapr.github.io/LT-GEE/example-scripts.html) provided, we composite image dates for the northern hemisphere growing season (mid-June through mid-September), which seems to work pretty well for 25-50 degrees latitude. Folks working in the southern hemisphere will need to modify the example scripts if you are to include images from your growing season, since it crosses the new year: December 2016 through Feburary 2017, for example. You'll also have to deal with how to label the year of the annual image composite - should it be the former or later year of the growing season composite?   
+In the [example scripts](https://emapr.github.io/LT-GEE/example-scripts.html) provided, we composite image dates for the northern hemisphere growing season (mid-June through mid-September), which seems to work pretty well for 25-50 degrees latitude. Folks working in the southern hemisphere will need to modify the example scripts if you are to include images from your growing season, since it crosses the new year: December 2016 through February 2017, for example. You'll also have to deal with how to label the year of the annual image composite - should it be the former or later year of the growing season composite?   
 
 <a id='importantsteps'></a>**Two really important steps** in image collection building include 1) masking cloud and cloud shadow pixels during annual image compositing and to 2) ensure that the spectral band or index that is 
 to be segmented is oriented so that vegetation loss is represented by a positive delta. For instance, NBR in its native orientation results in a negative delta when vegetation is lost from one observation to the next. In this case, NBR must be multiplied by -1 before being segmented. Conversely, if Landsat TM band 5 (SWIR) is selected for segmentation, inversion of the spectral values is not required, since natively, vegetation loss is represented by a positive delta.   
 
+Note that we provide a couple of shortcut functions to build annual surface reflectance collections and convert it to a collection formatted for use by LandTrendr. See the `buildSRcollection` and `buildLTcollection` functions in the [Shortcut Functions](./shortcut-functions.html#functions) section.
+
 ## LT parameters
 
-The LT-GEE function takes 9 arguments: 8 control parameters that adjust how spectal-temporal segmentation is done, and the annual image collection. The original LandTrendr [paper](https://larse.forestry.oregonstate.edu/sites/larse/files/pub_pdfs/Cohen_etal_2010.pdf) describes the effect and sensitivity of changing some of these argument values. We recommend trying variations in settings to see what works best for the environment you are working in. One of the great things about having LT in GEE is that parameter settings are easy and fast to iterate through to find a best set.
+The LT-GEE function takes 9 arguments: 8 control parameters that adjust how spectral-temporal segmentation is done, and the annual image collection. The original LandTrendr [paper](https://larse.forestry.oregonstate.edu/sites/larse/files/pub_pdfs/Cohen_etal_2010.pdf) describes the effect and sensitivity of changing some of these argument values. We recommend trying variations in settings to see what works best for the environment you are working in. One of the great things about having LT in GEE is that parameter settings are easy and fast to iterate through to find a best set.
 <br><br>
 
 
