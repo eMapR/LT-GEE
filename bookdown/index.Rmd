@@ -9,7 +9,7 @@ output:
       toc:
         collapse: section
         before: |
-          <li><strong><a href="./">LT-GEE Documentation</a></strong></li>
+          <a href='http://emapr.ceoas.oregonstate.edu/' target='_blank'><img src='imgs/emapr_print_logo.svg' style='margin-left:13px; margin-top:13px; height:40px'></li></a>
         after: |
           <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
       sharing: no
