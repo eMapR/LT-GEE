@@ -74,7 +74,7 @@ The UI LandTrendr Disturbance Mapper will display map layers of disturbance attr
 
 ### ToDo
 
-+ Option to xxport the map layers
++ Option to export the map layers
 + Allow input of a user drawn area or import of a feature asset or fusion table
 + auto stretch to different indices - right now it is defaulting stretch for NBR
 + Force absolute value for magnitude filter inputs
