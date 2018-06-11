@@ -3,3 +3,4 @@
 2. edit .Rmd chapter files
 3. render book
   bookdown::render_book("index.Rmd", "bookdown::gitbook")
+4. run the lines in file: add_tracking.R
