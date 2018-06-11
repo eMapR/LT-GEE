@@ -23,9 +23,9 @@ output:
 
 *Documentation by [Justin Braaten](https://github.com/jdbcode) of Oregon State University's [eMapR Lab](http://emapr.ceoas.oregonstate.edu/)*
 
-*2018/06/08*
+*2018/06/11*
 
-#### This site is a guide to the Google Earth Engine implementation of the LandTrendr spectral-temporal segmentation algorimth. {-}
+#### This site is a guide to the Google Earth Engine implementation of the LandTrendr spectral-temporal segmentation algorithm. {-}
 
 <img src='imgs/lt_gee_symbols.png'>
 
@@ -35,4 +35,4 @@ output:
 
 
 
-***Some sections are still under construction (6/8/18) - check back frequenty in the coming month for additional UI applications and shortcut functions. You might try doing a hard refresh on the site to make sure you see recent changes (what you're looking at might be a previously cached version of the site)**
+***Some sections are still under construction (6/11/18) - check back frequenty in the coming month for additional UI applications and shortcut functions. You might try doing a hard refresh on the site to make sure you see recent changes (what you're looking at might be a previously cached version of the site)**
