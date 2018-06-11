@@ -1,5 +1,10 @@
 # Introduction
 
+**This guide is intended to introduce the basics of running LandTrendr in GEE. 
+It describes the LandTrendr conceptual framework, what is required to run LT-GEE, how to run it, 
+what the outputs are, and how they are formatted. It also provides three example scripts,
+a series of user interfaces to the LT operations, and a shortcut JavaScript library.**
+
 LandTrendr (LT) is set of spectral-temporal segmentation algorithms that are useful 
 for change detection in a time series of moderate resolution satellite imagery (primarily Landsat) 
 and for generating trajectory-based spectral time series data largely absent of 
@@ -11,12 +16,7 @@ The GEE framework nearly eliminates the onerous data management and image-prepro
 aspects of the IDL implementation. It is also light-years faster than the IDL 
 implementation, where computing time is measured in minutes instead of days.
 
-**This guide is intended to introduce the basics of running LandTrendr in GEE. 
-It describes the LandTrendr conceptual framework, what is required to run LT-GEE, how to run it, 
-what the outputs are, and how they are formatted. It also provides three example scripts,
-a series of user interfaces to the LT operations, and a shortcut JavaScript library.**
-
-It is assumed that you have a [GEE account](https://signup.earthengine.google.com/#!/), 
+We assumed that you have a [GEE account](https://signup.earthengine.google.com/#!/), 
 that you are somewhat familiar with the [GEE JavaScript API](https://developers.google.com/earth-engine/), 
 and have a basic understanding of LandTrendr ([method](http://geotrendr.ceoas.oregonstate.edu/files/2015/05/Kennedy_etal2010.pdf), 
 [application](http://geotrendr.ceoas.oregonstate.edu/files/2015/05/kennedy_etal_2012_nwfp.pdf)).
