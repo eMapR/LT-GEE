@@ -98,7 +98,7 @@ The *UI LandTrendr Fitted Index Delta RGB Mapper* will display an RGB color map 
 
 The following figure is a guide to help interpret the colors.
 
-<img src='imgs/delta_rgb_interp_small.jpg'>
+<img src='imgs/delta_rgb_interp_small.png'>
 
 
 
