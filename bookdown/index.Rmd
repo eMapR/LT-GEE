@@ -3,6 +3,7 @@ title: "LT-GEE Guide"
 site: bookdown::bookdown_site
 documentclass: book
 favicon: "imgs/favicon.ico"
+github-repo: eMapR/LT-GEE
 output:
   bookdown::gitbook:
     #split_by: none
@@ -13,7 +14,16 @@ output:
           <a href='http://emapr.ceoas.oregonstate.edu/' target='_blank'><img src='imgs/emapr_print_logo.svg' style='margin-left:13px; margin-top:13px; height:40px'></li></a>
         after: |
           <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
-      sharing: no
+      sharing:
+        github: yes
+        facebook: no
+        twitter: no
+        google: no
+        linkedin: no
+        weibo: no
+        instapper: no
+        vk: no
+        all: no
     css: style.css
 ---
 
