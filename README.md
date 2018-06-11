@@ -5,9 +5,9 @@
 **Google Earth Engine implementation of the LandTrendr spectral-temporal segmentation algorithm**
 <br><br>
 
-## [LT-GEE Guide](https://emapr.github.io/LT-GEE/) 
+## [Guide](https://emapr.github.io/LT-GEE/) 
 
-## [LT-GEE Manuscript](http://www.mdpi.com/2072-4292/10/5/691) 
+## [Manuscript](http://www.mdpi.com/2072-4292/10/5/691) 
 
 ## Citation
 
