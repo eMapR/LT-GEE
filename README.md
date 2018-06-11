@@ -2,8 +2,8 @@
 
 # LT-GEE
 
-** Google Earth Engine implementation of the LandTrendr spectral-temporal segmentation algorithm**
-<br>
+**Google Earth Engine implementation of the LandTrendr spectral-temporal segmentation algorithm**
+<br><br>
 
 ## See [LT-GEE Guide](https://emapr.github.io/LT-GEE/) for more information
 <br><br>
