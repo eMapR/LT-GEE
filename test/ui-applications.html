@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   <link rel="shortcut icon" href="imgs/favicon.ico" type="image/x-icon">
-
-<link rel="next" href="introduction.html">
+<link rel="prev" href="example-scripts.html">
+<link rel="next" href="shortcut-functions.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -41,14 +41,6 @@
 
 
 
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-120674089-1"></script>
-<script>
-window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', 'UA-120674089-1');
-</script>
 
 
 
@@ -177,21 +169,82 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">LT-GEE Guide</h1>
+<div id="ui-applications" class="section level1">
+<h1><span class="header-section-number">8</span> UI Applications</h1>
+<p>We have developed a few UI applications for exploring LT-GEE time series data. They can be found in our public GEE repository. To access the applications, visit this URL (<a href="https://code.earthengine.google.com/?accept_repo=users/emaprlab/public" class="uri">https://code.earthengine.google.com/?accept_repo=users/emaprlab/public</a>). It will add the <em>users/emaprlab/public</em> repository to your GEE account. Once added, it can be found within the <em>Reader</em> permission group of your GEE scripts library.</p>
+<div id="ui-landtrendr-pixel-time-series-plotter" class="section level2">
+<h2><span class="header-section-number">8.1</span> UI LandTrendr Pixel Time Series Plotter</h2>
+<p>The UI LandTrendr Pixel Time Series Plotter will plot the Landsat surface reflectance source and LandTrendr-fitted index for a selected location. The script is useful for simply exploring and visualizing the spectral-temporal space of a pixel, for comparing the effectiveness of a series of indices for identifying landscape change, and for parameterizing LandTrendr to work best for your study region.</p>
+<p><img src='imgs/time_series_app.jpg'></p>
+<p>If you’ve added the eMapR public repository, run this <a href="https://code.earthengine.google.com/c3b614dc024fda3f3e35367b4791f675">script</a> to access the GUI.</p>
+<div id="steps" class="section level3">
+<h3><span class="header-section-number">8.1.1</span> Steps</h3>
+<ol style="list-style-type: decimal">
+<li>Click on the script to load it and then click the <em>Run</em> button to initialize the application.</li>
+<li>Drag the map panel to the top of the page for better viewing.</li>
+<li>Define a year range over which to generate annual surface reflectance composites.</li>
+<li>Define the date range over which to generate annual composites. The format is (month-day) with two digits for both month and day. Note that if your study area is in the southern hemisphere and you want to include dates that cross the year boundary to capture the summer season, this is not possible yet - it is on our list!</li>
+<li>Select spectral indices and bands to view. You can select or or many.</li>
+<li>Optionally define a pixel coordinate set to view the time series of, alternatively you’ll simply click on the map. Note that the coordinates are in units of latitude and longitude formated as decimal degrees (WGS 84 EPSG:4326). Also note that when you click a point on the map, the coordinates of the point will populate these entry boxes.</li>
+<li>Define the LandTrendr segmentation parameters. See the <a href="./lt-gee-requirements.html#lt-parameters">LT Parameters</a> section for definitions.</li>
+<li>Either click a location on the map or hit the <em>Submit</em> button. If you want to change anything about the run, but keep the coordinate that you clicked on, just make the changes and then hit the <em>Submit</em> button - the coordinates for the clicked location are saved to the pixel coordinates input boxes.</li>
+</ol>
+<p>Wait a minute or two and plots of source and LandTrendr-fitted time series data will appear for all the indices you selected. The next time you click a point or submit the inputs, any current plots will be cleared and the new set will be displayed.</p>
 </div>
-<div id="welcome" class="section level1 unnumbered">
-<h1>Welcome</h1>
-<p><em>Documentation by <a href="https://github.com/jdbcode">Justin Braaten</a> of Oregon State University’s <a href="http://emapr.ceoas.oregonstate.edu/">eMapR Lab</a></em></p>
-<p><em>2018/06/11</em></p>
-<div id="this-site-is-a-guide-to-the-google-earth-engine-implementation-of-the-landtrendr-spectral-temporal-segmentation-algorithm." class="section level4 unnumbered">
-<h4>This site is a guide to the Google Earth Engine implementation of the LandTrendr spectral-temporal segmentation algorithm.</h4>
-<p><img src='imgs/lt_gee_symbols.png'></p>
+<div id="under-the-hood" class="section level3">
+<h3><span class="header-section-number">8.1.2</span> Under the hood</h3>
+<ul>
+<li>Collection building is same as that described in the example scripts above</li>
+<li>Landsat 8 is transformed to the properties of Landsat 7 using slopes and intercepts from reduced major axis regressions reported in Roy et al 2016 Table 2</li>
+<li>Masking out clouds, cloud shadows, and snow using CFMASK product from USGS</li>
+<li>Medoid annual compositing</li>
+</ul>
 </div>
-<div id="jump-right-in---plot-a-segmented-time-series-or-map-disturbance-with-a-gui" class="section level4 unnumbered">
-<h4><a href="./ui-applications.html">Jump right in</a> - plot a segmented time series or map disturbance with a GUI!</h4>
-<p>*<strong>Some sections are still under construction (6/11/18) - check back frequenty in the coming month for additional UI applications and shortcut functions. You might try doing a hard refresh on the site to make sure you see recent changes (what you’re looking at might be a previously cached version of the site)</strong></p>
+</div>
+<div id="ui-landtrendr-disturbance-mapper" class="section level2">
+<h2><span class="header-section-number">8.2</span> UI LandTrendr Disturbance Mapper</h2>
+<p>The UI LandTrendr Disturbance Mapper will display map layers of disturbance attributes including: year of disturbance detection, magnitude of disturbance, duration of disturbance, and pre-disturbance spectral value.</p>
+<p><img src='imgs/dist_map_app.jpg'></p>
+<p>If you’ve added the eMapR public repository, just run this <a href="https://code.earthengine.google.com/f699599bd6b5b1808de188e02e4d7ae5">script</a> to access the GUI.</p>
+<div id="steps-1" class="section level3">
+<h3><span class="header-section-number">8.2.1</span> Steps</h3>
+<ol style="list-style-type: decimal">
+<li>Click on the script to load it and then click the <em>Run</em> button to initialize the application.</li>
+<li>Drag the map panel to the top of the page for better viewing.</li>
+<li>Define a year range over which to identify disturbances - best to set this close to the maximum range, you can filter disturbances by year in a different setting below.</li>
+<li>Define the date range over which to generate annual composites. The format is (month-day) with two digits for both month and day Note that if your study area is in the southern hemisphere and you want to include dates that cross the year boundary to capture the summer season, this is not possible yet - it is on our list!</li>
+<li>Select spectral index or band to use for disturbance detection.</li>
+<li>Optionally define a pixel coordinate set to define the center of the disturbance map, alternatively you’ll simply click on the map. Note that the coordinates are in units of latitude and longitude formated as decimal degrees (WGS 84 EPSG:4326). Also note that when you click a point on the map, the coordinates of the point will populate these entry boxes.</li>
+<li>Define a buffer around the center point defined by a map click or provided in the latitude and longitude coordinate boxes from step 6. The units are in kilometers. It will draw and clip the map to the bounds of the square region created by the buffer around the point of interest.</li>
+<li>Define the disturbance type you are interested in - this applies only if there are multiple disturbances in a pixel time series. It is a relative qualifier among a series of disturbances for a pixel time series.</li>
+<li>Optionally filter disturbances by the year of detection. Adjust the sliders to constrain the results to a given range of years. The filter is only applied if the <em>Filter by Year</em> box is checked.</li>
+<li>Optionally filter disturbances by magnitude. Magnitude filtering is achieved by interpolation of a magnitude threshold from 1 year to 20 years. Define the magntiude threshold considered a disturbance for disturbances that are one year in duration and also 20 years in duration. If you want to apply the same threshold value across all durations, enter the same value in each box. The values should be the minimum spectral delta value that is considered a disturbance. They should be the absolute value and multiplied by 1000 for decimal-based surface reflectance bands and spectral indices (we multiply all the decimal-based data by 1000 so that we can convert the data type to signed 16-bit and retain some precision). The filter is only applied if the <em>Filter by Magnitude</em> box is checked.</li>
+<li>Optionally filter by pre-disturbance spectral value. This filter will limit the resulting disturbances by those that have a spectral value prior to the disturbance either greater/less then (depending on index) or equal to the defined value. The units are a of the spectral index selected for segmentation and should be scaled by 1000 (if you are you only want disturbances that had an NBR value of 0.4 prior to disturbance, you would set this parameter to 400). The filter is only applied if the <em>Filter by Pre-Dist Value</em> box is checked.</li>
+<li>Optionally filter by a minimum disturbance patch size, as defined by 8-neighbor connectivity of pixels having the same disturbance year of detection. The value is the minimum number of pixel in a patch. The filter is only applied if the <em>Filter by MMU</em> box is checked.</li>
+<li>Define the LandTrendr segmentation parameters. See the <a href="./lt-gee-requirements.html#lt-parameters">LT Parameters</a> section for definitions.</li>
+</ol>
+<p><strong><em>Inspector mode</em></strong> selector. In the center top of the map there is a check box for whether to interact with the map in <em>Inspector mode</em> or not. When inspector mode is activated, map clicks engage the GEE Inspector functionality so that you can explore map layer values for a point (see the Inspector tab). When deactivated, a map click will start mapping disturbances for the region surrounding the clicked point.</p>
+</div>
+<div id="under-the-hood-1" class="section level3">
+<h3><span class="header-section-number">8.2.2</span> Under the hood</h3>
+<ul>
+<li>Collection building is same as that described in the example scripts above</li>
+<li>Landsat 8 is transformed to the properties of Landsat 7 using slopes and intercepts from reduced major axis regressions reported in Roy et al 2016 Table 2</li>
+<li>Masking out clouds, cloud shadows, and snow using CFMASK product from USGS</li>
+<li>Medoid annual compositing</li>
+</ul>
+</div>
+<div id="todo" class="section level3">
+<h3><span class="header-section-number">8.2.3</span> ToDo</h3>
+<ul>
+<li>Option to xxport the map layers</li>
+<li>Allow input of a user drawn area or import of a feature asset or fusion table</li>
+<li>auto stretch to different indices - right now it is defaulting stretch for NBR</li>
+<li>Force absolute value for magnitude filter inputs</li>
+<li>Handle input of unscaled decimal values for the pre-dist and magntiude filter parameters</li>
+</ul>
 
+</div>
 </div>
 </div>
             </section>
@@ -199,8 +252,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           </div>
         </div>
       </div>
-
-<a href="introduction.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="example-scripts.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="shortcut-functions.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

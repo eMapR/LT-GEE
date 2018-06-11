@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   <link rel="shortcut icon" href="imgs/favicon.ico" type="image/x-icon">
-
-<link rel="next" href="introduction.html">
+<link rel="prev" href="ui-applications.html">
+<link rel="next" href="validation.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -41,14 +41,6 @@
 
 
 
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-120674089-1"></script>
-<script>
-window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', 'UA-120674089-1');
-</script>
 
 
 
@@ -177,21 +169,71 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">LT-GEE Guide</h1>
-</div>
-<div id="welcome" class="section level1 unnumbered">
-<h1>Welcome</h1>
-<p><em>Documentation by <a href="https://github.com/jdbcode">Justin Braaten</a> of Oregon State University’s <a href="http://emapr.ceoas.oregonstate.edu/">eMapR Lab</a></em></p>
-<p><em>2018/06/11</em></p>
-<div id="this-site-is-a-guide-to-the-google-earth-engine-implementation-of-the-landtrendr-spectral-temporal-segmentation-algorithm." class="section level4 unnumbered">
-<h4>This site is a guide to the Google Earth Engine implementation of the LandTrendr spectral-temporal segmentation algorithm.</h4>
-<p><img src='imgs/lt_gee_symbols.png'></p>
-</div>
-<div id="jump-right-in---plot-a-segmented-time-series-or-map-disturbance-with-a-gui" class="section level4 unnumbered">
-<h4><a href="./ui-applications.html">Jump right in</a> - plot a segmented time series or map disturbance with a GUI!</h4>
-<p>*<strong>Some sections are still under construction (6/11/18) - check back frequenty in the coming month for additional UI applications and shortcut functions. You might try doing a hard refresh on the site to make sure you see recent changes (what you’re looking at might be a previously cached version of the site)</strong></p>
+<div id="shortcut-functions" class="section level1">
+<h1><span class="header-section-number">9</span> Shortcut Functions</h1>
+<p>We have created a LandTrendr JavaScript module that contains several shortcut functions to run LandTrendr and deal with the outputs. To access these functions, you must visits this URL to add the eMapR public GEE repository</p>
+<p>We have developed a LandTrendr JavaScript module that contains several shortcut functions to build LandTrendr input collections, run LandTrendr, and deal with the outputs. The module be accessed from our public GEE repository. To include them in your applications, you must first visit this URL (<a href="https://code.earthengine.google.com/?accept_repo=users/emaprlab/public" class="uri">https://code.earthengine.google.com/?accept_repo=users/emaprlab/public</a>). It will add the users/emaprlab/public repository to your GEE account. Once added, it can be found within the Reader permission group of your GEE scripts library. You’ll find the LandTrendr module at <em>Modules/LandTrendr.js</em>.</p>
+<p>To use the shortcut functions, you must import the <em>LandTrendr.js</em> module into your script using the following line - place it at the top of the script.</p>
+<pre><code>var ltgee = require(&#39;users/emaprlab/public:Modules/LandTrendr.js&#39;);</code></pre>
+<div id="functions" class="section level2">
+<h2><span class="header-section-number">9.1</span> Functions</h2>
+<ul>
+<li><strong>buildSRcollection</strong>: Builds an annual cloud and cloud shadow masked medoid composite of Landsat surface reflectance TM-equivalent bands 1,2,3,4,5,7. This collection can be useful outside of use by LandTrendr, but is also the base for creating the input collection for LandTrendr</li>
+<li><strong>buildLTcollection</strong>: Builds a collection as input to LandTrendr. It will prepare a collection where the first band is the band to base spectral-temporal segmentation and the subsequent bands will be fitted to segmentation structure of the segmentation band</li>
+<li><strong>runLT</strong>: Run LandTrendr given a set of parameters. A wrapper around <em>buildSRcollection</em> and <em>buildLTcollection</em> functions.</li>
+<li><strong>getSegmentInfo</strong>: Generates an array of information about segments from the breakpoint vertices identified by LandTrendr.</li>
+<li><strong>getFittedData</strong>: Generates an annual band stack for given index provided as <em>ftvList</em> indices to either <em>buildLTcollection</em> or <em>runLT</em>. Flattens the FTV array format to bands per given index.</li>
+</ul>
+<div id="buildsrcollection" class="section level3">
+<h3><span class="header-section-number">9.1.1</span> buildSRcollection</h3>
+<p><code>buildSRcollection(startYear, endYear, startDay, endDay, aoi)</code></p>
+<ul>
+<li><strong>startYear (Integer)</strong>: The minimum year in the desired range of annual collection</li>
+<li><strong>endYear (Integer)</strong>: The maximum year in the desired range of annual collection</li>
+<li><strong>startDay (String | month day formatted as ‘mm-dd’)</strong>: The minimum date in the desired seasonal range over which to generate annual composite.</li>
+<li><strong>endDay (String | month day formatted as ‘mm-dd’)</strong>: The maximum date in the desired seasonal range over which to generate annual composite.</li>
+<li><strong>aoi (Geometry)</strong>: The area-of-interest over which to mosaic images</li>
+</ul>
+<p>Example:</p>
+<pre><code>var ltgee = require(&#39;users/emaprlab/public:Modules/LandTrendr.js&#39;);
 
+var startYear = 1985;
+var endYear = 2017;
+var startDay = &#39;06-20&#39;;
+var endDay = &#39;09-20&#39;;
+var aoi = ee.Geometry.Point(-122.8848, 43.7929);
+
+Map.centerObject(aoi,10);
+Map.addLayer(aoi);
+
+var annualSRcollection = ltgee.buildSRcollection(startYear, endYear, startDay, endDay, aoi);
+print(annualSRcollection);</code></pre>
+</div>
+<div id="buildltcollection" class="section level3">
+<h3><span class="header-section-number">9.1.2</span> buildLTcollection</h3>
+<p><code>buildLTcollection(collection, index, ftvList)</code></p>
+<ul>
+<li><strong>collection (Image Collection)</strong>: An annual surface reflectance collection generated by the <code>buildSRcollection</code> function.</li>
+<li><strong>index (String)</strong>: The index from the list in the ________ section to be segmented by LandTrendr.</li>
+<li><strong>ftvList (List of strings)</strong>: A list of one or more indices from the list in the ________ section to be fitted to the segmentation of the <code>index</code> parameter.</li>
+</ul>
+<p>Example:</p>
+<pre><code>var ltgee = require(&#39;users/emaprlab/public:Modules/LandTrendr.js&#39;);
+
+var startYear = 1985;
+var endYear = 2017;
+var startDay = &#39;06-20&#39;;
+var endDay = &#39;09-20&#39;;
+var aoi = ee.Geometry.Point(-122.8848, 43.7929);
+var index = &#39;NBR&#39;;
+var ftvList = [&#39;NDVI&#39;, &#39;B4&#39;, &#39;B3&#39;];
+
+Map.centerObject(aoi,10);
+Map.addLayer(aoi);
+var annualSRcollection = ltgee.buildSRcollection(startYear, endYear, startDay, endDay, aoi);
+var annualLTcollection = ltgee.buildLTcollection(annualSRcollection, index, ftvList);</code></pre>
+
+</div>
 </div>
 </div>
             </section>
@@ -199,8 +241,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           </div>
         </div>
       </div>
-
-<a href="introduction.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="ui-applications.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="validation.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   <link rel="shortcut icon" href="imgs/favicon.ico" type="image/x-icon">
-
-<link rel="next" href="introduction.html">
+<link rel="prev" href="index.html">
+<link rel="next" href="landtrendr.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -41,14 +41,6 @@
 
 
 
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-120674089-1"></script>
-<script>
-window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', 'UA-120674089-1');
-</script>
 
 
 
@@ -177,30 +169,20 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">LT-GEE Guide</h1>
-</div>
-<div id="welcome" class="section level1 unnumbered">
-<h1>Welcome</h1>
-<p><em>Documentation by <a href="https://github.com/jdbcode">Justin Braaten</a> of Oregon State University’s <a href="http://emapr.ceoas.oregonstate.edu/">eMapR Lab</a></em></p>
-<p><em>2018/06/11</em></p>
-<div id="this-site-is-a-guide-to-the-google-earth-engine-implementation-of-the-landtrendr-spectral-temporal-segmentation-algorithm." class="section level4 unnumbered">
-<h4>This site is a guide to the Google Earth Engine implementation of the LandTrendr spectral-temporal segmentation algorithm.</h4>
-<p><img src='imgs/lt_gee_symbols.png'></p>
-</div>
-<div id="jump-right-in---plot-a-segmented-time-series-or-map-disturbance-with-a-gui" class="section level4 unnumbered">
-<h4><a href="./ui-applications.html">Jump right in</a> - plot a segmented time series or map disturbance with a GUI!</h4>
-<p>*<strong>Some sections are still under construction (6/11/18) - check back frequenty in the coming month for additional UI applications and shortcut functions. You might try doing a hard refresh on the site to make sure you see recent changes (what you’re looking at might be a previously cached version of the site)</strong></p>
+<div id="introduction" class="section level1">
+<h1><span class="header-section-number">1</span> Introduction</h1>
+<p>LandTrendr (LT) is set of spectral-temporal segmentation algorithms that are useful for change detection in a time series of moderate resolution satellite imagery (primarily Landsat) and for generating trajectory-based spectral time series data largely absent of inter-annual signal noise. LandTrendr was originally implemented in IDL (Interactive Data Language), but with the help of engineers at Google, it has been ported to the Google Earth Engine (GEE) platform (<a href="http://www.mdpi.com/2072-4292/10/5/691">porting paper</a>; <a href="https://earthengine.google.com/">GEE overview</a>; <a href="https://www.sciencedirect.com/science/article/pii/S0034425717302900">GEE paper</a>). The GEE framework nearly eliminates the onerous data management and image-preprocessing aspects of the IDL implementation. It is also light-years faster than the IDL implementation, where computing time is measured in minutes instead of days.</p>
+<p><strong>This guide is intended to introduce the basics of running LandTrendr in GEE. It describes the LandTrendr conceptual framework, what is required to run LT-GEE, how to run it, what the outputs are, and how they are formatted. It also provides three example scripts, a series of user interfaces to the LT operations, and a shortcut JavaScript library.</strong></p>
+<p>It is assumed that you have a <a href="https://signup.earthengine.google.com/#!/">GEE account</a>, that you are somewhat familiar with the <a href="https://developers.google.com/earth-engine/">GEE JavaScript API</a>, and have a basic understanding of LandTrendr (<a href="http://geotrendr.ceoas.oregonstate.edu/files/2015/05/Kennedy_etal2010.pdf">method</a>, <a href="http://geotrendr.ceoas.oregonstate.edu/files/2015/05/kennedy_etal_2012_nwfp.pdf">application</a>).</p>
 
-</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="introduction.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="landtrendr.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   <link rel="shortcut icon" href="imgs/favicon.ico" type="image/x-icon">
-
-<link rel="next" href="introduction.html">
+<link rel="prev" href="landtrendr.html">
+<link rel="next" href="running-lt-gee.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -41,14 +41,6 @@
 
 
 
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-120674089-1"></script>
-<script>
-window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', 'UA-120674089-1');
-</script>
 
 
 
@@ -177,20 +169,97 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">LT-GEE Guide</h1>
+<div id="lt-gee-requirements" class="section level1">
+<h1><span class="header-section-number">3</span> LT-GEE Requirements</h1>
+<p>LT-GEE requires two things:</p>
+<ol style="list-style-type: decimal">
+<li>An annual image collection</li>
+<li>A set of parameters to control segmentation</li>
+</ol>
+<div id="image-collection" class="section level2">
+<h2><span class="header-section-number">3.1</span> Image Collection</h2>
+<p>The image data composing a collection needs to represent an observation that is consistent through time. It should not include noise from atmosphere, clouds and shadows, sensor differences, or other anomalies. The annual changes in a time series should be the result of changes in the physical features of a landscape. We recommend using the <em>USGS Landsat Surface Reflectance Tier 1</em> data sets. These data have been atmospherically corrected, and include a cloud, shadow, water and snow mask produced using CFMASK.</p>
+<p>GEE ImageCollection IDs for USGS Landsat Surface Reflectance</p>
+<ul>
+<li>Landsat 5: LANDSAT/LT05/C01/T1_SR</li>
+<li>Landsat 7: LANDSAT/LE07/C01/T1_SR</li>
+<li>Landsat 8: LANDSAT/LC08/C01/T1_SR</li>
+</ul>
+<p>The collection must include only one observation per year. However, because clouds are often present in any given image, it is best to retrieve multiple images for a season, mask out clouds and cloud shadows from each, and then create a composite of those images so that you have reasonable annual spatial coverage of clear-view pixels. The best-pixel-compositing method you apply is up to you. We have used nearness to a target day-of-year and also medoid compositing, we prefer the later and include it in the provided <a href="https://emapr.github.io/LT-GEE/example-scripts.html">examples</a>. LandTrendr will segment the first band in the image collection and generate annual fitted-to-vertex (FTV) data for each subsequent band. Consequently, you need to manipulate your collection so that the band or spectral index you want segmented is the first band, and any additional bands you want fitted to vertices should follow. The band or index you select for segmentation should be based on an informed decision weighted by the sensitivity of it to change in the conditions of the landscape you are working with. The best spectral representation of change can be different for shrubs vs trees vs conifers vs deciduous etc. We have found SWIR bands, and indices leveraging them, to be generally quite sensitive to change, but we also know that it is highly variable. You should try segmenting on several bands or indices to see what works best. We also recommend trying a few different date windows and widths for generating annual composites.</p>
+<p>In the <a href="https://emapr.github.io/LT-GEE/example-scripts.html">example scripts</a> provided, we composite image dates for the northern hemisphere growing season (mid-June through mid-September), which seems to work pretty well for 25-50 degrees latitude. Folks working in the southern hemisphere will need to modify the example scripts if you are to include images from your growing season, since it crosses the new year: December 2016 through February 2017, for example. You’ll also have to deal with how to label the year of the annual image composite - should it be the former or later year of the growing season composite?</p>
+<p><a id='importantsteps'></a><strong>Two really important steps</strong> in image collection building include 1) masking cloud and cloud shadow pixels during annual image compositing and to 2) ensure that the spectral band or index that is to be segmented is oriented so that vegetation loss is represented by a positive delta. For instance, NBR in its native orientation results in a negative delta when vegetation is lost from one observation to the next. In this case, NBR must be multiplied by -1 before being segmented. Conversely, if Landsat TM band 5 (SWIR) is selected for segmentation, inversion of the spectral values is not required, since natively, vegetation loss is represented by a positive delta.</p>
+<p>Note that we provide a couple of shortcut functions to build annual surface reflectance collections and convert it to a collection formatted for use by LandTrendr. See the <code>buildSRcollection</code> and <code>buildLTcollection</code> functions in the <a href="./shortcut-functions.html#functions">Shortcut Functions</a> section.</p>
 </div>
-<div id="welcome" class="section level1 unnumbered">
-<h1>Welcome</h1>
-<p><em>Documentation by <a href="https://github.com/jdbcode">Justin Braaten</a> of Oregon State University’s <a href="http://emapr.ceoas.oregonstate.edu/">eMapR Lab</a></em></p>
-<p><em>2018/06/11</em></p>
-<div id="this-site-is-a-guide-to-the-google-earth-engine-implementation-of-the-landtrendr-spectral-temporal-segmentation-algorithm." class="section level4 unnumbered">
-<h4>This site is a guide to the Google Earth Engine implementation of the LandTrendr spectral-temporal segmentation algorithm.</h4>
-<p><img src='imgs/lt_gee_symbols.png'></p>
-</div>
-<div id="jump-right-in---plot-a-segmented-time-series-or-map-disturbance-with-a-gui" class="section level4 unnumbered">
-<h4><a href="./ui-applications.html">Jump right in</a> - plot a segmented time series or map disturbance with a GUI!</h4>
-<p>*<strong>Some sections are still under construction (6/11/18) - check back frequenty in the coming month for additional UI applications and shortcut functions. You might try doing a hard refresh on the site to make sure you see recent changes (what you’re looking at might be a previously cached version of the site)</strong></p>
+<div id="lt-parameters" class="section level2">
+<h2><span class="header-section-number">3.2</span> LT parameters</h2>
+<p>The LT-GEE function takes 9 arguments: 8 control parameters that adjust how spectral-temporal segmentation is done, and the annual image collection. The original LandTrendr <a href="https://larse.forestry.oregonstate.edu/sites/larse/files/pub_pdfs/Cohen_etal_2010.pdf">paper</a> describes the effect and sensitivity of changing some of these argument values. We recommend trying variations in settings to see what works best for the environment you are working in. One of the great things about having LT in GEE is that parameter settings are easy and fast to iterate through to find a best set. <br><br></p>
+<table>
+<caption><span id="tab:nice-tab">Table 3.1: </span>LandTrendr parameters</caption>
+<thead>
+<tr class="header">
+<th align="left">Parameter</th>
+<th align="left">Type</th>
+<th align="left">Default</th>
+<th align="left">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">maxSegments</td>
+<td align="left">Integer</td>
+<td align="left"></td>
+<td align="left">Maximum number of segments to be fitted on the time series</td>
+</tr>
+<tr class="even">
+<td align="left">spikeThreshold</td>
+<td align="left">Float</td>
+<td align="left">0.9</td>
+<td align="left">Threshold for dampening the spikes (1.0 means no dampening)</td>
+</tr>
+<tr class="odd">
+<td align="left">vertexCountOvershoot</td>
+<td align="left">Integer</td>
+<td align="left">3</td>
+<td align="left">The inital model can overshoot the maxSegments + 1 vertices by this amount. Later, it will be prunned down to maxSegments + 1</td>
+</tr>
+<tr class="even">
+<td align="left">preventOneYearRecovery</td>
+<td align="left">Boolean</td>
+<td align="left">false</td>
+<td align="left">Prevent segments that represent one year recoveries</td>
+</tr>
+<tr class="odd">
+<td align="left">recoveryThreshold</td>
+<td align="left">Float</td>
+<td align="left">0.25</td>
+<td align="left">If a segment has a recovery rate faster than 1/recoveryThreshold (in years), then the segment is disallowed</td>
+</tr>
+<tr class="even">
+<td align="left">pvalThreshold</td>
+<td align="left">Float</td>
+<td align="left">0.1</td>
+<td align="left">If the p-value of the fitted model exceeds this threshold, then the current model is discarded and another one is fitted using the Levenberg-Marquardt optimizer</td>
+</tr>
+<tr class="odd">
+<td align="left">bestModelProportion</td>
+<td align="left">Float</td>
+<td align="left">1.25</td>
+<td align="left">Takes the model with most vertices that has a p-value that is at most this proportion away from the model with lowest p-value</td>
+</tr>
+<tr class="even">
+<td align="left">minObservationsNeeded</td>
+<td align="left">Integer</td>
+<td align="left">6</td>
+<td align="left">Min observations needed to perform output fitting</td>
+</tr>
+<tr class="odd">
+<td align="left">timeSeries</td>
+<td align="left">ImageCollection</td>
+<td align="left"></td>
+<td align="left">Collection from which to extract trends (it’s assumed that each image in the collection represents one year). The first band is used to find breakpoints, and all subsequent bands are fitted using those breakpoints</td>
+</tr>
+</tbody>
+</table>
 
 </div>
 </div>
@@ -199,8 +268,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           </div>
         </div>
       </div>
-
-<a href="introduction.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="landtrendr.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="running-lt-gee.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
