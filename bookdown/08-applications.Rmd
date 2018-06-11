@@ -13,7 +13,7 @@ study region.
 
 <img src='imgs/time_series_app.jpg'>
 
-If you've added the eMapR public repository, run this [script](https://code.earthengine.google.com/c3b614dc024fda3f3e35367b4791f675) to access the GUI. 
+ 
 
 ### Steps
 
@@ -42,7 +42,7 @@ The UI LandTrendr Disturbance Mapper will display map layers of disturbance attr
 
 <img src='imgs/dist_map_app.jpg'>
 
-If you've added the eMapR public repository, just run this [script](https://code.earthengine.google.com/f699599bd6b5b1808de188e02e4d7ae5) to access the GUI. 
+
 
 
 ### Steps
