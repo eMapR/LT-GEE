@@ -11,7 +11,7 @@ The image data composing a collection needs to represent an observation that is 
 atmosphere, clouds and shadows, sensor differences, or other anomalies. The annual changes in a time series should be the result of 
 changes in the physical features of a landscape. We recommend using the *USGS Landsat Surface Reflectance Tier 1* data sets.
 These data have been atmospherically corrected, and include a cloud, shadow, water and snow mask produced 
-using CFMASK.
+using [CFMASK](https://www.sciencedirect.com/science/article/pii/S0034425714005069).
 
 GEE ImageCollection IDs for USGS Landsat Surface Reflectance 
 
