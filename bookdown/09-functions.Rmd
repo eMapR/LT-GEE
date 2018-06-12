@@ -1,8 +1,6 @@
 # Shortcut Functions
 
-We have created a LandTrendr JavaScript module that contains several shortcut functions to run LandTrendr and deal with the outputs. To access these functions, you must visits this URL to add the eMapR public GEE repository 
-
-We have developed a LandTrendr JavaScript module that contains several shortcut functions to build LandTrendr input collections, run LandTrendr, and deal with the outputs. The module be accessed from our public GEE repository. To include them in your applications, you must first visit this URL (https://code.earthengine.google.com/?accept_repo=users/emaprlab/public). It will add the users/emaprlab/public repository to your GEE account. Once added, it can be found within the Reader permission group of your GEE scripts library. You'll find the LandTrendr module at *Modules/LandTrendr.js*.
+We have developed a LandTrendr JavaScript module that contains several shortcut functions to build LandTrendr input collections, run LandTrendr, and deal with the outputs. The module can be accessed from our public GEE repository. To use the module, you must first visit this URL: https://code.earthengine.google.com/?accept_repo=users/emaprlab/public. It will add the *users/emaprlab/public* repository to your GEE account. Once added, it can be found within the *Reader* permission group of your GEE scripts library. You'll find the LandTrendr module at *Modules/LandTrendr.js*.
 
 To use the shortcut functions, you must import the *LandTrendr.js* module into your script using the following line - place it at the top of the script. 
 
@@ -10,17 +8,22 @@ To use the shortcut functions, you must import the *LandTrendr.js* module into y
 var ltgee = require('users/emaprlab/public:Modules/LandTrendr.js');
 ```
 
+
 ## Functions
 
-+ **buildSRcollection**: Builds an annual cloud and cloud shadow masked medoid composite of Landsat surface reflectance TM-equivalent bands 1,2,3,4,5,7. This collection can be useful outside of use by LandTrendr, but is also the base for creating the input collection for LandTrendr
-+ **buildLTcollection**: Builds a collection as input to LandTrendr. It will prepare a collection where the first band is the band to base spectral-temporal segmentation and the subsequent bands will be fitted to segmentation structure of the segmentation band 
-+ **runLT**: Run LandTrendr given a set of parameters. A wrapper around *buildSRcollection* and *buildLTcollection* functions.
-+ **getSegmentInfo**: Generates an array of information about segments from the breakpoint vertices identified by LandTrendr.
-+ **getFittedData**: Generates an annual band stack for given index provided as *ftvList* indices to either *buildLTcollection* or *runLT*. Flattens the FTV array format to bands per given index.
++ **[buildSRcollection]** - Builds an annual cloud and cloud shadow masked medoid composite of Landsat surface reflectance TM-equivalent bands 1,2,3,4,5,7. This collection can be useful outside of use by LandTrendr, but is also the base for creating the input collection for LandTrendr.
++ **[buildLTcollection]** - Builds a collection as input to LandTrendr. It will prepare a collection where the first band is the spectral index to base temporal segmentation on, and the subsequent bands will be fitted to segmentation structure of the segmentation index. 
++ **[runLT]** - Run LandTrendr given a set of parameters. This is a wrapper around `buildSRcollection` and `buildLTcollection` functions.
++ **[getSegmentInfo]** - Generates an array of information about spectral-temporal segments from the breakpoint vertices identified by LandTrendr.
++ **[getFittedData]** - Generates an annual band stack for a given index provided as *ftvList* indices to either *buildLTcollection* or *runLT*. It flattens the FTV array format to a band per year for a given FTV index.
 
 ### buildSRcollection
 
+*Usage:*
+
 `buildSRcollection(startYear, endYear, startDay, endDay, aoi)`
+
+*Parameters:*
 
 + **startYear (Integer)**: The minimum year in the desired range of annual collection
 + **endYear (Integer)**: The maximum year in the desired range of annual collection
@@ -28,35 +31,55 @@ var ltgee = require('users/emaprlab/public:Modules/LandTrendr.js');
 + **endDay (String | month day formatted as 'mm-dd')**: The maximum date in the desired seasonal range over which to generate annual composite.
 + **aoi (Geometry)**: The area-of-interest over which to mosaic images
 
-Example:
+*Result:*
+
+An ee.ImageCollection where each image represents the medoid of observations per TM-equivalent surface reflectance bands 1-5 and 7, for a given year. There will be as many images as there are years in the range inclusive of *startYear* and *endYear*. If a given year does not exist for the range, then a masked band will act as a filler. Similarly, if all observations of a given pixel within a year are masked because of cloud, cloud shadow, or snow, the pixel will be masked.
+
+*Example:*
+
 ```
+// load the LandTrendr.js module
 var ltgee = require('users/emaprlab/public:Modules/LandTrendr.js');
 
+// define parameters
 var startYear = 1985;
 var endYear = 2017;
 var startDay = '06-20';
 var endDay = '09-20';
 var aoi = ee.Geometry.Point(-122.8848, 43.7929);
 
+// center and zoom the display in case outputs are to be mapped 
 Map.centerObject(aoi,10);
 Map.addLayer(aoi);
 
+// apply LandTrendr.js functions
 var annualSRcollection = ltgee.buildSRcollection(startYear, endYear, startDay, endDay, aoi);
 print(annualSRcollection);
 ```
 
 ### buildLTcollection
 
+*Usage:*
+
 `buildLTcollection(collection, index, ftvList)`
+
+*Parameters:*
 
 + **collection (Image Collection)**: An annual surface reflectance collection generated by the `buildSRcollection` function. 
 + **index (String)**: The index from the list in the [Spectral index codes] section to be segmented by LandTrendr.
-+ **ftvList (List of strings)**: A list of one or more indices from the list in the [Spectral index codes] section to be fitted to the segmentation of the `index` parameter.
++ **ftvList (List of strings)**: A list of one or more indices from the list in the [Spectral index codes] section to be fitted to the segmentation of the `index` parameter. This parameter can also be set by and empty list `[]` which is valid and results in no FTV bands included in the LandTrendr output image.
 
-Example:
+*Result:*
+
+An ee.ImageCollection where each image represents an assemblage of bands or indices to be segmented and fitted by LandTrendr. There will be as many images as there are years in the range inclusive of *startYear* and *endYear*. If a given year does not exist for the range, then a masked band will act as a filler. Similarly, if all observations of a given pixel within a year are masked because of cloud, cloud shadow, or snow, the pixel will be masked. The first band per image will be whatever spectral representation is defined by the `index` parameter - it will be oriented so that vegetation loss results in a positive spectral delta. Any following bands will be defined by the indices provided in the `ftvList` parameter, in the same order, and unmodified with regard to spectral delta orientation.
+
+*Example:*
+
 ```
+// load the LandTrendr.js module
 var ltgee = require('users/emaprlab/public:Modules/LandTrendr.js');
 
+// define parameters
 var startYear = 1985;
 var endYear = 2017;
 var startDay = '06-20';
@@ -65,18 +88,24 @@ var aoi = ee.Geometry.Point(-122.8848, 43.7929);
 var index = 'NBR';
 var ftvList = ['NDVI', 'B4', 'B3'];
 
+// center and zoom the display in case outputs are to be mapped 
 Map.centerObject(aoi,10);
 Map.addLayer(aoi);
+
+// apply LandTrendr.js functions
 var annualSRcollection = ltgee.buildSRcollection(startYear, endYear, startDay, endDay, aoi);
 var annualLTcollection = ltgee.buildLTcollection(annualSRcollection, index, ftvList);
+print(annualLTcollection)
 ```
 
 
 ### runLT
 
-**usage:**
+**Usage:**
 
 `runLT(startYear, endYear, startDay, endDay, aoi, index, ftvList, runParams)`
+
+**Parameters:**
 
 + **startYear (Integer)**: The minimum year in the desired range of annual collection
 + **endYear (Integer)**: The maximum year in the desired range of annual collection
@@ -93,7 +122,12 @@ An array image described in the [LT-GEE Outputs](./lt-gee-outputs.html) section
 
 
 **Example**:
+
 ```
+// load the LandTrendr.js module
+var ltgee = require('users/emaprlab/public:Modules/LandTrendr.js');
+
+// define parameters
 var startYear = 1985;
 var endYear = 2017;
 var startDay = '06-20';
@@ -101,7 +135,7 @@ var endDay = '09-20';
 var aoi = ee.Geometry.Point(-122.8848, 43.7929);
 var index = 'NBR';
 var ftvList = [];
-var run_params = { 
+var runParams = { 
   maxSegments:            6,
   spikeThreshold:         0.9,
   vertexCountOvershoot:   3,
@@ -112,26 +146,51 @@ var run_params = {
   minObservationsNeeded:  6
 };
 
-var lt = ltgee.runLT(startYear, endYear, startDay, endDay, aoi, index, [], runParams);
-```
+// center and zoom the display in case outputs are to be mapped 
+Map.centerObject(aoi,10);
+Map.addLayer(aoi);
 
+// apply LandTrendr.js functions
+var lt = ltgee.runLT(startYear, endYear, startDay, endDay, aoi, index, [], runParams);
+print(lt)
+```
 
 
 
 
 ### getSegmentInfo
 
-**usage:**
+**Usage:**
 
 `getSegmentInfo(lt, index)`
+
+**Parameters:**
 
 + **lt (Image Array)**: The image array that is the result of running LandTrendr (either `runLT()` or `ee.Algorithms.TemporalSegmentation.LandTrendr()`). 
 + **index (String)**: The index from the list in the [Spectral index codes] section to be segmented by LandTrendr.
 
 **Result**:
 
-**Example**:
+An image array with dimensions: 7 (rows) x nSegments (cols). Each row describes an attribute of the segments idenitifed by LandTrendr per pixel time series. Each column represents a segment in the time series per pixel ordered from earliest to lastest in the series. 
+
++ Row 1: segment start year
++ Row 2: segment end year
++ Row 3: segment start value
++ Row 4: segment end value
++ Row 5: segment spectral delta
++ Row 6: segment duration
++ Row 7: segment rate of spectral change
+
+To extract a row, use the `arraySlice` function. For example, if you wanted to work only with the segment start years, you would do this: `var segStartYr = arraySlice(segInfo, 0, 1)`. See the [Working with Outputs](./working-with-outputs.html#getting-segment-information) section for more information on handling these data.
+
+
+**Example**:<br>
+
 ```
+// load the LandTrendr.js module
+var ltgee = require('users/emaprlab/public:Modules/LandTrendr.js');
+
+// define parameters
 var startYear = 1985;
 var endYear = 2017;
 var startDay = '06-20';
@@ -139,7 +198,7 @@ var endDay = '09-20';
 var aoi = ee.Geometry.Point(-122.8848, 43.7929);
 var index = 'NBR';
 var ftvList = [];
-var run_params = { 
+var runParams = { 
   maxSegments:            6,
   spikeThreshold:         0.9,
   vertexCountOvershoot:   3,
@@ -150,8 +209,14 @@ var run_params = {
   minObservationsNeeded:  6
 };
 
-var lt = ltgee.runLT(startYear, endYear, startDay, endDay, aoi, index, [], runParams);
+// center and zoom the display in case outputs are to be mapped
+Map.centerObject(aoi,10);
+Map.addLayer(aoi);
+
+// apply LandTrendr.js functions
+var lt = ltgee.runLT(startYear, endYear, startDay, endDay, aoi, index, ftvList, runParams);
 var segInfo = ltgee.getSegmentInfo(lt, index)
+print(segInfo)
 
 ```
 
