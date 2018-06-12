@@ -270,9 +270,9 @@ print(annualLTcollection)</code></pre>
 </div>
 <div id="runlt" class="section level3">
 <h3><span class="header-section-number">9.1.3</span> runLT</h3>
-<p><strong>Usage:</strong></p>
+<p><em>Usage:</em></p>
 <p><code>runLT(startYear, endYear, startDay, endDay, aoi, index, ftvList, runParams)</code></p>
-<p><strong>Parameters:</strong></p>
+<p><em>Parameters:</em></p>
 <ul>
 <li><strong>startYear (Integer)</strong>: The minimum year in the desired range of annual collection</li>
 <li><strong>endYear (Integer)</strong>: The maximum year in the desired range of annual collection</li>
@@ -283,9 +283,9 @@ print(annualLTcollection)</code></pre>
 <li><strong>ftvList (List of strings)</strong>: A list of one or more indices from the list in the <a href="shortcut-functions.html#spectral-index-codes">Spectral index codes</a> section to be fitted to the segmentation of the <code>index</code> parameter.</li>
 <li><strong>runParams (Dictionary)</strong>: A dictionary of parameters to control LandTrendr segmentation. You can find definitions for the dictionary keys and values in <a href="./lt-gee-requirements.html#lt-parameters">LT parameters</a> section</li>
 </ul>
-<p><strong>Result</strong>:</p>
+<p><em>Result:</em></p>
 <p>An array image described in the <a href="./lt-gee-outputs.html">LT-GEE Outputs</a> section</p>
-<p><strong>Example</strong>:</p>
+<p><em>Example:</em></p>
 <pre><code>// load the LandTrendr.js module
 var ltgee = require(&#39;users/emaprlab/public:Modules/LandTrendr.js&#39;);
 
@@ -318,14 +318,14 @@ print(lt)</code></pre>
 </div>
 <div id="getsegmentinfo" class="section level3">
 <h3><span class="header-section-number">9.1.4</span> getSegmentInfo</h3>
-<p><strong>Usage:</strong></p>
+<p><em>Usage:</em></p>
 <p><code>getSegmentInfo(lt, index)</code></p>
-<p><strong>Parameters:</strong></p>
+<p><em>Parameters:</em></p>
 <ul>
 <li><strong>lt (Image Array)</strong>: The image array that is the result of running LandTrendr (either <code>runLT()</code> or <code>ee.Algorithms.TemporalSegmentation.LandTrendr()</code>).</li>
 <li><strong>index (String)</strong>: The index from the list in the <a href="shortcut-functions.html#spectral-index-codes">Spectral index codes</a> section to be segmented by LandTrendr.</li>
 </ul>
-<p><strong>Result</strong>:</p>
+<p><em>Result:</em></p>
 <p>An image array with dimensions: 7 (rows) x nSegments (cols). Each row describes an attribute of the segments idenitifed by LandTrendr per pixel time series. Each column represents a segment in the time series per pixel ordered from earliest to lastest in the series.</p>
 <ul>
 <li>Row 1: segment start year</li>
@@ -337,7 +337,7 @@ print(lt)</code></pre>
 <li>Row 7: segment rate of spectral change</li>
 </ul>
 <p>To extract a row, use the <code>arraySlice</code> function. For example, if you wanted to work only with the segment start years, you would do this: <code>var segStartYr = arraySlice(segInfo, 0, 1)</code>. See the <a href="./working-with-outputs.html#getting-segment-information">Working with Outputs</a> section for more information on handling these data.</p>
-<p><strong>Example</strong>:</p>
+<p><em>Example:</em></p>
 <pre><code>// load the LandTrendr.js module
 var ltgee = require(&#39;users/emaprlab/public:Modules/LandTrendr.js&#39;);
 
@@ -372,18 +372,18 @@ print(segInfo)
 </div>
 <div id="getfitteddata" class="section level3">
 <h3><span class="header-section-number">9.1.5</span> getFittedData</h3>
-<p><strong>Usage:</strong></p>
+<p><em>Usage:</em></p>
 <p><code>getFittedData(lt, startYear, endYear, index)</code></p>
-<p><strong>Parameters:</strong></p>
+<p><em>Parameters:</em></p>
 <ul>
 <li><strong>lt (Image Array)</strong>: The image array that is the result of running LandTrendr (either <code>runLT()</code> or <code>ee.Algorithms.TemporalSegmentation.LandTrendr()</code>).</li>
 <li><strong>startYear (Integer)</strong>: The minimum year in the desired range of annual collection</li>
 <li><strong>endYear (Integer)</strong>: The maximum year in the desired range of annual collection</li>
 <li><strong>index (String)</strong>: The index from the list in the <a href="shortcut-functions.html#spectral-index-codes">Spectral index codes</a> section to be segmented by LandTrendr.</li>
 </ul>
-<p><strong>Result:</strong></p>
+<p><em>Result:</em></p>
 <p>An ee.Image representing fitted-to-vertex annual spectral data for whatever index was provided as the <code>index</code> parameter. There will be as many bands as there are years in the range inclusive of <em>startYear</em> and <em>endYear</em>.</p>
-<p><strong>Example:</strong></p>
+<p><em>Example:</em></p>
 <pre><code>// load the LandTrendr.js module
 var ltgee = require(&#39;users/emaprlab/public:Modules/LandTrendr.js&#39;);
 

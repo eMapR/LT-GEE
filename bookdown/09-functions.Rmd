@@ -101,11 +101,11 @@ print(annualLTcollection)
 
 ### runLT
 
-**Usage:**
+*Usage:*
 
 `runLT(startYear, endYear, startDay, endDay, aoi, index, ftvList, runParams)`
 
-**Parameters:**
+*Parameters:*
 
 + **startYear (Integer)**: The minimum year in the desired range of annual collection
 + **endYear (Integer)**: The maximum year in the desired range of annual collection
@@ -117,11 +117,11 @@ print(annualLTcollection)
 + **runParams (Dictionary)**: A dictionary of parameters to control LandTrendr segmentation. You can find definitions for the dictionary keys and values in [LT parameters](./lt-gee-requirements.html#lt-parameters) section 
 
 
-**Result**:
+*Result:*
 
 An array image described in the [LT-GEE Outputs](./lt-gee-outputs.html) section
 
-**Example**:
+*Example:*
 
 ```
 // load the LandTrendr.js module
@@ -160,16 +160,16 @@ print(lt)
 
 ### getSegmentInfo
 
-**Usage:**
+*Usage:*
 
 `getSegmentInfo(lt, index)`
 
-**Parameters:**
+*Parameters:*
 
 + **lt (Image Array)**: The image array that is the result of running LandTrendr (either `runLT()` or `ee.Algorithms.TemporalSegmentation.LandTrendr()`). 
 + **index (String)**: The index from the list in the [Spectral index codes] section to be segmented by LandTrendr.
 
-**Result**:
+*Result:*
 
 An image array with dimensions: 7 (rows) x nSegments (cols). Each row describes an attribute of the segments idenitifed by LandTrendr per pixel time series. Each column represents a segment in the time series per pixel ordered from earliest to lastest in the series. 
 
@@ -184,7 +184,7 @@ An image array with dimensions: 7 (rows) x nSegments (cols). Each row describes 
 To extract a row, use the `arraySlice` function. For example, if you wanted to work only with the segment start years, you would do this: `var segStartYr = arraySlice(segInfo, 0, 1)`. See the [Working with Outputs](./working-with-outputs.html#getting-segment-information) section for more information on handling these data.
 
 
-**Example**:
+*Example:*
 
 ```
 // load the LandTrendr.js module
@@ -222,22 +222,22 @@ print(segInfo)
 
 ### getFittedData
 
-**Usage:**
+*Usage:*
 
 `getFittedData(lt, startYear, endYear, index)`
 
-**Parameters:**
+*Parameters:*
 
 + **lt (Image Array)**: The image array that is the result of running LandTrendr (either `runLT()` or `ee.Algorithms.TemporalSegmentation.LandTrendr()`). 
 + **startYear (Integer)**: The minimum year in the desired range of annual collection
 + **endYear (Integer)**: The maximum year in the desired range of annual collection
 + **index (String)**: The index from the list in the [Spectral index codes] section to be segmented by LandTrendr.
 
-**Result:**
+*Result:*
 
 An ee.Image representing fitted-to-vertex annual spectral data for whatever index was provided as the `index` parameter. There will be as many bands as there are years in the range inclusive of *startYear* and *endYear*.
 
-**Example:**
+*Example:*
 
 ```
 // load the LandTrendr.js module
