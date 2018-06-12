@@ -282,7 +282,8 @@ print(annualLTcollection)</code></pre>
 <li><strong>ftvList (List of strings)</strong>: A list of one or more indices from the list in the <a href="shortcut-functions.html#spectral-index-codes">Spectral index codes</a> section to be fitted to the segmentation of the <code>index</code> parameter.</li>
 <li><strong>runParams (Dictionary)</strong>: A dictionary of parameters to control LandTrendr segmentation. You can find definitions for the dictionary keys and values in <a href="./lt-gee-requirements.html#lt-parameters">LT parameters</a> section</li>
 </ul>
-<p><strong>Result</strong>: An array image described in the <a href="./lt-gee-outputs.html">LT-GEE Outputs</a> section</p>
+<p><strong>Result</strong>:</p>
+<p>An array image described in the <a href="./lt-gee-outputs.html">LT-GEE Outputs</a> section</p>
 <p><strong>Example</strong>:</p>
 <pre><code>// load the LandTrendr.js module
 var ltgee = require(&#39;users/emaprlab/public:Modules/LandTrendr.js&#39;);
@@ -335,7 +336,7 @@ print(lt)</code></pre>
 <li>Row 7: segment rate of spectral change</li>
 </ul>
 <p>To extract a row, use the <code>arraySlice</code> function. For example, if you wanted to work only with the segment start years, you would do this: <code>var segStartYr = arraySlice(segInfo, 0, 1)</code>. See the <a href="./working-with-outputs.html#getting-segment-information">Working with Outputs</a> section for more information on handling these data.</p>
-<p><strong>Example</strong>:<br></p>
+<p><strong>Example</strong>:</p>
 <pre><code>// load the LandTrendr.js module
 var ltgee = require(&#39;users/emaprlab/public:Modules/LandTrendr.js&#39;);
 
@@ -370,9 +371,50 @@ print(segInfo)
 </div>
 <div id="getfitteddata" class="section level3">
 <h3><span class="header-section-number">9.1.5</span> getFittedData</h3>
-<p><strong>usage:</strong></p>
-<p><strong>Result</strong>:</p>
-<p><strong>Example</strong>:</p>
+<p><strong>Usage:</strong></p>
+<p><code>getFittedData(lt, startYear, endYear, index)</code></p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>lt (Image Array)</strong>: The image array that is the result of running LandTrendr (either <code>runLT()</code> or <code>ee.Algorithms.TemporalSegmentation.LandTrendr()</code>).</li>
+<li><strong>startYear (Integer)</strong>: The minimum year in the desired range of annual collection</li>
+<li><strong>endYear (Integer)</strong>: The maximum year in the desired range of annual collection</li>
+<li><strong>index (String)</strong>: The index from the list in the <a href="shortcut-functions.html#spectral-index-codes">Spectral index codes</a> section to be segmented by LandTrendr.</li>
+</ul>
+<p><strong>Result:</strong></p>
+<p>An ee.Image representing fitted-to-vertex annual spectral data for whatever index was provided as the <code>index</code> parameter. There will be as many bands as there are years in the range inclusive of <em>startYear</em> and <em>endYear</em>.</p>
+<p><strong>Example:</strong></p>
+<pre><code>// load the LandTrendr.js module
+var ltgee = require(&#39;users/emaprlab/public:Modules/LandTrendr.js&#39;);
+
+// define parameters
+var startYear = 1985;
+var endYear = 2017;
+var startDay = &#39;06-20&#39;;
+var endDay = &#39;09-20&#39;;
+var aoi = ee.Geometry.Point(-122.8848, 43.7929);
+var index = &#39;NBR&#39;;
+var ftvList = [&#39;NBR&#39;, &#39;NDVI&#39;];
+var runParams = { 
+  maxSegments:            6,
+  spikeThreshold:         0.9,
+  vertexCountOvershoot:   3,
+  preventOneYearRecovery: true,
+  recoveryThreshold:      0.25,
+  pvalThreshold:          0.05,
+  bestModelProportion:    0.75,
+  minObservationsNeeded:  6
+};
+
+// center and zoom the display in case outputs are to be mapped
+Map.centerObject(aoi,10);
+Map.addLayer(aoi);
+
+// apply LandTrendr.js functions
+var lt = ltgee.runLT(startYear, endYear, startDay, endDay, aoi, index, ftvList, runParams);
+var nbrFTV = ltgee.getFittedData(lt, startYear, endYear, ftvList[0]);
+var ndviFTV = ltgee.getFittedData(lt, startYear, endYear, ftvList[1]);
+print(nbrFTV);
+print(ndviFTV);</code></pre>
 </div>
 </div>
 <div id="spectral-index-codes" class="section level2">

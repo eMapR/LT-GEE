@@ -118,8 +118,8 @@ print(annualLTcollection)
 
 
 **Result**:
-An array image described in the [LT-GEE Outputs](./lt-gee-outputs.html) section
 
+An array image described in the [LT-GEE Outputs](./lt-gee-outputs.html) section
 
 **Example**:
 
@@ -184,7 +184,7 @@ An image array with dimensions: 7 (rows) x nSegments (cols). Each row describes 
 To extract a row, use the `arraySlice` function. For example, if you wanted to work only with the segment start years, you would do this: `var segStartYr = arraySlice(segInfo, 0, 1)`. See the [Working with Outputs](./working-with-outputs.html#getting-segment-information) section for more information on handling these data.
 
 
-**Example**:<br>
+**Example**:
 
 ```
 // load the LandTrendr.js module
@@ -222,11 +222,58 @@ print(segInfo)
 
 ### getFittedData
 
-**usage:**
+**Usage:**
 
-**Result**:
+`getFittedData(lt, startYear, endYear, index)`
 
-**Example**:
+**Parameters:**
+
++ **lt (Image Array)**: The image array that is the result of running LandTrendr (either `runLT()` or `ee.Algorithms.TemporalSegmentation.LandTrendr()`). 
++ **startYear (Integer)**: The minimum year in the desired range of annual collection
++ **endYear (Integer)**: The maximum year in the desired range of annual collection
++ **index (String)**: The index from the list in the [Spectral index codes] section to be segmented by LandTrendr.
+
+**Result:**
+
+An ee.Image representing fitted-to-vertex annual spectral data for whatever index was provided as the `index` parameter. There will be as many bands as there are years in the range inclusive of *startYear* and *endYear*.
+
+**Example:**
+
+```
+// load the LandTrendr.js module
+var ltgee = require('users/emaprlab/public:Modules/LandTrendr.js');
+
+// define parameters
+var startYear = 1985;
+var endYear = 2017;
+var startDay = '06-20';
+var endDay = '09-20';
+var aoi = ee.Geometry.Point(-122.8848, 43.7929);
+var index = 'NBR';
+var ftvList = ['NBR', 'NDVI'];
+var runParams = { 
+  maxSegments:            6,
+  spikeThreshold:         0.9,
+  vertexCountOvershoot:   3,
+  preventOneYearRecovery: true,
+  recoveryThreshold:      0.25,
+  pvalThreshold:          0.05,
+  bestModelProportion:    0.75,
+  minObservationsNeeded:  6
+};
+
+// center and zoom the display in case outputs are to be mapped
+Map.centerObject(aoi,10);
+Map.addLayer(aoi);
+
+// apply LandTrendr.js functions
+var lt = ltgee.runLT(startYear, endYear, startDay, endDay, aoi, index, ftvList, runParams);
+var nbrFTV = ltgee.getFittedData(lt, startYear, endYear, ftvList[0]);
+var ndviFTV = ltgee.getFittedData(lt, startYear, endYear, ftvList[1]);
+print(nbrFTV);
+print(ndviFTV);
+```
+
 
 
 ## Spectral index codes 
