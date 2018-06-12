@@ -14,7 +14,7 @@ var ltgee = require('users/emaprlab/public:Modules/LandTrendr.js');
 + **[buildSRcollection]** - Builds an annual cloud and cloud shadow masked medoid composite of Landsat surface reflectance TM-equivalent bands 1,2,3,4,5,7. This collection can be useful outside of use by LandTrendr, but is also the base for creating the input collection for LandTrendr.
 + **[buildLTcollection]** - Builds a collection as input to LandTrendr. It will prepare a collection where the first band is the spectral index to base temporal segmentation on, and the subsequent bands will be fitted to segmentation structure of the segmentation index. 
 + **[runLT]** - Run LandTrendr given a set of parameters. This is a wrapper around `buildSRcollection` and `buildLTcollection` functions.
-+ **[getSegmentInfo]** - Generates an array of information about spectral-temporal segments from the breakpoint vertices identified by LandTrendr.
++ **[getSegmentData]** - Generates an array of information about spectral-temporal segments from the breakpoint vertices identified by LandTrendr.
 + **[getFittedData]** - Generates an annual band stack for a given index provided as *ftvList* indices to either *buildLTcollection* or *runLT*. It flattens the FTV array format to a band per year for a given FTV index.
 
 ### buildSRcollection
@@ -158,11 +158,11 @@ print(lt)
 
 
 
-### getSegmentInfo
+### getSegmentData
 
 *Usage:*
 
-`getSegmentInfo(lt, index)`
+`getSegmentData(lt, index)`
 
 *Parameters:*
 
@@ -215,7 +215,7 @@ Map.addLayer(aoi);
 
 // apply LandTrendr.js functions
 var lt = ltgee.runLT(startYear, endYear, startDay, endDay, aoi, index, ftvList, runParams);
-var segInfo = ltgee.getSegmentInfo(lt, index)
+var segInfo = ltgee.getSegmentData(lt, index)
 print(segInfo)
 
 ```
