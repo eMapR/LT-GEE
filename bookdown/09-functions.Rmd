@@ -72,6 +72,73 @@ var annualLTcollection = ltgee.buildLTcollection(annualSRcollection, index, ftvL
 ```
 
 
+### runLT
+
+**Useage:**
+
+
+
+`runLT(startYear, endYear, startDay, endDay, aoi, index, ftvList, runParams)`
+
++ **startYear (Integer)**: The minimum year in the desired range of annual collection
++ **endYear (Integer)**: The maximum year in the desired range of annual collection
++ **startDay (String | month day formatted as 'mm-dd')**: The minimum date in the desired seasonal range over which to generate annual composite.
++ **endDay (String | month day formatted as 'mm-dd')**: The maximum date in the desired seasonal range over which to generate annual composite.
++ **aoi (Geometry)**: The area-of-interest over which to mosaic images
++ **index (String)**: The index from the list in the [Spectral index codes] section to be segmented by LandTrendr.
++ **ftvList (List of strings)**: A list of one or more indices from the list in the [Spectral index codes] section to be fitted to the segmentation of the `index` parameter.
++ **runParams (Dictionary)**: A dictionary of parameters to control LandTrendr segmentation. You can find definitions for the dictionary keys and values in [LT parameters](./lt-gee-requirements.html#lt-parameters) section 
+
+
+**Result**:
+
+
+**Example**:
+```
+var startYear = 1985;
+var endYear = 2017;
+var startDay = '06-20';
+var endDay = '09-20';
+var aoi = ee.Geometry.Point(-122.8848, 43.7929);
+var index = 'NBR';
+var ftvList = [];
+var run_params = { 
+  maxSegments:            6,
+  spikeThreshold:         0.9,
+  vertexCountOvershoot:   3,
+  preventOneYearRecovery: true,
+  recoveryThreshold:      0.25,
+  pvalThreshold:          0.05,
+  bestModelProportion:    0.75,
+  minObservationsNeeded:  6
+};
+
+var lt = ltgee.runLT(startYear, endYear, startDay, endDay, aoi, index, [], runParams);
+```
+
+
+
+
+
+### getSegmentInfo
+
+**Useage:**
+
+`getSegmentInfo(lt, index)`
+
++ **lt (Image Array)**: The image array that is the result of running LandTrendr (either `runLT()` or `ee.Algorithms.TemporalSegmentation.LandTrendr()`). 
++ **index (String)**: The index from the list in the [Spectral index codes] section to be segmented by LandTrendr.
+
+**Result**:
+
+**Example**:
+```
+
+```
+
+
+
+
 ## Spectral index codes 
 
 The LandTrendr.js functions library has a defined list of indices and bands that it will work with. Below in Table 9.1 is the list of 'index' codes to use and their common name. You should specify them as an all caps string.
