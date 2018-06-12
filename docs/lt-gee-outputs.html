@@ -121,7 +121,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </ul></li>
 <li class="chapter" data-level="4" data-path="running-lt-gee.html"><a href="running-lt-gee.html"><i class="fa fa-check"></i><b>4</b> Running LT-GEE</a></li>
 <li class="chapter" data-level="5" data-path="lt-gee-outputs.html"><a href="lt-gee-outputs.html"><i class="fa fa-check"></i><b>5</b> LT-GEE Outputs</a><ul>
-<li class="chapter" data-level="5.1" data-path="lt-gee-outputs.html"><a href="lt-gee-outputs.html#landtrendr-band"><i class="fa fa-check"></i><b>5.1</b> <a id='landtrendr-band'></a> LandTrendr Band</a></li>
+<li class="chapter" data-level="5.1" data-path="lt-gee-outputs.html"><a href="lt-gee-outputs.html#landtrendr-band"><i class="fa fa-check"></i><b>5.1</b> LandTrendr Band</a></li>
 <li class="chapter" data-level="5.2" data-path="lt-gee-outputs.html"><a href="lt-gee-outputs.html#rmse"><i class="fa fa-check"></i><b>5.2</b> RMSE</a></li>
 <li class="chapter" data-level="5.3" data-path="lt-gee-outputs.html"><a href="lt-gee-outputs.html#ftv"><i class="fa fa-check"></i><b>5.3</b> FTV</a></li>
 </ul></li>
@@ -159,6 +159,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="9.1.2" data-path="shortcut-functions.html"><a href="shortcut-functions.html#buildltcollection"><i class="fa fa-check"></i><b>9.1.2</b> buildLTcollection</a></li>
 <li class="chapter" data-level="9.1.3" data-path="shortcut-functions.html"><a href="shortcut-functions.html#runlt"><i class="fa fa-check"></i><b>9.1.3</b> runLT</a></li>
 <li class="chapter" data-level="9.1.4" data-path="shortcut-functions.html"><a href="shortcut-functions.html#getsegmentinfo"><i class="fa fa-check"></i><b>9.1.4</b> getSegmentInfo</a></li>
+<li class="chapter" data-level="9.1.5" data-path="shortcut-functions.html"><a href="shortcut-functions.html#getfitteddata"><i class="fa fa-check"></i><b>9.1.5</b> getFittedData</a></li>
 </ul></li>
 <li class="chapter" data-level="9.2" data-path="shortcut-functions.html"><a href="shortcut-functions.html#spectral-index-codes"><i class="fa fa-check"></i><b>9.2</b> Spectral index codes</a></li>
 </ul></li>
@@ -203,7 +204,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p><img src='imgs/lt_outputs.png'><br> <em>Fig 5.2. The results of LT-GEE are essentially a list of lists per pixel that describe segmentation and optionally provide fitted annual spectral data (FTV). The output is delivered as a GEE image with at least 2 bands, one that contains annual segmentation information and one that contains the RMSE of the segmentation fit. Additionally, if the input image collection to LT-GEE contained more than one band, then each band following the first will be represented as a spectrally fitted annual series (FTV).</em> <br><br></p>
 <p><img src='imgs/print_results.png'><br> <em>Fig 5.3. The results of LT-GEE printed to the GEE console. The ‘LandTrendr’ and ‘rmse’ are included by default, ‘B4_fit’ is included because Landsat TM/+ETM band 4 (B4) was included as the second band in the input collection.</em> <br><br><br></p>
 <div id="landtrendr-band" class="section level2">
-<h2><span class="header-section-number">5.1</span> <a id='landtrendr-band'></a> LandTrendr Band</h2>
+<h2><span class="header-section-number">5.1</span> LandTrendr Band</h2>
 <p>The ‘LandTrendr’ band is a 4 x nYears dimension array. You can subset it like this:</p>
 <div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> LTresult <span class="op">=</span> <span class="va">ee</span>.<span class="va">Algorithms</span>.<span class="va">TemporalSegmentation</span>.<span class="at">LandTrendr</span>(run_params)<span class="op">;</span> <span class="co">// run LT-GEE</span>
 <span class="kw">var</span> segmentationInfo <span class="op">=</span> <span class="va">LTresult</span>.<span class="at">select</span>([<span class="st">&#39;LandTrendr&#39;</span>])<span class="op">;</span> <span class="co">// subset the LandTrendr segmentation info</span></code></pre></div>
@@ -220,7 +221,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li>Row 3 is the observation value corresponding to the year in row 1, fitted to line segments defined by breakpoint vertices identified in segmentation.<br></li>
 <li>Row 4 is a Boolean value indicating whether an observation was identified as a vertex.</li>
 </ul>
-<p>You can extract a row using the GEE <code>arraySlice</code> function. Here is an example of the extracting the year and fitted value rows as separate lists:</p>
+<p>You can extract a row using the GEE <code>arraySlice</code> function. Here is an example of extracting the year and fitted value rows as separate lists:</p>
 <div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> LTresult <span class="op">=</span> <span class="va">ee</span>.<span class="va">Algorithms</span>.<span class="va">TemporalSegmentation</span>.<span class="at">LandTrendr</span>(run_params)<span class="op">;</span> <span class="co">// run LT-GEE</span>
 <span class="kw">var</span> LTarray <span class="op">=</span> <span class="va">LTresult</span>.<span class="at">select</span>([<span class="st">&#39;LandTrendr&#39;</span>])<span class="op">;</span> <span class="co">// subset the LandTrendr segmentation info</span>
 <span class="kw">var</span> year <span class="op">=</span> <span class="va">LTarray</span>.<span class="at">arraySlice</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">1</span>)<span class="op">;</span> <span class="co">// slice out the year row</span>

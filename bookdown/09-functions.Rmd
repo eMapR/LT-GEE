@@ -76,8 +76,6 @@ var annualLTcollection = ltgee.buildLTcollection(annualSRcollection, index, ftvL
 
 **Useage:**
 
-
-
 `runLT(startYear, endYear, startDay, endDay, aoi, index, ftvList, runParams)`
 
 + **startYear (Integer)**: The minimum year in the desired range of annual collection
@@ -91,6 +89,7 @@ var annualLTcollection = ltgee.buildLTcollection(annualSRcollection, index, ftvL
 
 
 **Result**:
+An array image described in the [LT-GEE Outputs](./lt-gee-outputs.html) section
 
 
 **Example**:
@@ -133,10 +132,36 @@ var lt = ltgee.runLT(startYear, endYear, startDay, endDay, aoi, index, [], runPa
 
 **Example**:
 ```
+var startYear = 1985;
+var endYear = 2017;
+var startDay = '06-20';
+var endDay = '09-20';
+var aoi = ee.Geometry.Point(-122.8848, 43.7929);
+var index = 'NBR';
+var ftvList = [];
+var run_params = { 
+  maxSegments:            6,
+  spikeThreshold:         0.9,
+  vertexCountOvershoot:   3,
+  preventOneYearRecovery: true,
+  recoveryThreshold:      0.25,
+  pvalThreshold:          0.05,
+  bestModelProportion:    0.75,
+  minObservationsNeeded:  6
+};
+
+var lt = ltgee.runLT(startYear, endYear, startDay, endDay, aoi, index, [], runParams);
+var segInfo = ltgee.getSegmentInfo(lt, index)
 
 ```
 
+### getFittedData
 
+**Useage:**
+
+**Result**:
+
+**Example**:
 
 
 ## Spectral index codes 

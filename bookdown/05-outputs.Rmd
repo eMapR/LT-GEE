@@ -35,7 +35,7 @@ In the GEE construct, this primary list is an image with at least 2 bands, one t
 *Fig 5.3. The results of LT-GEE printed to the GEE console. The 'LandTrendr' and 'rmse' are included by default, 'B4_fit' is included because Landsat TM/+ETM band 4 (B4) was included as the second band in the input collection.* 
 <br><br><br>
 
-##<a id='landtrendr-band'></a> LandTrendr Band 
+## LandTrendr Band 
 
 The 'LandTrendr' band is a 4 x nYears dimension array. You can subset it like this:
 
@@ -60,7 +60,7 @@ It contains 4 rows and as many columns as there are annual observations for a gi
 + Row 3 is the observation value corresponding to the year in row 1, fitted to line segments defined by breakpoint vertices identified in segmentation.<br>
 + Row 4 is a Boolean value indicating whether an observation was identified as a vertex.
 
-You can extract a row using the GEE `arraySlice` function. Here is an example of the extracting the year and fitted value rows as separate lists:
+You can extract a row using the GEE `arraySlice` function. Here is an example of extracting the year and fitted value rows as separate lists:
 
 ```javascript
 var LTresult = ee.Algorithms.TemporalSegmentation.LandTrendr(run_params); // run LT-GEE
