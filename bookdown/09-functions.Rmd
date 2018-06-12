@@ -74,7 +74,7 @@ var annualLTcollection = ltgee.buildLTcollection(annualSRcollection, index, ftvL
 
 ### runLT
 
-**Useage:**
+**usage:**
 
 `runLT(startYear, endYear, startDay, endDay, aoi, index, ftvList, runParams)`
 
@@ -121,7 +121,7 @@ var lt = ltgee.runLT(startYear, endYear, startDay, endDay, aoi, index, [], runPa
 
 ### getSegmentInfo
 
-**Useage:**
+**usage:**
 
 `getSegmentInfo(lt, index)`
 
@@ -157,7 +157,7 @@ var segInfo = ltgee.getSegmentInfo(lt, index)
 
 ### getFittedData
 
-**Useage:**
+**usage:**
 
 **Result**:
 
