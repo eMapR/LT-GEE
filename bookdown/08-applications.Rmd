@@ -36,7 +36,7 @@ Wait a minute or two and plots of source and LandTrendr-fitted time series data 
 
 ### Under the hood
 
-+ Collection building is same as that described in the example scripts above
++ Collection building is same as that described in the [example scripts](./example-scripts.html)
 + Landsat 8 is transformed to the properties of Landsat 7 using slopes and intercepts from reduced major axis regressions reported in Roy et al  2016 Table 2
 + Masking out clouds, cloud shadows, and snow using CFMASK product from USGS 
 + Medoid annual compositing
@@ -72,7 +72,7 @@ The *UI LandTrendr Disturbance Mapper* will display map layers of disturbance at
 
 ### Under the hood
 
-+ Collection building is same as that described in the example scripts above
++ Collection building is same as that described in the [example scripts](./example-scripts.html)
 + Landsat 8 is transformed to the properties of Landsat 7 using slopes and intercepts from reduced major axis regressions reported in Roy et al  2016 Table 2
 + Masking out clouds, cloud shadows, and snow using CFMASK product from USGS 
 + Medoid annual compositing
@@ -121,7 +121,7 @@ The following figure is a guide to help interpret the colors.
 
 ### Under the hood
 
-+ Collection building is same as that described in the example scripts above
++ Collection building is same as that described in the [example scripts](./example-scripts.html)
 + Landsat 8 is transformed to the properties of Landsat 7 using slopes and intercepts from reduced major axis regressions reported in Roy et al  2016 Table 2
 + Masking out clouds, cloud shadows, and snow using CFMASK product from USGS 
 + Medoid annual compositing
