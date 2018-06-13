@@ -43,7 +43,7 @@ output:
 #### [Jump right in](./ui-applications.html) - plot a segmented time series or map disturbance with a GUI! {-}
 
 
-**A huge thanks goes out to the engineers at Google Earth Engine. This wouldn't have been possible without your help!**
+**A huge thanks goes out to Zhiqiang Yang (OSU) and the engineers at Google Earth Engine. This wouldn't have been possible without your help!**
 
 
 *Some sections are still under construction (6/11/18) - check back frequenty in the coming month for additional UI applications and shortcut functions. You might try doing a hard refresh on the site to make sure you see recent changes (what you're looking at might be a previously cached version of the site)*
