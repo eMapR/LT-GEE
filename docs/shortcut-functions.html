@@ -156,11 +156,11 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="9" data-path="shortcut-functions.html"><a href="shortcut-functions.html"><i class="fa fa-check"></i><b>9</b> Shortcut Functions</a><ul>
 <li class="chapter" data-level="9.1" data-path="shortcut-functions.html"><a href="shortcut-functions.html#functions"><i class="fa fa-check"></i><b>9.1</b> Functions</a><ul>
 <li class="chapter" data-level="9.1.1" data-path="shortcut-functions.html"><a href="shortcut-functions.html#buildsrcollection"><i class="fa fa-check"></i><b>9.1.1</b> buildSRcollection</a></li>
-<li class="chapter" data-level="9.1.2" data-path="shortcut-functions.html"><a href="shortcut-functions.html#buildltcollection"><i class="fa fa-check"></i><b>9.1.2</b> buildLTcollection</a></li>
-<li class="chapter" data-level="9.1.3" data-path="shortcut-functions.html"><a href="shortcut-functions.html#runlt"><i class="fa fa-check"></i><b>9.1.3</b> runLT</a></li>
-<li class="chapter" data-level="9.1.4" data-path="shortcut-functions.html"><a href="shortcut-functions.html#getsegmentdata"><i class="fa fa-check"></i><b>9.1.4</b> getSegmentData</a></li>
-<li class="chapter" data-level="9.1.5" data-path="shortcut-functions.html"><a href="shortcut-functions.html#getfitteddata"><i class="fa fa-check"></i><b>9.1.5</b> getFittedData</a></li>
-<li class="chapter" data-level="9.1.6" data-path="shortcut-functions.html"><a href="shortcut-functions.html#transformsrcollection"><i class="fa fa-check"></i><b>9.1.6</b> transformSRcollection</a></li>
+<li class="chapter" data-level="9.1.2" data-path="shortcut-functions.html"><a href="shortcut-functions.html#transformsrcollection"><i class="fa fa-check"></i><b>9.1.2</b> transformSRcollection</a></li>
+<li class="chapter" data-level="9.1.3" data-path="shortcut-functions.html"><a href="shortcut-functions.html#buildltcollection"><i class="fa fa-check"></i><b>9.1.3</b> buildLTcollection</a></li>
+<li class="chapter" data-level="9.1.4" data-path="shortcut-functions.html"><a href="shortcut-functions.html#runlt"><i class="fa fa-check"></i><b>9.1.4</b> runLT</a></li>
+<li class="chapter" data-level="9.1.5" data-path="shortcut-functions.html"><a href="shortcut-functions.html#getsegmentdata"><i class="fa fa-check"></i><b>9.1.5</b> getSegmentData</a></li>
+<li class="chapter" data-level="9.1.6" data-path="shortcut-functions.html"><a href="shortcut-functions.html#getfitteddata"><i class="fa fa-check"></i><b>9.1.6</b> getFittedData</a></li>
 </ul></li>
 <li class="chapter" data-level="9.2" data-path="shortcut-functions.html"><a href="shortcut-functions.html#spectral-index-codes"><i class="fa fa-check"></i><b>9.2</b> Spectral index codes</a></li>
 </ul></li>
@@ -197,11 +197,11 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h2><span class="header-section-number">9.1</span> Functions</h2>
 <ul>
 <li><strong><a href="shortcut-functions.html#buildsrcollection">buildSRcollection</a></strong> - Builds an annual cloud and cloud shadow masked medoid composite of Landsat surface reflectance TM-equivalent bands 1,2,3,4,5,7. This collection can be useful outside of use by LandTrendr, but is also the base for creating the input collection for LandTrendr.</li>
+<li><strong><a href="shortcut-functions.html#transformsrcollection">transformSRcollection</a></strong> - Transforms the images within an annual surface reflectance collection built by <code>buildSRcollection</code> to a list of provided indices or bands.</li>
 <li><strong><a href="shortcut-functions.html#buildltcollection">buildLTcollection</a></strong> - Builds a collection as input to LandTrendr. It will prepare a collection where the first band is the spectral index to base temporal segmentation on, and the subsequent bands will be fitted to segmentation structure of the segmentation index.</li>
 <li><strong><a href="shortcut-functions.html#runlt">runLT</a></strong> - Run LandTrendr given a set of parameters. This is a wrapper around <code>buildSRcollection</code> and <code>buildLTcollection</code> functions.</li>
 <li><strong><a href="shortcut-functions.html#getsegmentdata">getSegmentData</a></strong> - Generates an array of information about spectral-temporal segments from the breakpoint vertices identified by LandTrendr.</li>
 <li><strong><a href="shortcut-functions.html#getfitteddata">getFittedData</a></strong> - Generates an annual band stack for a given index provided as <em>ftvList</em> indices to either <em>buildLTcollection</em> or <em>runLT</em>. It flattens the FTV array format to a band per year for a given FTV index.</li>
-<li><strong><a href="shortcut-functions.html#transformsrcollection">transformSRcollection</a></strong> - Transforms the images within an annual surface reflectance collection built by <code>buildSRcollection</code> to a list of provided indices or bands.</li>
 </ul>
 <div id="buildsrcollection" class="section level3">
 <h3><span class="header-section-number">9.1.1</span> buildSRcollection</h3>
@@ -236,8 +236,46 @@ Map.addLayer(aoi);
 var annualSRcollection = ltgee.buildSRcollection(startYear, endYear, startDay, endDay, aoi);
 print(annualSRcollection);</code></pre>
 </div>
+<div id="transformsrcollection" class="section level3">
+<h3><span class="header-section-number">9.1.2</span> transformSRcollection</h3>
+<p><em>Usage:</em></p>
+<p><code>transformSRcollection(srCollection, bandList)</code></p>
+<p><em>Parameters:</em></p>
+<ul>
+<li><strong>srCollection (Image Collection)</strong>: An annual surface reflectance collection generated by the <code>buildSRcollection</code> function.<br />
+</li>
+<li><strong>bandList (List of strings)</strong>: A list of one or more indices or bands from the list in the <a href="shortcut-functions.html#spectral-index-codes">Spectral index codes</a> section to be included in images composing the annual collection. Bands in the resulting images will be ordered and labeled as they are in this list.</li>
+</ul>
+<p><em>Result:</em></p>
+<p>An ee.ImageCollection that includes one image per year based on an image collection built by <code>buildSRcollection</code> function transformed to the indices provided in the <code>bandList</code> parameter.</p>
+<p><em>Example:</em></p>
+<pre><code>// load the LandTrendr.js module
+var ltgee = require(&#39;users/emaprlab/public:Modules/LandTrendr.js&#39;);
+
+// define parameters
+var startYear = 1985;
+var endYear = 2017;
+var startDay = &#39;06-20&#39;;
+var endDay = &#39;09-20&#39;;
+var aoi = ee.Geometry.Point(-122.8848, 43.7929);
+var bandList = [&#39;NBR&#39;, &#39;NDVI&#39;, &#39;TCW&#39;];
+
+// center and zoom the display in case outputs are to be mapped 
+Map.centerObject(aoi,10);
+Map.addLayer(aoi);
+
+// build annual surface reflectance collection (cloud and shadow masked medoid composite)
+var annualSRcollection = ltgee.buildSRcollection(startYear, endYear, startDay, endDay, aoi);
+
+// transform the annual surface reflectance bands to whatever is in the bandList variable
+var indexCollection = ltgee.transformSRcollection(annualSRcollection, bandList);
+
+// example of extracting year 2000 as an image from the collection
+var year2000 = ee.Image(indexCollection.filterDate(&#39;2000-01-01&#39;,&#39;2000-12-31&#39;).first());
+print(year2000);</code></pre>
+</div>
 <div id="buildltcollection" class="section level3">
-<h3><span class="header-section-number">9.1.2</span> buildLTcollection</h3>
+<h3><span class="header-section-number">9.1.3</span> buildLTcollection</h3>
 <p><em>Usage:</em></p>
 <p><code>buildLTcollection(collection, index, ftvList)</code></p>
 <p><em>Parameters:</em></p>
@@ -271,7 +309,7 @@ var annualLTcollection = ltgee.buildLTcollection(annualSRcollection, index, ftvL
 print(annualLTcollection)</code></pre>
 </div>
 <div id="runlt" class="section level3">
-<h3><span class="header-section-number">9.1.3</span> runLT</h3>
+<h3><span class="header-section-number">9.1.4</span> runLT</h3>
 <p><em>Usage:</em></p>
 <p><code>runLT(startYear, endYear, startDay, endDay, aoi, index, ftvList, runParams)</code></p>
 <p><em>Parameters:</em></p>
@@ -319,7 +357,7 @@ var lt = ltgee.runLT(startYear, endYear, startDay, endDay, aoi, index, [], runPa
 print(lt)</code></pre>
 </div>
 <div id="getsegmentdata" class="section level3">
-<h3><span class="header-section-number">9.1.4</span> getSegmentData</h3>
+<h3><span class="header-section-number">9.1.5</span> getSegmentData</h3>
 <p><em>Usage:</em></p>
 <p><code>getSegmentData(lt, index)</code></p>
 <p><em>Parameters:</em></p>
@@ -373,7 +411,7 @@ print(segInfo)
 </code></pre>
 </div>
 <div id="getfitteddata" class="section level3">
-<h3><span class="header-section-number">9.1.5</span> getFittedData</h3>
+<h3><span class="header-section-number">9.1.6</span> getFittedData</h3>
 <p><em>Usage:</em></p>
 <p><code>getFittedData(lt, startYear, endYear, index)</code></p>
 <p><em>Parameters:</em></p>
@@ -418,44 +456,6 @@ var nbrFTV = ltgee.getFittedData(lt, startYear, endYear, ftvList[0]);
 var ndviFTV = ltgee.getFittedData(lt, startYear, endYear, ftvList[1]);
 print(nbrFTV);
 print(ndviFTV);</code></pre>
-</div>
-<div id="transformsrcollection" class="section level3">
-<h3><span class="header-section-number">9.1.6</span> transformSRcollection</h3>
-<p><em>Usage:</em></p>
-<p><code>transformSRcollection(srCollection, bandList)</code></p>
-<p><em>Parameters:</em></p>
-<ul>
-<li><strong>srCollection (Image Collection)</strong>: An annual surface reflectance collection generated by the <code>buildSRcollection</code> function.<br />
-</li>
-<li><strong>bandList (List of strings)</strong>: A list of one or more indices or bands from the list in the <a href="shortcut-functions.html#spectral-index-codes">Spectral index codes</a> section to be included in images composing the annual collection. Bands in the resulting images will be ordered and labeled as they are in this list.</li>
-</ul>
-<p><em>Result:</em></p>
-<p>An ee.ImageCollection that includes one image per year based on an image collection built by <code>buildSRcollection</code> function transformed to the indices provided in the <code>bandList</code> parameter.</p>
-<p><em>Example:</em></p>
-<pre><code>// load the LandTrendr.js module
-var ltgee = require(&#39;users/emaprlab/public:Modules/LandTrendr.js&#39;);
-
-// define parameters
-var startYear = 1985;
-var endYear = 2017;
-var startDay = &#39;06-20&#39;;
-var endDay = &#39;09-20&#39;;
-var aoi = ee.Geometry.Point(-122.8848, 43.7929);
-var bandList = [&#39;NBR&#39;, &#39;NDVI&#39;, &#39;TCW&#39;];
-
-// center and zoom the display in case outputs are to be mapped 
-Map.centerObject(aoi,10);
-Map.addLayer(aoi);
-
-// build annual surface reflectance collection (cloud and shadow masked medoid composite)
-var annualSRcollection = ltgee.buildSRcollection(startYear, endYear, startDay, endDay, aoi);
-
-// transform the annual surface reflectance bands to whatever is in the bandList variable
-var indexCollection = ltgee.transformSRcollection(annualSRcollection, bandList);
-
-// example of extracting year 2000 as an image from the collection
-var year2000 = ee.Image(indexCollection.filterDate(&#39;2000-01-01&#39;,&#39;2000-12-31&#39;).first());
-print(year2000);</code></pre>
 </div>
 </div>
 <div id="spectral-index-codes" class="section level2">
