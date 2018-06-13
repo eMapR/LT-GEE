@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   <link rel="shortcut icon" href="imgs/favicon.ico" type="image/x-icon">
-<link rel="prev" href="shortcut-functions.html">
-<link rel="next" href="faq.html">
+<link rel="prev" href="citation.html">
+
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -191,20 +191,42 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="validation" class="section level1">
-<h1><span class="header-section-number">10</span> Validation</h1>
-<p>The traditional method for validation of LandTrendr segmentation and derived disturbance maps is the TimeSync application (<a href="https://larse.forestry.oregonstate.edu/sites/larse/files/pub_pdfs/Cohen_etal_2010.pdf">paper</a>). It was developed as a companion to LandTrendr and follows the same spectral-temporal vertex and segmentation framework.</p>
-<p>Please see this GitHub <a href="https://github.com/eMapR/TimeSync-Legacy">repository</a> for all the files and instructions you need to get source data from Google Earth Engine and run the desktop Legacy version of the application.</p>
-<p><img src='imgs/timesync-legacy.jpg'></p>
+<div id="updates" class="section level1">
+<h1><span class="header-section-number">14</span> Updates</h1>
+<p>If you have questions or find that updates introduce errors, please post an issue in the LT-GEE GitHub repository - if you don’t have a GitHub account, email Justin at: <a href="mailto:jstnbraaten@gmail.com">jstnbraaten@gmail.com</a></p>
+<div id="section" class="section level2">
+<h2><span class="header-section-number">14.1</span> 2018-06-13</h2>
+<ul>
+<li><p>Added the <a href="./shortcut-functions.html#transformsrcollection">transformSRcollection</a> function to the API. It transforms the images within an annual surface reflectance collection built by <code>buildSRcollection</code> to a list of provided indices or bands. If you just want NDVI (or other index/band) derived from an annual cloud-free surface reflectance medoid composite, this function will do it.</p></li>
+<li><p>The <a href="./shortcut-functions.html#buildsrcollection">buildSRcollection</a> function will now generate composites that cross the new year. For instance, if your study is in mid- to high-latitudes of the southern hemisphere, your peak leaf-on season is maybe December 20 - Feburay 20, which crosses the new year. Previously, the <code>buildSRcollection</code> function did not composite across the new year. This change affects the [UIs] and the <code>buildSRcollection</code>. To apply this functionality set annual compsite start day to something like ‘12-20’ and the end day to ‘02-20’, where the format is mm-dd. If the start day month is greater than the end day month, then the function will composite across the new year, and assign the year of the composite as the new year. So if we built a collection that included images from 2000 (Dec.) and 2001 (Jan, Feb), the composite will be assigned the year 2001. Here is an example of building a surface reflectance collection across the new year (note the <code>startDay</code> and <code>endDay</code> parameters):</p></li>
+</ul>
+<pre><code>// load the LandTrendr.js module
+var ltgee = require(&#39;users/emaprlab/public:Modules/LandTrendr.js&#39;);
 
+// define parameters
+var startYear = 1985;
+var endYear = 2017;
+var startDay = &#39;12-20&#39;;
+var endDay = &#39;02-20&#39;;
+var aoi = ee.Geometry.Point(-122.8848, 43.7929);
+
+// center and zoom the display in case outputs are to be mapped 
+Map.centerObject(aoi,10);
+Map.addLayer(aoi);
+
+// apply LandTrendr.js functions
+var annualSRcollection = ltgee.buildSRcollection(startYear, endYear, startDay, endDay, aoi);
+print(annualSRcollection);</code></pre>
+
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="shortcut-functions.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="faq.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="citation.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
