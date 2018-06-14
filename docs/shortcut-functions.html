@@ -220,7 +220,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li><strong>aoi (Geometry)</strong>: The area-of-interest over which to mosaic images</li>
 </ul>
 <p><em>Result:</em></p>
-<p>An ee.ImageCollection where each image represents the medoid of observations per TM-equivalent surface reflectance bands 1-5 and 7, for a given year (TODO: NEED TO LINK TO A SECTION DESCRIBING HOW WE BUILD ANNUAL SR COLLECTIONS). There will be as many images as there are years in the range inclusive of <em>startYear</em> and <em>endYear</em>. If a given year does not exist for the range, then a masked band will act as a filler. Similarly, if all observations of a given pixel within a year are masked because of cloud, cloud shadow, or snow, the pixel will be masked.</p>
+<p>An ee.ImageCollection where each image represents the medoid of observations per TM-equivalent surface reflectance bands 1-5 and 7, for a given year. There will be as many images as there are years in the range inclusive of <em>startYear</em> and <em>endYear</em>. If a given year does not exist for the range, then a masked band will act as a filler. Similarly, if all observations of a given pixel within a year are masked because of cloud, cloud shadow, or snow, the pixel will be masked.</p>
 <p><em>Example:</em></p>
 <pre><code>// load the LandTrendr.js module
 var ltgee = require(&#39;users/emaprlab/public:Modules/LandTrendr.js&#39;);

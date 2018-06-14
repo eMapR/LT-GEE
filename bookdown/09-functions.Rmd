@@ -38,7 +38,7 @@ These functions use *USGS Landsat Surface Reflectance Tier 1* data sets. They ma
 
 *Result:*
 
-An ee.ImageCollection where each image represents the medoid of observations per TM-equivalent surface reflectance bands 1-5 and 7, for a given year (TODO: NEED TO LINK TO A SECTION DESCRIBING HOW WE BUILD ANNUAL SR COLLECTIONS). There will be as many images as there are years in the range inclusive of *startYear* and *endYear*. If a given year does not exist for the range, then a masked band will act as a filler. Similarly, if all observations of a given pixel within a year are masked because of cloud, cloud shadow, or snow, the pixel will be masked.
+An ee.ImageCollection where each image represents the medoid of observations per TM-equivalent surface reflectance bands 1-5 and 7, for a given year. There will be as many images as there are years in the range inclusive of *startYear* and *endYear*. If a given year does not exist for the range, then a masked band will act as a filler. Similarly, if all observations of a given pixel within a year are masked because of cloud, cloud shadow, or snow, the pixel will be masked.
 
 *Example:*
 
