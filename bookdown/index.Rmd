@@ -31,9 +31,9 @@ output:
 
 # Welcome {-}
 
-*Documentation by [Justin Braaten](https://github.com/jdbcode) of Oregon State University's [eMapR Lab](http://emapr.ceoas.oregonstate.edu/)*
+*Documentation by [Justin Braaten](https://github.com/jdbcode) of Oregon State University's [eMapR Lab](http://emapr.ceoas.oregonstate.edu/), directed by [Dr. Robert Kennedy](http://ceoas.oregonstate.edu/profile/kennedy/)*
 
-*2018/06/11*
+
 
 #### This site is a guide to the Google Earth Engine implementation of the LandTrendr spectral-temporal segmentation algorithm. {-}
 

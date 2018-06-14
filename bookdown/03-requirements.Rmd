@@ -9,7 +9,7 @@ LT-GEE requires two things:
 
 The image data composing a collection needs to represent an observation that is consistent through time. It should not include noise from
 atmosphere, clouds and shadows, sensor differences, or other anomalies. The annual changes in a time series should be the result of 
-changes in the physical features of a landscape. We recommend using the *USGS Landsat Surface Reflectance Tier 1* data sets.
+changes in the physical features of a landscape. The examples, GUIs, and API functions in this guide use the *USGS Landsat Surface Reflectance Tier 1* data sets.
 These data have been atmospherically corrected, and include a cloud, shadow, water and snow mask produced 
 using [CFMASK](https://www.sciencedirect.com/science/article/pii/S0034425714005069).
 
@@ -18,6 +18,8 @@ GEE ImageCollection IDs for USGS Landsat Surface Reflectance
 + Landsat 5: LANDSAT/LT05/C01/T1_SR
 + Landsat 7: LANDSAT/LE07/C01/T1_SR
 + Landsat 8: LANDSAT/LC08/C01/T1_SR
+
+Although we use Landsat surface reflectance bands and spectral indices, be creative and try other data such as probability of a certain cover type, predicted percent cover of some cover type, other earth observation sources, etc. LandTrendr does not care what the data are, it will simply reduce the provided time series to a small number of segments and record information about when the signal changes. 
 
 The collection must include only one observation per year. However, because clouds are often present in any given image, it
 is best to retrieve multiple images for a season, mask out clouds and cloud shadows from each, and then create a composite of
@@ -34,7 +36,7 @@ In the [example scripts](https://emapr.github.io/LT-GEE/example-scripts.html) pr
 <a id='importantsteps'></a>**Two really important steps** in image collection building include 1) masking cloud and cloud shadow pixels during annual image compositing and to 2) ensure that the spectral band or index that is 
 to be segmented is oriented so that vegetation loss is represented by a positive delta. For instance, NBR in its native orientation results in a negative delta when vegetation is lost from one observation to the next. In this case, NBR must be multiplied by -1 before being segmented. Conversely, if Landsat TM band 5 (SWIR) is selected for segmentation, inversion of the spectral values is not required, since natively, vegetation loss is represented by a positive delta.   
 
-Note that we provide a couple of shortcut functions to build annual surface reflectance collections and convert it to a collection formatted for use by LandTrendr. See the `buildSRcollection` and `buildLTcollection` functions in the [Shortcut Functions](./shortcut-functions.html#functions) section.
+Note that we provide a couple of shortcut functions to build annual Landsat surface reflectance collections and convert them to a collections formatted for use by LandTrendr. See the `buildSRcollection` and `buildLTcollection` functions in the [Shortcut Functions](./shortcut-functions.html#functions) section.
 
 ## LT parameters
 
