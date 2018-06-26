@@ -68,7 +68,7 @@ var bigDelta = segInfoSorted.arraySlice(1, 0, 1); // get the first segment in th
 
 ## Filter an isolated segment by an attribute
 
-Once we have a single segment of interest isolated (greatest vegetation loss, in this case) we can transform the array into an image and perform filtering by other attributes of the segment of interest.
+Once we have a single segment of interest isolated (greatest vegetation loss, in this case) we can transform the array into an image and perform filtering by other attributes of the segment of interest. Since the first band in the input collection to LandTrendr was oriented so that vegetation loss is represented by a positive delta (see [LT-GEE Requirments](./lt-gee-requirements.html#image-collection) section), you may need to multiply any attribute derived from the spectral input by -1 to re-orient it to its native state. This is evident in the following snippet as `.multiply(distDir)`, where `distDir` is the scalar to possibly invert the values. Also follow the links in the [example scripts](./example-scripts.html) section to see where are how `distDir` is used.
 
 ```javascript
 var bigDeltaImg = ee.Image.cat(bigDelta.arraySlice(0,0,1).arrayProject([1]).arrayFlatten([['yod']]),

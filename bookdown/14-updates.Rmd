@@ -2,6 +2,10 @@
 
 If you have questions or find that updates introduce errors, please post an issue in the [LT-GEE GitHub repository](https://github.com/eMapR/LT-GEE/issues) - if you don't have a GitHub account, email Justin at: jstnbraaten@gmail.com
 
+## 2018-06-26
+
++ Clarification was made regarding the `distDir` variable being used in the section [6.3 Working with Outputs](./working-with-outputs.html#filter-an-isolated-segment-by-an-attribute). This section now includes information about it.
+
 
 ## 2018-06-13
 

@@ -169,7 +169,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="12" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i><b>12</b> References</a></li>
 <li class="chapter" data-level="13" data-path="citation.html"><a href="citation.html"><i class="fa fa-check"></i><b>13</b> Citation</a></li>
 <li class="chapter" data-level="14" data-path="updates.html"><a href="updates.html"><i class="fa fa-check"></i><b>14</b> Updates</a><ul>
-<li class="chapter" data-level="14.1" data-path="updates.html"><a href="updates.html#section"><i class="fa fa-check"></i><b>14.1</b> 2018-06-13</a></li>
+<li class="chapter" data-level="14.1" data-path="updates.html"><a href="updates.html#section"><i class="fa fa-check"></i><b>14.1</b> 2018-06-26</a></li>
+<li class="chapter" data-level="14.2" data-path="updates.html"><a href="updates.html#section-1"><i class="fa fa-check"></i><b>14.2</b> 2018-06-13</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -195,7 +196,13 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h1><span class="header-section-number">14</span> Updates</h1>
 <p>If you have questions or find that updates introduce errors, please post an issue in the <a href="https://github.com/eMapR/LT-GEE/issues">LT-GEE GitHub repository</a> - if you don’t have a GitHub account, email Justin at: <a href="mailto:jstnbraaten@gmail.com">jstnbraaten@gmail.com</a></p>
 <div id="section" class="section level2">
-<h2><span class="header-section-number">14.1</span> 2018-06-13</h2>
+<h2><span class="header-section-number">14.1</span> 2018-06-26</h2>
+<ul>
+<li>Clarification was made regarding the <code>distDir</code> variable being used in the section <a href="./working-with-outputs.html#filter-an-isolated-segment-by-an-attribute">6.3 Working with Outputs</a>. This section now includes information about it.</li>
+</ul>
+</div>
+<div id="section-1" class="section level2">
+<h2><span class="header-section-number">14.2</span> 2018-06-13</h2>
 <ul>
 <li><p>Added the <a href="./shortcut-functions.html#transformsrcollection">transformSRcollection</a> function to the API. It transforms the images within an annual surface reflectance collection built by <code>buildSRcollection</code> to a list of provided indices or bands. If you just want NDVI (or other index/band) derived from an annual cloud-free surface reflectance medoid composite, this function will do it.</p></li>
 <li><p>The <a href="./shortcut-functions.html#buildsrcollection">buildSRcollection</a> function will now generate composites that cross the new year. For instance, if your study area is in mid- to high-latitudes of the southern hemisphere, your peak leaf-on season is maybe December 20 - February 20, which crosses the new year. Previously, the <code>buildSRcollection</code> function did not composite across the new year. This change affects the <a href="./LT-GEE/ui-applications.html">UIs</a> and the <code>buildSRcollection</code>. To apply this functionality, set annual composite start day to something like ‘12-20’ and the end day to ‘02-20’, where the format is mm-dd. If the start day month is greater than the end day month, then the function will composite across the new year, and assign the year of the composite as the new year. So if we built a collection that included images from 2000 (Dec.) and 2001 (Jan-Feb), the composite will be assigned the year 2001. Here is an example of building a surface reflectance collection across the new year (note the <code>startDay</code> and <code>endDay</code> parameters):</p></li>
