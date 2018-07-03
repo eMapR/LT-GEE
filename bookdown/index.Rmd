@@ -45,5 +45,6 @@ output:
 
 **A huge thanks goes out to Zhiqiang Yang (OSU) and the engineers at Google Earth Engine. This wouldn't have been possible without your help!**
 
+This work was supported with funding from the US Forest Service Landscape Change Monitoring System and the NASA Carbon Monitoring System (NNH13AW62I, PI: Cohen; NNX16AQ25G, PI: Kennedy), a Google Foundation Grant (Kennedy), and U.S. National Park Service Cooperative Agreement (P17AC00585)
 
 *Some sections are still under construction (6/11/18) - check back frequenty in the coming month for additional UI applications and shortcut functions. You might try doing a hard refresh on the site to make sure you see recent changes (what you're looking at might be a previously cached version of the site)*
