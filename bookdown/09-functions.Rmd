@@ -367,7 +367,8 @@ See the example below for formatting the dictionary
 
 An ee.Image with bands for attributes of selected disturbance types including: year of disturbance detection `'yod'`, magnitude `'mag'`, duration `'dur'`, and pre-disturbance spectral value `'preval'` and the rate of spectral change `'rate'`.
 
-*Notes:*
+*Note:*
+
 
 Relies on outputs from `runLT` and `getSegmentData` functions. Find them above and see their usage in the following example.
 
