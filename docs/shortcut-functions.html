@@ -506,7 +506,7 @@ print(ndviFTV);</code></pre>
 <p>Relies on outputs from <code>runLT</code> and <code>getSegmentData</code> functions. Find them above and see their usage in the following example.</p>
 <p><em>Example:</em></p>
 <pre><code>//##########################################################################################
-// INPUTS
+// START INPUTS
 //##########################################################################################
 
 // define collection parameters
@@ -516,7 +516,6 @@ var startDay = &#39;06-20&#39;;
 var endDay = &#39;09-20&#39;;
 var aoi = ee.Geometry.Point(-122.8848, 43.7929);
 var index = &#39;NBR&#39;;
-
 
 // define landtrendr parameters
 var runParams = { 
@@ -539,7 +538,8 @@ var distParams = {
   mmu:    { checked:true,  value:11              },
 };
 
-
+//##########################################################################################
+// END INPUTS
 //##########################################################################################
 
 // load the LandTrendr.js module

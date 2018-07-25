@@ -376,7 +376,7 @@ Relies on outputs from `runLT` and `getSegmentData` functions. Find them above a
 
 ```
 //##########################################################################################
-// INPUTS
+// START INPUTS
 //##########################################################################################
 
 // define collection parameters
@@ -386,7 +386,6 @@ var startDay = '06-20';
 var endDay = '09-20';
 var aoi = ee.Geometry.Point(-122.8848, 43.7929);
 var index = 'NBR';
-
 
 // define landtrendr parameters
 var runParams = { 
@@ -409,7 +408,8 @@ var distParams = {
   mmu:    { checked:true,  value:11              },
 };
 
-
+//##########################################################################################
+// END INPUTS
 //##########################################################################################
 
 // load the LandTrendr.js module
