@@ -2,6 +2,10 @@
 
 If you have questions or find that updates introduce errors, please post an issue in the [LT-GEE GitHub repository](https://github.com/eMapR/LT-GEE/issues) - if you don't have a GitHub account, email Justin at: jstnbraaten@gmail.com
 
+## 2018-07-25
+
++ Added the [disturbanceMap](./shortcut-functions.html#disturbanceMap) function to the API. It generates a disturbance map with attributes for: year of disturbance detection, magnitude, duration, pre-disturbance spectral value, and the rate of spectral change. Each attribute is a band of an ee.Image for easy display and export. Note that at this time it is still being tested. So please do not trust results - let me know if you suspect errors.
+
 ## 2018-06-26
 
 + Clarification was made regarding the `distDir` variable being used in the section [6.3 Working with Outputs](./working-with-outputs.html#filter-an-isolated-segment-by-an-attribute). This section now includes information about it.

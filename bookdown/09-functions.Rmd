@@ -20,6 +20,7 @@ These functions use *USGS Landsat Surface Reflectance Tier 1* data sets. They ma
 + **[runLT]** - Run LandTrendr given a set of parameters. This is a wrapper around `buildSRcollection` and `buildLTcollection` functions.
 + **[getSegmentData]** - Generates an array of information about spectral-temporal segments from the breakpoint vertices identified by LandTrendr.
 + **[getFittedData]** - Generates an annual band stack for a given index provided as *ftvList* indices to either *buildLTcollection* or *runLT*. It flattens the FTV array format to a band per year for a given FTV index.
++ **[disturbanceMap]** - Generates a disturbance map with attributes for: year of disturbance detection, magnitude, duration, pre-disturbance spectral value, and the rate of spectral change. Each attribute is a band of an ee.Image for easy display and export.
 
 
 ### buildSRcollection
@@ -332,9 +333,117 @@ print(ndviFTV);
 ```
 
 
+### disturbanceMap
+
+**BETA - Don't trust results yet - Still testing - Parametes not described fully**
+
+*Usage:*
+
+`disturbanceMap(distParams)`
+
+*Parameters:*
+
++ **distParams (Dictionary)**: A dictionary of parameters to control disturbance mapping.
+    + **type (string)**: the type of disturbance to identify if there are more than one disturbance in a pixel time series. It can be: `'Greatest'`, `'Least'`, `'Newest'`, `'Oldest'`, `'Longest'`, `'Fastest'`, but only one at a time.
+    + **year (Dictionary)**: options for filtering disturbance by year of detection
+        + **checked (Boolean)**: `true` or `false` for whether to filter by year. If `true`, then you must define both `start` and `end` described in the following two parameters.
+        + **start (Integer)**: The minimum year of a disturbance to include in the map.
+        + **end (Integer)**: The maximum year of a disturbance to include in the map.
+    + **mag (Dictionary)**: options for filtering disturbance by magnitude
+        + **checked (Boolean)**: `true` or `false` for whether to filter by magnitude. If `true`, then you must define both `year1` and `year20` described in the following two parameters.
+        + **year1 (Integer)**: For a disturbance lasting 1 year, what is the minimum magnitude change spectral change considered a disturbance. It is in the units of the spectral index selected defined as the `index` parameter in the `runLT` function describd above multiplied by 1000 if a normalized index like NBR or NDVI or in the units of USGS Collection 1 Surface reflectance products if `index` is a Landsat band, like Band5. The given value should be the absolute value of the spectral change.
+        + **year20 (Integer)**: For a disturbance lasting 20 years, what is the minimum magnitude change spectral change considered a disturbance. The program will use the 1 year magnitude and the 20 year magnitude minimums to interpolate the minimum magntiude for disturbances across the entire duration range defined by start and end year of the image collection. It is in the units of the spectral index selected defined as the `index` parameter in the `runLT` function describd above multiplied by 1000 if a normalized index like NBR or NDVI or in the units of USGS Collection 1 Surface reflectance products if `index` is a Landsat band, like Band5. The given value should be the absolute value of the spectral change.
+    + **preval (Dictionary)**: options for filtering disturbance by pre-disturbance spectal value
+        + **checked (Boolean)**: `true` or `false` for whether to filter by pre-disturbance spectal value. If `true`, then you must define `value` described in the following parameter.
+        + **value (Integer)**: what is the minimum spectral value allowed prior to a disturbance. It is in the units of the spectral index selected defined as the `index` parameter in the `runLT` function describd above multiplied by 1000 if a normalized index like NBR or NDVI or in the units of USGS Collection 1 Surface reflectance products if `index` is a Landsat band, like Band5. It should be signed according to the natural orientation of the index or band.
+    + **mmu (Dictionary)**: options for filtering disturbance by minimum patch size. Patches are defined by disturbed pixels matching the above filtering criteria, having the same year of detection and adjacent to other pixels by the 8 neighbor rule.
+        + **checked (Boolean)**: `true` or `false` for whether to filter by minimum disturbance patch size. If `true`, then you must define `value` described in the following parameter.
+        + **value (Integer)**: what is the minimum number of pixels defining a disturbance patch. It is in the units of number of pixels. Single pixels or patches with less than the provided value will not be included in the map.
+        
+See the example below for formatting the dictionary
 
 
+*Result:*
 
+An ee.Image with bands for attributes of selected disturbance types including: year of disturbance detection `'yod'`, magnitude `'mag'`, duration `'dur'`, and pre-disturbance spectral value `'preval'` and the rate of spectral change `'rate'`.
+
+*Notes:*
+
+Relies on outputs from `runLT` and `getSegmentData` functions. Find them above and see their usage in the following example.
+
+*Example:*
+
+```
+//##########################################################################################
+// INPUTS
+//##########################################################################################
+
+// define collection parameters
+var startYear = 1985;
+var endYear = 2017;
+var startDay = '06-20';
+var endDay = '09-20';
+var aoi = ee.Geometry.Point(-122.8848, 43.7929);
+var index = 'NBR';
+
+
+// define landtrendr parameters
+var runParams = { 
+  maxSegments:            6,
+  spikeThreshold:         0.9,
+  vertexCountOvershoot:   3,
+  preventOneYearRecovery: true,
+  recoveryThreshold:      0.25,
+  pvalThreshold:          0.05,
+  bestModelProportion:    0.75,
+  minObservationsNeeded:  6
+};
+
+// define disturbance parameters
+var distParams = {
+  type:   'Greatest',
+  year:   { checked:false, start:null, end:null   },
+  mag:    { checked:true,  year1:100,  year20:75  },
+  preval: { checked:true,  value:400              },
+  mmu:    { checked:true,  value:11              },
+};
+
+
+//##########################################################################################
+
+// load the LandTrendr.js module
+var ltgee = require('users/emaprlab/public:Modules/LandTrendr.js'); 
+
+// add/alter the distParams
+distParams.index = index;
+if(distParams.mag.checked){
+  distParams.mag.year1 = parseFloat(distParams.mag.year1);
+  distParams.mag.year20 = parseFloat(distParams.mag.year20);
+}
+
+// run landtrendr
+var lt = ltgee.runLT(startYear, endYear, startDay, endDay, aoi, index, [], runParams);
+
+//  get the segmenation information
+var segInfo = ltgee.getSegmentData(lt, index);
+
+// append segInfo to distParams
+distParams.segInfo = segInfo;
+
+// get the disturbance map layers
+var distImg = ltgee.disturbanceMap(distParams);
+
+// set visualization dictionaries
+var yodVizParms = {
+  min: startYear,
+  max: endYear,
+  palette: ['#9400D3', '#4B0082', '#0000FF', '#00FF00', '#FFFF00', '#FF7F00', '#FF0000']
+};
+
+// display the disturbance attribute map - note that there are other layers - print distImg to console to see
+Map.centerObject(aoi, 11);
+Map.addLayer(distImg.select(['yod']), yodVizParms, 'Year of Detection');
+```
 
 
 

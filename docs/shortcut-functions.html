@@ -161,6 +161,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="9.1.4" data-path="shortcut-functions.html"><a href="shortcut-functions.html#runlt"><i class="fa fa-check"></i><b>9.1.4</b> runLT</a></li>
 <li class="chapter" data-level="9.1.5" data-path="shortcut-functions.html"><a href="shortcut-functions.html#getsegmentdata"><i class="fa fa-check"></i><b>9.1.5</b> getSegmentData</a></li>
 <li class="chapter" data-level="9.1.6" data-path="shortcut-functions.html"><a href="shortcut-functions.html#getfitteddata"><i class="fa fa-check"></i><b>9.1.6</b> getFittedData</a></li>
+<li class="chapter" data-level="9.1.7" data-path="shortcut-functions.html"><a href="shortcut-functions.html#disturbancemap"><i class="fa fa-check"></i><b>9.1.7</b> disturbanceMap</a></li>
 </ul></li>
 <li class="chapter" data-level="9.2" data-path="shortcut-functions.html"><a href="shortcut-functions.html#spectral-index-codes"><i class="fa fa-check"></i><b>9.2</b> Spectral index codes</a></li>
 </ul></li>
@@ -169,8 +170,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="12" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i><b>12</b> References</a></li>
 <li class="chapter" data-level="13" data-path="citation.html"><a href="citation.html"><i class="fa fa-check"></i><b>13</b> Citation</a></li>
 <li class="chapter" data-level="14" data-path="updates.html"><a href="updates.html"><i class="fa fa-check"></i><b>14</b> Updates</a><ul>
-<li class="chapter" data-level="14.1" data-path="updates.html"><a href="updates.html#section"><i class="fa fa-check"></i><b>14.1</b> 2018-06-26</a></li>
-<li class="chapter" data-level="14.2" data-path="updates.html"><a href="updates.html#section-1"><i class="fa fa-check"></i><b>14.2</b> 2018-06-13</a></li>
+<li class="chapter" data-level="14.1" data-path="updates.html"><a href="updates.html#section"><i class="fa fa-check"></i><b>14.1</b> 2018-07-25</a></li>
+<li class="chapter" data-level="14.2" data-path="updates.html"><a href="updates.html#section-1"><i class="fa fa-check"></i><b>14.2</b> 2018-06-26</a></li>
+<li class="chapter" data-level="14.3" data-path="updates.html"><a href="updates.html#section-2"><i class="fa fa-check"></i><b>14.3</b> 2018-06-13</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -207,6 +209,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li><strong><a href="shortcut-functions.html#runlt">runLT</a></strong> - Run LandTrendr given a set of parameters. This is a wrapper around <code>buildSRcollection</code> and <code>buildLTcollection</code> functions.</li>
 <li><strong><a href="shortcut-functions.html#getsegmentdata">getSegmentData</a></strong> - Generates an array of information about spectral-temporal segments from the breakpoint vertices identified by LandTrendr.</li>
 <li><strong><a href="shortcut-functions.html#getfitteddata">getFittedData</a></strong> - Generates an annual band stack for a given index provided as <em>ftvList</em> indices to either <em>buildLTcollection</em> or <em>runLT</em>. It flattens the FTV array format to a band per year for a given FTV index.</li>
+<li><strong><a href="shortcut-functions.html#disturbancemap">disturbanceMap</a></strong> - Generates a disturbance map with attributes for: year of disturbance detection, magnitude, duration, pre-disturbance spectral value, and the rate of spectral change. Each attribute is a band of an ee.Image for easy display and export.</li>
 </ul>
 <div id="buildsrcollection" class="section level3">
 <h3><span class="header-section-number">9.1.1</span> buildSRcollection</h3>
@@ -461,6 +464,116 @@ var nbrFTV = ltgee.getFittedData(lt, startYear, endYear, ftvList[0]);
 var ndviFTV = ltgee.getFittedData(lt, startYear, endYear, ftvList[1]);
 print(nbrFTV);
 print(ndviFTV);</code></pre>
+</div>
+<div id="disturbancemap" class="section level3">
+<h3><span class="header-section-number">9.1.7</span> disturbanceMap</h3>
+<p><strong>BETA - Don’t trust results yet - Still testing - Parametes not described fully</strong></p>
+<p><em>Usage:</em></p>
+<p><code>disturbanceMap(distParams)</code></p>
+<p><em>Parameters:</em></p>
+<ul>
+<li><strong>distParams (Dictionary)</strong>: A dictionary of parameters to control disturbance mapping.
+<ul>
+<li><strong>type (string)</strong>: the type of disturbance to identify if there are more than one disturbance in a pixel time series. It can be: <code>'Greatest'</code>, <code>'Least'</code>, <code>'Newest'</code>, <code>'Oldest'</code>, <code>'Longest'</code>, <code>'Fastest'</code>, but only one at a time.</li>
+<li><strong>year (Dictionary)</strong>: options for filtering disturbance by year of detection
+<ul>
+<li><strong>checked (Boolean)</strong>: <code>true</code> or <code>false</code> for whether to filter by year. If <code>true</code>, then you must define both <code>start</code> and <code>end</code> described in the following two parameters.</li>
+<li><strong>start (Integer)</strong>: The minimum year of a disturbance to include in the map.</li>
+<li><strong>end (Integer)</strong>: The maximum year of a disturbance to include in the map.</li>
+</ul></li>
+<li><strong>mag (Dictionary)</strong>: options for filtering disturbance by magnitude
+<ul>
+<li><strong>checked (Boolean)</strong>: <code>true</code> or <code>false</code> for whether to filter by magnitude. If <code>true</code>, then you must define both <code>year1</code> and <code>year20</code> described in the following two parameters.</li>
+<li><strong>year1 (Integer)</strong>: For a disturbance lasting 1 year, what is the minimum magnitude change spectral change considered a disturbance. It is in the units of the spectral index selected defined as the <code>index</code> parameter in the <code>runLT</code> function describd above multiplied by 1000 if a normalized index like NBR or NDVI or in the units of USGS Collection 1 Surface reflectance products if <code>index</code> is a Landsat band, like Band5. The given value should be the absolute value of the spectral change.</li>
+<li><strong>year20 (Integer)</strong>: For a disturbance lasting 20 years, what is the minimum magnitude change spectral change considered a disturbance. The program will use the 1 year magnitude and the 20 year magnitude minimums to interpolate the minimum magntiude for disturbances across the entire duration range defined by start and end year of the image collection. It is in the units of the spectral index selected defined as the <code>index</code> parameter in the <code>runLT</code> function describd above multiplied by 1000 if a normalized index like NBR or NDVI or in the units of USGS Collection 1 Surface reflectance products if <code>index</code> is a Landsat band, like Band5. The given value should be the absolute value of the spectral change.</li>
+</ul></li>
+<li><strong>preval (Dictionary)</strong>: options for filtering disturbance by pre-disturbance spectal value
+<ul>
+<li><strong>checked (Boolean)</strong>: <code>true</code> or <code>false</code> for whether to filter by pre-disturbance spectal value. If <code>true</code>, then you must define <code>value</code> described in the following parameter.</li>
+<li><strong>value (Integer)</strong>: what is the minimum spectral value allowed prior to a disturbance. It is in the units of the spectral index selected defined as the <code>index</code> parameter in the <code>runLT</code> function describd above multiplied by 1000 if a normalized index like NBR or NDVI or in the units of USGS Collection 1 Surface reflectance products if <code>index</code> is a Landsat band, like Band5. It should be signed according to the natural orientation of the index or band.</li>
+</ul></li>
+<li><strong>mmu (Dictionary)</strong>: options for filtering disturbance by minimum patch size. Patches are defined by disturbed pixels matching the above filtering criteria, having the same year of detection and adjacent to other pixels by the 8 neighbor rule.
+<ul>
+<li><strong>checked (Boolean)</strong>: <code>true</code> or <code>false</code> for whether to filter by minimum disturbance patch size. If <code>true</code>, then you must define <code>value</code> described in the following parameter.</li>
+<li><strong>value (Integer)</strong>: what is the minimum number of pixels defining a disturbance patch. It is in the units of number of pixels. Single pixels or patches with less than the provided value will not be included in the map.</li>
+</ul></li>
+</ul></li>
+</ul>
+<p>See the example below for formatting the dictionary</p>
+<p><em>Result:</em></p>
+<p>An ee.Image with bands for attributes of selected disturbance types including: year of disturbance detection <code>'yod'</code>, magnitude <code>'mag'</code>, duration <code>'dur'</code>, and pre-disturbance spectral value <code>'preval'</code> and the rate of spectral change <code>'rate'</code>.</p>
+<p>*<a href="Notes:*" class="uri">Notes:*</a></p>
+<p>Relies on outputs from <code>runLT</code> and <code>getSegmentData</code> functions. Find them above and see their usage in the following example.</p>
+<p><em>Example:</em></p>
+<pre><code>//##########################################################################################
+// INPUTS
+//##########################################################################################
+
+// define collection parameters
+var startYear = 1985;
+var endYear = 2017;
+var startDay = &#39;06-20&#39;;
+var endDay = &#39;09-20&#39;;
+var aoi = ee.Geometry.Point(-122.8848, 43.7929);
+var index = &#39;NBR&#39;;
+
+
+// define landtrendr parameters
+var runParams = { 
+  maxSegments:            6,
+  spikeThreshold:         0.9,
+  vertexCountOvershoot:   3,
+  preventOneYearRecovery: true,
+  recoveryThreshold:      0.25,
+  pvalThreshold:          0.05,
+  bestModelProportion:    0.75,
+  minObservationsNeeded:  6
+};
+
+// define disturbance parameters
+var distParams = {
+  type:   &#39;Greatest&#39;,
+  year:   { checked:false, start:null, end:null   },
+  mag:    { checked:true,  year1:100,  year20:75  },
+  preval: { checked:true,  value:400              },
+  mmu:    { checked:true,  value:11              },
+};
+
+
+//##########################################################################################
+
+// load the LandTrendr.js module
+var ltgee = require(&#39;users/emaprlab/public:Modules/LandTrendr.js&#39;); 
+
+// add/alter the distParams
+distParams.index = index;
+if(distParams.mag.checked){
+  distParams.mag.year1 = parseFloat(distParams.mag.year1);
+  distParams.mag.year20 = parseFloat(distParams.mag.year20);
+}
+
+// run landtrendr
+var lt = ltgee.runLT(startYear, endYear, startDay, endDay, aoi, index, [], runParams);
+
+//  get the segmenation information
+var segInfo = ltgee.getSegmentData(lt, index);
+
+// append segInfo to distParams
+distParams.segInfo = segInfo;
+
+// get the disturbance map layers
+var distImg = ltgee.disturbanceMap(distParams);
+
+// set visualization dictionaries
+var yodVizParms = {
+  min: startYear,
+  max: endYear,
+  palette: [&#39;#9400D3&#39;, &#39;#4B0082&#39;, &#39;#0000FF&#39;, &#39;#00FF00&#39;, &#39;#FFFF00&#39;, &#39;#FF7F00&#39;, &#39;#FF0000&#39;]
+};
+
+// display the disturbance attribute map - note that there are other layers - print distImg to console to see
+Map.centerObject(aoi, 11);
+Map.addLayer(distImg.select([&#39;yod&#39;]), yodVizParms, &#39;Year of Detection&#39;);</code></pre>
 </div>
 </div>
 <div id="spectral-index-codes" class="section level2">
