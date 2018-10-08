@@ -328,9 +328,10 @@ print(annualLTcollection)</code></pre>
 <li><strong>collection (Image Collection)</strong>: An annual surface reflectance image collection with one band per image, like that resulting from the use of <code>transformSRcollection(srCollection, ['NDVI'])</code>, for instance.</li>
 <li><strong>startYear (Integer)</strong>: The minimum year in the desired range of annual collection</li>
 <li><strong>endYear (Integer)</strong>: The maximum year in the desired range of annual collection</li>
+<li><strong>maskFill</strong> (Integer, default: 0)**: The value to fill masked pixels in the image collection with.</li>
 </ul>
 <p><em>Result:</em></p>
-<p>An ee.Image representing a band sequential time series of image bands from each image in the given collection between <em>startYear</em> and <em>endYear</em>.</p>
+<p>An ee.Image representing a band sequential time series of image bands from each image in the given collection between <em>startYear</em> and <em>endYear</em>. Note that masked values in the image collection will be filled with 0</p>
 <p><em>Example:</em></p>
 <pre><code>// load the LandTrendr.js module
 var ltgee = require(&#39;users/emaprlab/public:Modules/LandTrendr.js&#39;);

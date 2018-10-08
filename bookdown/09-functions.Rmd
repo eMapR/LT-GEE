@@ -170,10 +170,11 @@ print(annualLTcollection)
 + **collection (Image Collection)**: An annual surface reflectance image collection with one band per image, like that resulting from the use of `transformSRcollection(srCollection, ['NDVI'])`, for instance.
 + **startYear (Integer)**: The minimum year in the desired range of annual collection
 + **endYear (Integer)**: The maximum year in the desired range of annual collection
++ **maskFill** (Integer, default: 0)**: The value to fill masked pixels in the image collection with. 
 
 *Result:*
 
-An ee.Image representing a band sequential time series of image bands from each image in the given collection between *startYear* and *endYear*.
+An ee.Image representing a band sequential time series of image bands from each image in the given collection between *startYear* and *endYear*. Note that masked values in the image collection will be filled with 0
 
 *Example:*
 
