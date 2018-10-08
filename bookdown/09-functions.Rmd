@@ -16,7 +16,8 @@ These functions use *USGS Landsat Surface Reflectance Tier 1* data sets. They ma
 
 + **[buildSRcollection]** - Builds an annual cloud and cloud shadow masked medoid composite of Landsat surface reflectance TM-equivalent bands 1,2,3,4,5,7. This collection can be useful outside of use by LandTrendr, but is also the base for creating the input collection for LandTrendr.
 + **[transformSRcollection]** - Transforms the images within an annual surface reflectance collection built by `buildSRcollection` to a list of provided indices or bands.
-+ **[buildLTcollection]** - Builds a collection as input to LandTrendr. It will prepare a collection where the first band is the spectral index to base temporal segmentation on, and the subsequent bands will be fitted to segmentation structure of the segmentation index. 
++ **[buildLTcollection]** - Builds a collection as input to LandTrendr. It will prepare a collection where the first band is the spectral index to base temporal segmentation on, and the subsequent bands will be fitted to segmentation structure of the segmentation index.
++ **[collectionToBandStack]** - Transforms an image collection into an image stack where each band of each image in the collection is concatentated as a band into a single image. Useful for mapping a function over a collection, like transforming surface reflectance to NDVI, and then transforming the resulting collection into a band sequential time series image stack.
 + **[runLT]** - Run LandTrendr given a set of parameters. This is a wrapper around `buildSRcollection` and `buildLTcollection` functions.
 + **[getSegmentData]** - Generates an array of information about spectral-temporal segments from the breakpoint vertices identified by LandTrendr.
 + **[getFittedData]** - Generates an annual band stack for a given index provided as *ftvList* indices to either *buildLTcollection* or *runLT*. It flattens the FTV array format to a band per year for a given FTV index.
@@ -155,6 +156,58 @@ var annualSRcollection = ltgee.buildSRcollection(startYear, endYear, startDay, e
 var annualLTcollection = ltgee.buildLTcollection(annualSRcollection, index, ftvList);
 print(annualLTcollection)
 ```
+
+
+
+### collectionToBandStack
+
+*Usage:*
+
+`collectionToBandStack(collection, startYear, endYear)`
+
+*Parameters:*
+
++ **collection (Image Collection)**: An annual surface reflectance image collection with one band per image, like that resulting from the use of `transformSRcollection(srCollection, ['NDVI'])`, for instance.
++ **startYear (Integer)**: The minimum year in the desired range of annual collection
++ **endYear (Integer)**: The maximum year in the desired range of annual collection
+
+*Result:*
+
+An ee.Image representing a band sequential time series of image bands from each image in the given collection between *startYear* and *endYear*.
+
+*Example:*
+
+```
+// load the LandTrendr.js module
+var ltgee = require('users/emaprlab/public:Modules/LandTrendr.js');
+
+// define parameters
+var startYear = 1985;
+var endYear = 2017;
+var startDay = '06-20';
+var endDay = '09-20';
+var aoi = ee.Geometry.Point(-122.8848, 43.7929);
+var bandList = ['NDVI'];
+
+// center and zoom the display in case outputs are to be mapped 
+Map.centerObject(aoi,10);
+Map.addLayer(aoi);
+
+// build annual surface reflectance collection (cloud and shadow masked medoid composite)
+var annualSRcollection = ltgee.buildSRcollection(startYear, endYear, startDay, endDay, aoi);
+
+// transform the annual surface reflectance bands to whatever is in the bandList variable
+var indexCollection = ltgee.transformSRcollection(annualSRcollection, bandList);
+
+// transform image collection of NDVI (from bandList) to a image band stack
+var collectionBandStack = ltgee.collectionToBandStack(indexCollection, startYear, endYear);
+print(collectionBandStack);
+Map.addLayer(collectionBandStack, {"bands":["2000"],"min":-100,"max":1000,"palette":["ff2f0d","fff825","0ab308"]});
+```
+
+
+
+
 
 
 ### runLT
