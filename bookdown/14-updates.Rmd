@@ -4,7 +4,7 @@ If you have questions or find that updates introduce errors, please post an issu
 
 ## 2018-10-09
 
-+ Added the option to define the CFMASK classes to include in the image mask to functions [buildSRcollection](./shortcut-functions.html#buildsrcollection) and [runLT](./shortcut-functions.html#runlt). The default is ['cloud', 'shadow', 'snow']
++ Added the option to define the CFMASK classes to include in the image mask to functions [buildSRcollection](./shortcut-functions.html#buildsrcollection) and [runLT](./shortcut-functions.html#runlt). The default is ['cloud', 'shadow', 'snow']. Also added the function [buildClearPixelCountCollection](./shortcut-functions.html#buildclearpixelcountcollection), which returns the count of unmasked pixels per year that are available for compositing for the provided years and date ranges.
 
 ## 2018-10-08
 

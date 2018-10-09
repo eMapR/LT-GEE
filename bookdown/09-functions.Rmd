@@ -15,6 +15,7 @@ These functions use *USGS Landsat Surface Reflectance Tier 1* data sets. They ma
 ## Functions
 
 + **[buildSRcollection]** - Builds an annual cloud and cloud shadow masked medoid composite of Landsat surface reflectance TM-equivalent bands 1,2,3,4,5,7. This collection can be useful outside of use by LandTrendr, but is also the base for creating the input collection for LandTrendr.
++ **[buildClearPixelCountCollection]** - `buildSRcollection` builds an annual surface reflectance collection potentially many images in a given year. It can be helpful to know how many pixels were available to generate the annual composite images. This function returns the count of unmasked pixels per year that are available for compositing for the provided years and date ranges.
 + **[transformSRcollection]** - Transforms the images within an annual surface reflectance collection built by `buildSRcollection` to a list of provided indices or bands.
 + **[buildLTcollection]** - Builds a collection as input to LandTrendr. It will prepare a collection where the first band is the spectral index to base temporal segmentation on, and the subsequent bands will be fitted to segmentation structure of the segmentation index.
 + **[collectionToBandStack]** - Transforms an image collection into an image stack where each band of each image in the collection is concatentated as a band into a single image. Useful for mapping a function over a collection, like transforming surface reflectance to NDVI, and then transforming the resulting collection into a band sequential time series image stack.
@@ -66,6 +67,50 @@ var annualSRcollection = ltgee.buildSRcollection(startYear, endYear, startDay, e
 print(annualSRcollection);
 ```
 
+
+
+
+### buildClearPixelCountCollection
+
+*Usage:*
+
+`buildClearPixelCountCollection(startYear, endYear, startDay, endDay, aoi, maskThese)`
+
+*Parameters:*
+
++ **startYear (Integer)**: The minimum year in the desired range of annual collection
++ **endYear (Integer)**: The maximum year in the desired range of annual collection
++ **startDay (String | month day formatted as 'mm-dd')**: The minimum date in the desired seasonal range over which to generate annual composite.
++ **endDay (String | month day formatted as 'mm-dd')**: The maximum date in the desired seasonal range over which to generate annual composite.
++ **aoi (Geometry)**: The area-of-interest over which to mosaic images
++ **maskThese (List of strings | deafault: ['cloud', 'shadow', 'snow'])**: A list of CFMASK mask classes to include as masked
+
+*Result:*
+
+An ee.ImageCollection that includes one single band image per year in the provided year range that represents the number of unmasked pixels available for compositing given the date range and mask classes to include as masked pixels.
+
+*Example:*
+
+```
+// load the LandTrendr.js module
+var ltgee = require('users/emaprlab/public:Modules/LandTrendr.js');
+
+// define parameters
+var startYear = 1985;
+var endYear = 2017;
+var startDay = '06-20';
+var endDay = '09-20';
+var aoi = ee.Geometry.Point(-122.8848, 43.7929);
+var maskThese = ['cloud', 'shadow', 'snow']
+
+// center and zoom the display in case outputs are to be mapped 
+Map.centerObject(aoi,10);
+Map.addLayer(aoi);
+
+// apply LandTrendr.js functions
+var nClearCollection = buildClearPixelCountCollection(startYear, endYear, startDay, endDay, aoi, maskThese);
+print(nClearCollection);
+```
 
 
 ### transformSRcollection
