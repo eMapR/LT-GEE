@@ -171,10 +171,11 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="12" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i><b>12</b> References</a></li>
 <li class="chapter" data-level="13" data-path="citation.html"><a href="citation.html"><i class="fa fa-check"></i><b>13</b> Citation</a></li>
 <li class="chapter" data-level="14" data-path="updates.html"><a href="updates.html"><i class="fa fa-check"></i><b>14</b> Updates</a><ul>
-<li class="chapter" data-level="14.1" data-path="updates.html"><a href="updates.html#section"><i class="fa fa-check"></i><b>14.1</b> 2018-10-08</a></li>
-<li class="chapter" data-level="14.2" data-path="updates.html"><a href="updates.html#section-1"><i class="fa fa-check"></i><b>14.2</b> 2018-07-25</a></li>
-<li class="chapter" data-level="14.3" data-path="updates.html"><a href="updates.html#section-2"><i class="fa fa-check"></i><b>14.3</b> 2018-06-26</a></li>
-<li class="chapter" data-level="14.4" data-path="updates.html"><a href="updates.html#section-3"><i class="fa fa-check"></i><b>14.4</b> 2018-06-13</a></li>
+<li class="chapter" data-level="14.1" data-path="updates.html"><a href="updates.html#section"><i class="fa fa-check"></i><b>14.1</b> 2018-10-09</a></li>
+<li class="chapter" data-level="14.2" data-path="updates.html"><a href="updates.html#section-1"><i class="fa fa-check"></i><b>14.2</b> 2018-10-08</a></li>
+<li class="chapter" data-level="14.3" data-path="updates.html"><a href="updates.html#section-2"><i class="fa fa-check"></i><b>14.3</b> 2018-07-25</a></li>
+<li class="chapter" data-level="14.4" data-path="updates.html"><a href="updates.html#section-3"><i class="fa fa-check"></i><b>14.4</b> 2018-06-26</a></li>
+<li class="chapter" data-level="14.5" data-path="updates.html"><a href="updates.html#section-4"><i class="fa fa-check"></i><b>14.5</b> 2018-06-13</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -217,7 +218,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="buildsrcollection" class="section level3">
 <h3><span class="header-section-number">9.1.1</span> buildSRcollection</h3>
 <p><em>Usage:</em></p>
-<p><code>buildSRcollection(startYear, endYear, startDay, endDay, aoi)</code></p>
+<p><code>buildSRcollection(startYear, endYear, startDay, endDay, aoi, maskThese)</code></p>
 <p><em>Parameters:</em></p>
 <ul>
 <li><strong>startYear (Integer)</strong>: The minimum year in the desired range of annual collection</li>
@@ -225,9 +226,10 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li><strong>startDay (String | month day formatted as ‘mm-dd’)</strong>: The minimum date in the desired seasonal range over which to generate annual composite.</li>
 <li><strong>endDay (String | month day formatted as ‘mm-dd’)</strong>: The maximum date in the desired seasonal range over which to generate annual composite.</li>
 <li><strong>aoi (Geometry)</strong>: The area-of-interest over which to mosaic images</li>
+<li><strong>maskThese (List of strings | deafault: [‘cloud’, ‘shadow’, ‘snow’])</strong>: A list of CFMASK mask classes to include as masked pixels. Classes include: ‘cloud’, ‘shadow’, ‘snow’ and ‘water’.</li>
 </ul>
 <p><em>Result:</em></p>
-<p>An ee.ImageCollection where each image represents the medoid of observations per TM-equivalent surface reflectance bands 1-5 and 7, for a given year. There will be as many images as there are years in the range inclusive of <em>startYear</em> and <em>endYear</em>. If a given year does not exist for the range, then a masked band will act as a filler. Similarly, if all observations of a given pixel within a year are masked because of cloud, cloud shadow, or snow, the pixel will be masked.</p>
+<p>An ee.ImageCollection where each image represents the medoid of observations per TM-equivalent surface reflectance bands 1-5 and 7, for a given year. There will be as many images as there are years in the range inclusive of <em>startYear</em> and <em>endYear</em>. If a given year does not exist for the range, then a masked band will act as a filler. Similarly, if all observations of a given pixel within a year are masked because of inclusion in the maskThese list, the pixel will be masked.</p>
 <p><em>Example:</em></p>
 <pre><code>// load the LandTrendr.js module
 var ltgee = require(&#39;users/emaprlab/public:Modules/LandTrendr.js&#39;);
@@ -238,13 +240,14 @@ var endYear = 2017;
 var startDay = &#39;06-20&#39;;
 var endDay = &#39;09-20&#39;;
 var aoi = ee.Geometry.Point(-122.8848, 43.7929);
+var maskThese = [&#39;cloud&#39;, &#39;shadow&#39;, &#39;snow&#39;]
 
 // center and zoom the display in case outputs are to be mapped 
 Map.centerObject(aoi,10);
 Map.addLayer(aoi);
 
 // apply LandTrendr.js functions
-var annualSRcollection = ltgee.buildSRcollection(startYear, endYear, startDay, endDay, aoi);
+var annualSRcollection = ltgee.buildSRcollection(startYear, endYear, startDay, endDay, aoi, maskThese);
 print(annualSRcollection);</code></pre>
 </div>
 <div id="transformsrcollection" class="section level3">
@@ -362,7 +365,7 @@ Map.addLayer(collectionBandStack, {&quot;bands&quot;:[&quot;2000&quot;],&quot;mi
 <div id="runlt" class="section level3">
 <h3><span class="header-section-number">9.1.5</span> runLT</h3>
 <p><em>Usage:</em></p>
-<p><code>runLT(startYear, endYear, startDay, endDay, aoi, index, ftvList, runParams)</code></p>
+<p><code>runLT(startYear, endYear, startDay, endDay, aoi, index, ftvList, runParams, maskThese)</code></p>
 <p><em>Parameters:</em></p>
 <ul>
 <li><strong>startYear (Integer)</strong>: The minimum year in the desired range of annual collection</li>
@@ -373,6 +376,7 @@ Map.addLayer(collectionBandStack, {&quot;bands&quot;:[&quot;2000&quot;],&quot;mi
 <li><strong>index (String)</strong>: The index from the list in the <a href="shortcut-functions.html#spectral-index-codes">Spectral index codes</a> section to be segmented by LandTrendr.</li>
 <li><strong>ftvList (List of strings)</strong>: A list of one or more indices from the list in the <a href="shortcut-functions.html#spectral-index-codes">Spectral index codes</a> section to be fitted to the segmentation of the <code>index</code> parameter.</li>
 <li><strong>runParams (Dictionary)</strong>: A dictionary of parameters to control LandTrendr segmentation. You can find definitions for the dictionary keys and values in <a href="./lt-gee-requirements.html#lt-parameters">LT parameters</a> section</li>
+<li><strong>maskThese (List of strings | deafault: [‘cloud’, ‘shadow’, ‘snow’])</strong>: A list of CFMASK mask classes to include as masked pixels. Classes include: ‘cloud’, ‘shadow’, ‘snow’ and ‘water’.</li>
 </ul>
 <p><em>Result:</em></p>
 <p>An array image described in the <a href="./lt-gee-outputs.html">LT-GEE Outputs</a> section</p>
@@ -398,13 +402,14 @@ var runParams = {
   bestModelProportion:    0.75,
   minObservationsNeeded:  6
 };
+var maskThese = [&#39;cloud&#39;, &#39;shadow&#39;, &#39;snow&#39;]
 
 // center and zoom the display in case outputs are to be mapped 
 Map.centerObject(aoi,10);
 Map.addLayer(aoi);
 
 // apply LandTrendr.js functions
-var lt = ltgee.runLT(startYear, endYear, startDay, endDay, aoi, index, ftvList, runParams);
+var lt = ltgee.runLT(startYear, endYear, startDay, endDay, aoi, index, ftvList, runParams, maskThese);
 print(lt)</code></pre>
 </div>
 <div id="getsegmentdata" class="section level3">

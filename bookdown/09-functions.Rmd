@@ -28,7 +28,7 @@ These functions use *USGS Landsat Surface Reflectance Tier 1* data sets. They ma
 
 *Usage:*
 
-`buildSRcollection(startYear, endYear, startDay, endDay, aoi)`
+`buildSRcollection(startYear, endYear, startDay, endDay, aoi, maskThese)`
 
 *Parameters:*
 
@@ -37,10 +37,11 @@ These functions use *USGS Landsat Surface Reflectance Tier 1* data sets. They ma
 + **startDay (String | month day formatted as 'mm-dd')**: The minimum date in the desired seasonal range over which to generate annual composite.
 + **endDay (String | month day formatted as 'mm-dd')**: The maximum date in the desired seasonal range over which to generate annual composite.
 + **aoi (Geometry)**: The area-of-interest over which to mosaic images
++ **maskThese (List of strings | deafault: ['cloud', 'shadow', 'snow'])**: A list of CFMASK mask classes to include as masked pixels. Classes include: 'cloud', 'shadow', 'snow' and 'water'.
 
 *Result:*
 
-An ee.ImageCollection where each image represents the medoid of observations per TM-equivalent surface reflectance bands 1-5 and 7, for a given year. There will be as many images as there are years in the range inclusive of *startYear* and *endYear*. If a given year does not exist for the range, then a masked band will act as a filler. Similarly, if all observations of a given pixel within a year are masked because of cloud, cloud shadow, or snow, the pixel will be masked.
+An ee.ImageCollection where each image represents the medoid of observations per TM-equivalent surface reflectance bands 1-5 and 7, for a given year. There will be as many images as there are years in the range inclusive of *startYear* and *endYear*. If a given year does not exist for the range, then a masked band will act as a filler. Similarly, if all observations of a given pixel within a year are masked because of inclusion in the maskThese list, the pixel will be masked.
 
 *Example:*
 
@@ -54,13 +55,14 @@ var endYear = 2017;
 var startDay = '06-20';
 var endDay = '09-20';
 var aoi = ee.Geometry.Point(-122.8848, 43.7929);
+var maskThese = ['cloud', 'shadow', 'snow']
 
 // center and zoom the display in case outputs are to be mapped 
 Map.centerObject(aoi,10);
 Map.addLayer(aoi);
 
 // apply LandTrendr.js functions
-var annualSRcollection = ltgee.buildSRcollection(startYear, endYear, startDay, endDay, aoi);
+var annualSRcollection = ltgee.buildSRcollection(startYear, endYear, startDay, endDay, aoi, maskThese);
 print(annualSRcollection);
 ```
 
@@ -215,7 +217,7 @@ Map.addLayer(collectionBandStack, {"bands":["2000"],"min":-100,"max":1000,"palet
 
 *Usage:*
 
-`runLT(startYear, endYear, startDay, endDay, aoi, index, ftvList, runParams)`
+`runLT(startYear, endYear, startDay, endDay, aoi, index, ftvList, runParams, maskThese)`
 
 *Parameters:*
 
@@ -227,7 +229,7 @@ Map.addLayer(collectionBandStack, {"bands":["2000"],"min":-100,"max":1000,"palet
 + **index (String)**: The index from the list in the [Spectral index codes] section to be segmented by LandTrendr.
 + **ftvList (List of strings)**: A list of one or more indices from the list in the [Spectral index codes] section to be fitted to the segmentation of the `index` parameter.
 + **runParams (Dictionary)**: A dictionary of parameters to control LandTrendr segmentation. You can find definitions for the dictionary keys and values in [LT parameters](./lt-gee-requirements.html#lt-parameters) section 
-
++ **maskThese (List of strings | deafault: ['cloud', 'shadow', 'snow'])**: A list of CFMASK mask classes to include as masked pixels. Classes include: 'cloud', 'shadow', 'snow' and 'water'.
 
 *Result:*
 
@@ -257,13 +259,14 @@ var runParams = {
   bestModelProportion:    0.75,
   minObservationsNeeded:  6
 };
+var maskThese = ['cloud', 'shadow', 'snow']
 
 // center and zoom the display in case outputs are to be mapped 
 Map.centerObject(aoi,10);
 Map.addLayer(aoi);
 
 // apply LandTrendr.js functions
-var lt = ltgee.runLT(startYear, endYear, startDay, endDay, aoi, index, ftvList, runParams);
+var lt = ltgee.runLT(startYear, endYear, startDay, endDay, aoi, index, ftvList, runParams, maskThese);
 print(lt)
 ```
 

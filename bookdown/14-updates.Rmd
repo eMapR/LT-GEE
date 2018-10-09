@@ -2,6 +2,10 @@
 
 If you have questions or find that updates introduce errors, please post an issue in the [LT-GEE GitHub repository](https://github.com/eMapR/LT-GEE/issues) - if you don't have a GitHub account, email Justin at: jstnbraaten@gmail.com
 
+## 2018-10-09
+
++ Added the option to define the CFMASK classes to include in the image mask to functions [buildSRcollection](./shortcut-functions.html#buildsrcollection) and [runLT](./shortcut-functions.html#runlt). The default is ['cloud', 'shadow', 'snow']
+
 ## 2018-10-08
 
 + Added [collectionToBandStack](./shortcut-functions.html#collectionToBandStack) function to the API. Transforms an image collection into an image stack where each band of each image in the collection is concatentated as a band into a single image. Useful for mapping a function over a collection, like transforming surface reflectance to NDVI, and then transforming the resulting collection into a band sequential time series image stack.
