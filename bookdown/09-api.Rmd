@@ -1,14 +1,14 @@
-# Shortcut Functions
+# API
 
-We have developed a LandTrendr JavaScript module that contains several shortcut functions to build LandTrendr input collections, run LandTrendr, and deal with the outputs. The module can be accessed from our public GEE repository. To use the module, you must first visit this URL: https://code.earthengine.google.com/?accept_repo=users/emaprlab/public. It will add the *users/emaprlab/public* repository to your GEE account. Once added, it can be found within the *Reader* permission group of your GEE scripts library. You'll find the LandTrendr module at *Modules/LandTrendr.js*.
+We have developed a LandTrendr JavaScript module that serves as an API to build LandTrendr input collections, run LandTrendr, and deal with the outputs. The API can be accessed from our public GEE repository. To use the API, you must first visit this URL: https://code.earthengine.google.com/?accept_repo=users/emaprlab/public. It will add the *users/emaprlab/public* repository to your GEE account.
 
-To use the shortcut functions, you must import the *LandTrendr.js* module into your script using the following line - place it at the top of the script. 
+To use the API, you must import the *LandTrendr.js* module into your script using the following line - place it at the top of the script. 
 
 ```
 var ltgee = require('users/emaprlab/public:Modules/LandTrendr.js');
 ```
 
-These functions use *USGS Landsat Surface Reflectance Tier 1* data sets. They mask clouds, cloud shadows, and snow from images using [CFMASK](https://www.sciencedirect.com/science/article/pii/S0034425714005069). Annual image composites are generated using a medoid approach: for a given image pixel, the medoid is the value for a given band that is numerically closest to the median of all corresponding pixels among images considered (all images between a provided annual data range). TM and ETM+ data are included an annual medoid compositing without alteration, but OLI image bands 2, 3, 4, 5, 6 and 7 are subset and transformed to the spectral properties of ETM+ bands 1, 2, 3, 4, 5 and 7, respectively, using slopes and intercepts from reduced major axis regressions reported in Roy et al  2016 Table 2.
+LandTrendr API functions use *USGS Landsat Surface Reflectance Tier 1* data sets. They optionally mask clouds, cloud shadows, and snow from images using [CFMASK](https://www.sciencedirect.com/science/article/pii/S0034425714005069). Annual image composites are generated using a medoid approach: for a given image pixel, the medoid is the value for a given band that is numerically closest to the median of all corresponding pixels among images considered (all images between a provided annual data range). TM and ETM+ data are included an annual medoid compositing without alteration, but OLI image bands 2, 3, 4, 5, 6 and 7 are subset and transformed to the spectral properties of ETM+ bands 1, 2, 3, 4, 5 and 7, respectively, using slopes and intercepts from reduced major axis regressions reported in Roy et al  2016 Table 2.
 
 
 
@@ -20,9 +20,12 @@ These functions use *USGS Landsat Surface Reflectance Tier 1* data sets. They ma
 + **[buildLTcollection]** - Builds a collection as input to LandTrendr. It will prepare a collection where the first band is the spectral index to base temporal segmentation on, and the subsequent bands will be fitted to segmentation structure of the segmentation index.
 + **[collectionToBandStack]** - Transforms an image collection into an image stack where each band of each image in the collection is concatentated as a band into a single image. Useful for mapping a function over a collection, like transforming surface reflectance to NDVI, and then transforming the resulting collection into a band sequential time series image stack.
 + **[runLT]** - Run LandTrendr given a set of parameters. This is a wrapper around `buildSRcollection` and `buildLTcollection` functions.
-+ **[getSegmentData]** - Generates an array of information about spectral-temporal segments from the breakpoint vertices identified by LandTrendr.
++ **[getSegmentData]** - Generates an array of information about spectral-temporal segments from the breakpoint vertices identified by LandTrendr. Returns either all spectral-temporal segments, or just vegetation loss segments, or just vegetation growth segments.
 + **[getFittedData]** - Generates an annual band stack for a given index provided as *ftvList* indices to either *buildLTcollection* or *runLT*. It flattens the FTV array format to a band per year for a given FTV index.
-+ **[disturbanceMap]** - Generates a disturbance map with attributes for: year of disturbance detection, magnitude, duration, pre-disturbance spectral value, and the rate of spectral change. Each attribute is a band of an ee.Image for easy display and export.
++ **[getChangeMap]** - Generates a set of map layers describing either vegetation loss or gain events with attributes including: year of change detection, spectral delta, duration of change event, pre-change event spectral value, and the rate of spectral change. Each attribute is a band of an ee.Image.
++ **disturbanceMap** - Deprecated, use `getChangeMap`
+
+
 
 
 ### buildSRcollection
@@ -322,12 +325,14 @@ print(lt)
 
 *Usage:*
 
-`getSegmentData(lt, index)`
+`getSegmentData(lt, index, delta, invert)`
 
 *Parameters:*
 
-+ **lt (Image Array)**: The image array that is the result of running LandTrendr (either `runLT()` or `ee.Algorithms.TemporalSegmentation.LandTrendr()`). 
-+ **index (String)**: The index from the list in the [Spectral index codes] section to be segmented by LandTrendr.
++ **lt (Image Array)**: The image array that is the result of running LandTrendr with either `runLT()` or `ee.Algorithms.TemporalSegmentation.LandTrendr()`. 
++ **index (String)**: The index from the list in the [Spectral index codes] section used to generate LandTrendr outputs for the previous `lt` argument.
++ **delta (String)**: A parameter to define what segments to return information about. Either `'all'` segments, only vegetation `'loss'` segments, or only vegetation `'gain'` segments. 
++ **right (Boolean)**: Optional: `true` or `false` for whether to right the spectral values to their natural orientation around 0. LandTrendr requires that the spectral index being segmented be oriented so that vegetation loss is represented as a positive spectral delta (see [LandTrendr collection building](lt-gee-requirements.html#image-collection)). This simplifies interpretation of the resulting segmentation - every positive delta indicates vegetation loss (the algorithm was designed around Landsat TM Band 5 SWIR). As a result, you may want to re-orient or right the spectral values in the segment data so that it is in its natural form and easier to intuitively interpret. This parameter only affects the results when providing the `all` argument to the `delta` parameter. The default is `false`.   
 
 *Result:*
 
@@ -342,6 +347,8 @@ An image array with dimensions: 7 (rows) x nSegments (cols). Each row describes 
 + Row 7: segment rate of spectral change
 
 To extract a row, use the `arraySlice` function. For example, if you wanted to work only with the segment start years, you would do this: `var segStartYr = arraySlice(segInfo, 0, 1)`. See the [Working with Outputs](./working-with-outputs.html#getting-segment-information) section for more information on handling these data.
+
+The spectral segment start and end value will be in the natural index orientation around 0 when selecting either `loss` or `growth` for the `delta` parameter argument, and if `all` is selected while the `right` parameter argument is equal to `true`. In other cases, depending on the segmented index, these values could be inverted. Additionally, when selecting either `loss` or `growth` for the `delta` parameter argument, segment delta and rate will be the absolute value. In the case where `all` is selected as the `delta` parameter argument, the sign of spectral delta and change rate will depend on the index's orientation around zero and whether the `right` parameter argument is equal to `true` or false.  
 
 
 *Example:*
@@ -375,8 +382,9 @@ Map.addLayer(aoi);
 
 // apply LandTrendr.js functions
 var lt = ltgee.runLT(startYear, endYear, startDay, endDay, aoi, index, ftvList, runParams);
-var segInfo = ltgee.getSegmentData(lt, index)
-print(segInfo)
+var segInfo = ltgee.getSegmentData(lt, index, 'all');
+print(segInfo);
+Map.addLayer(segInfo); // use 'Inspector' to explore values
 
 ```
 
@@ -388,7 +396,7 @@ print(segInfo)
 
 *Parameters:*
 
-+ **lt (Image Array)**: The image array that is the result of running LandTrendr (either `runLT()` or `ee.Algorithms.TemporalSegmentation.LandTrendr()`). 
++ **lt (Image Array)**: The image array that is the result of running LandTrendr with either `runLT()` or `ee.Algorithms.TemporalSegmentation.LandTrendr()`. 
 + **startYear (Integer)**: The minimum year in the desired range of annual collection
 + **endYear (Integer)**: The maximum year in the desired range of annual collection
 + **index (String)**: The index from the list in the [Spectral index codes] section to be segmented by LandTrendr.
@@ -435,44 +443,53 @@ print(ndviFTV);
 ```
 
 
-### disturbanceMap
-
-**BETA - Don't trust results yet - Still testing - Parametes not described fully**
+### getChangeMap
 
 *Usage:*
 
-`disturbanceMap(distParams)`
+`getChangeMap(lt, changeParams)`
 
 *Parameters:*
 
-+ **distParams (Dictionary)**: A dictionary of parameters to control disturbance mapping.
-    + **type (string)**: the type of disturbance to identify if there are more than one disturbance in a pixel time series. It can be: `'Greatest'`, `'Least'`, `'Newest'`, `'Oldest'`, `'Longest'`, `'Fastest'`, but only one at a time.
-    + **year (Dictionary)**: options for filtering disturbance by year of detection
-        + **checked (Boolean)**: `true` or `false` for whether to filter by year. If `true`, then you must define both `start` and `end` described in the following two parameters.
-        + **start (Integer)**: The minimum year of a disturbance to include in the map.
-        + **end (Integer)**: The maximum year of a disturbance to include in the map.
-    + **mag (Dictionary)**: options for filtering disturbance by magnitude
-        + **checked (Boolean)**: `true` or `false` for whether to filter by magnitude. If `true`, then you must define both `year1` and `year20` described in the following two parameters.
-        + **year1 (Integer)**: For a disturbance lasting 1 year, what is the minimum magnitude change spectral change considered a disturbance. It is in the units of the spectral index selected defined as the `index` parameter in the `runLT` function describd above multiplied by 1000 if a normalized index like NBR or NDVI or in the units of USGS Collection 1 Surface reflectance products if `index` is a Landsat band, like Band5. The given value should be the absolute value of the spectral change.
-        + **year20 (Integer)**: For a disturbance lasting 20 years, what is the minimum magnitude change spectral change considered a disturbance. The program will use the 1 year magnitude and the 20 year magnitude minimums to interpolate the minimum magntiude for disturbances across the entire duration range defined by start and end year of the image collection. It is in the units of the spectral index selected defined as the `index` parameter in the `runLT` function describd above multiplied by 1000 if a normalized index like NBR or NDVI or in the units of USGS Collection 1 Surface reflectance products if `index` is a Landsat band, like Band5. The given value should be the absolute value of the spectral change.
-    + **preval (Dictionary)**: options for filtering disturbance by pre-disturbance spectal value
-        + **checked (Boolean)**: `true` or `false` for whether to filter by pre-disturbance spectal value. If `true`, then you must define `value` described in the following parameter.
-        + **value (Integer)**: what is the minimum spectral value allowed prior to a disturbance. It is in the units of the spectral index selected defined as the `index` parameter in the `runLT` function describd above multiplied by 1000 if a normalized index like NBR or NDVI or in the units of USGS Collection 1 Surface reflectance products if `index` is a Landsat band, like Band5. It should be signed according to the natural orientation of the index or band.
-    + **mmu (Dictionary)**: options for filtering disturbance by minimum patch size. Patches are defined by disturbed pixels matching the above filtering criteria, having the same year of detection and adjacent to other pixels by the 8 neighbor rule.
-        + **checked (Boolean)**: `true` or `false` for whether to filter by minimum disturbance patch size. If `true`, then you must define `value` described in the following parameter.
-        + **value (Integer)**: what is the minimum number of pixels defining a disturbance patch. It is in the units of number of pixels. Single pixels or patches with less than the provided value will not be included in the map.
++ **lt (Image Array)**: The image array that is the result of running LandTrendr with either `runLT()` or `ee.Algorithms.TemporalSegmentation.LandTrendr()`. 
++ **changeParams (Dictionary)**: A dictionary of parameters to control change mapping.
+    + **delta (string)**: Either `'loss'` or `'gain'` to define whether to map vegetation loss or gain.
+    + **sort (string)**: The type of change to identify if there are more than one change event in a pixel time series. It can be: `'greatest'`, `'least'`, `'newest'`, `'oldest'`, `'fastest'`, `'slowest'`.
+    + **year (Dictionary)**: Options for filtering change events by year of detection
+        + **checked (Boolean)**: `true` or `false` for whether to filter by year. If `true`, then you must define both `start` and `end` described as follows.
+        + **start (Integer)**: The minimum year of change events to include in the map.
+        + **end (Integer)**: The maximum year of change events to include in the map.
+    + **mag (Dictionary)**: Options for filtering change events by magnitude
+        + **checked (Boolean)**: `true` or `false` for whether to filter by magnitude. If `true`, then you must define `value` and `operator` described as follows.
+        + **value (Integer)**: The absolute value representing the spectral delta of change events to be compared against the following `operator` parameter. It is in the units of the spectral index defined by the `index` parameter in the `runLT` function described above. If the `index` is a normalized index like NBR or NDVI, the value should be multiplied by 1000. For instance, if you want to map NDVI delta segments greater than 0.4, the value here would be 400. If the `index` is a Landsat spectral band, like 'B5', the units are that of the USGS Collection 1 Surface Reflectance product.
+        + **operator (String)**: A comparative operator, either `'<'` or `'>'`, used to compare change event magnitude against the threshold `value` described previously. Only change segments resulting in a `true` condition will be included in the map
+    + **dur (Dictionary)**: Options for filtering change events by duration.
+        + **checked (Boolean)**: `true` or `false` for whether to filter by duration. If `true`, then you must define `value` and `operator` described as follows.
+        + **value (Integer)**: The number of years a change event took to complete to be compared against the following `operator` parameter. It is in units of years.
+        + **operator (String)**: A comparative operator, either `'<'` or `'>'`, used to compare change event duration against the threshold `value` described previously. Only change segments resulting in a `true` condition will be included in the map.
+    + **preval (Dictionary)**: Options for filtering change events by pre-change spectral value.
+        + **checked (Boolean)**: `true` or `false` for whether to filter by pre-change spectral value. If `true`, then you must define `value` and `operator` described as follows.
+        + **value (Integer)**: The spectral index value prior to a change event to be compared against the following `operator` parameter. It is in the units of the spectral index defined by the `index` parameter in the `runLT` function described above. If the `index` is a normalized index like NBR or NDVI, the value should be multiplied by 1000. For instance, if you want to filter change events by NDVI pre-change values greater than 0.3, the value here would be 300. If the `index` is a Landsat spectral band, like 'B5', the units are that of the USGS Collection 1 Surface reflectance product. It should be signed according to the natural orientation of the index or band.
+    + **mmu (Dictionary)**: Options for filtering change events by minimum patch size. Patches are defined by change event pixels matching the above filtering criteria, having the same year of detection and adjacent to other pixels by the 8 neighbor rule.
+        + **checked (Boolean)**: `true` or `false` for whether to filter change events by a minimum patch size. If `true`, then you must define `value` described as follows.
+        + **value (Integer)**: The minimum number of pixels defining a change event patch. Number of pixels is the unit. Single pixels or patches with less than the provided value will not be included in the map.
         
 See the example below for formatting the dictionary
 
 
 *Result:*
 
-An ee.Image with bands for attributes of selected disturbance types including: year of disturbance detection `'yod'`, magnitude `'mag'`, duration `'dur'`, and pre-disturbance spectral value `'preval'` and the rate of spectral change `'rate'`.
+An ee.Image with bands for attributes of change events meeting filtering criteria including:
+
++ **Year of change event detection**: `'yod'` (year)
++ **Magnitude of change event**: `'mag'` (absolute value of change event spectral delta)
++ **Duration of change event**: `'dur'` (years)
++ **Pre-change event spectral value**: `'preval'` (spectral value) 
++ **Rate of spectral change for event** `'rate'` (`mag/dur`) 
 
 *Note:*
 
-
-Relies on outputs from `runLT` and `getSegmentData` functions. Find them above and see their usage in the following example.
+Relies on outputs from the `runLT` function. Find them above and see their usage in the following example.
 
 *Example:*
 
@@ -488,6 +505,7 @@ var startDay = '06-20';
 var endDay = '09-20';
 var aoi = ee.Geometry.Point(-122.8848, 43.7929);
 var index = 'NBR';
+var maskThese = ['cloud', 'shadow', 'snow', 'water'];
 
 // define landtrendr parameters
 var runParams = { 
@@ -502,12 +520,14 @@ var runParams = {
 };
 
 // define disturbance parameters
-var distParams = {
-  type:   'Greatest',
-  year:   { checked:false, start:null, end:null   },
-  mag:    { checked:true,  year1:100,  year20:75  },
-  preval: { checked:true,  value:400              },
-  mmu:    { checked:true,  value:11              },
+var changeParams = {
+  delta:  'loss',
+  sort:   'greatest',
+  year:   {checked:false, start:2000, end:2010},
+  mag:    {checked:true,  value:200,  operator: '>'},
+  dur:    {checked:true,  value:4,    operator: '<'},
+  preval: {checked:true,  value:300,  operator: '>'},
+  mmu:    {checked:true,  value:11},
 };
 
 //##########################################################################################
@@ -517,35 +537,33 @@ var distParams = {
 // load the LandTrendr.js module
 var ltgee = require('users/emaprlab/public:Modules/LandTrendr.js'); 
 
-// add/alter the distParams
-distParams.index = index;
-if(distParams.mag.checked){
-  distParams.mag.year1 = parseFloat(distParams.mag.year1);
-  distParams.mag.year20 = parseFloat(distParams.mag.year20);
-}
+// add index to changeParams object
+changeParams.index = index;
 
 // run landtrendr
-var lt = ltgee.runLT(startYear, endYear, startDay, endDay, aoi, index, [], runParams);
+var lt = ltgee.runLT(startYear, endYear, startDay, endDay, aoi, index, [], runParams, maskThese);
 
-//  get the segmenation information
-var segInfo = ltgee.getSegmentData(lt, index);
-
-// append segInfo to distParams
-distParams.segInfo = segInfo;
-
-// get the disturbance map layers
-var distImg = ltgee.disturbanceMap(distParams);
+// get the change map layers
+var changeImg = ltgee.getChangeMap(lt, changeParams);
 
 // set visualization dictionaries
+var palette = ['#9400D3', '#4B0082', '#0000FF', '#00FF00', '#FFFF00', '#FF7F00', '#FF0000'];
 var yodVizParms = {
   min: startYear,
   max: endYear,
-  palette: ['#9400D3', '#4B0082', '#0000FF', '#00FF00', '#FFFF00', '#FF7F00', '#FF0000']
+  palette: palette
+};
+
+var magVizParms = {
+  min: 200,
+  max: 800,
+  palette: palette
 };
 
 // display the disturbance attribute map - note that there are other layers - print distImg to console to see
 Map.centerObject(aoi, 11);
-Map.addLayer(distImg.select(['yod']), yodVizParms, 'Year of Detection');
+Map.addLayer(changeImg.select(['mag']), magVizParms, 'Magnitude of Change');
+Map.addLayer(changeImg.select(['yod']), yodVizParms, 'Year of Detection');
 ```
 
 

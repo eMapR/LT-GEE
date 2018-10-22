@@ -36,7 +36,7 @@ In the [example scripts](https://emapr.github.io/LT-GEE/example-scripts.html) pr
 <a id='importantsteps'></a>**Two really important steps** in image collection building include 1) masking cloud and cloud shadow pixels during annual image compositing and to 2) ensure that the spectral band or index that is 
 to be segmented is oriented so that vegetation loss is represented by a positive delta. For instance, NBR in its native orientation results in a negative delta when vegetation is lost from one observation to the next. In this case, NBR must be multiplied by -1 before being segmented. Conversely, if Landsat TM band 5 (SWIR) is selected for segmentation, inversion of the spectral values is not required, since natively, vegetation loss is represented by a positive delta.   
 
-Note that we provide a couple of shortcut functions to build annual Landsat surface reflectance collections and convert them to a collections formatted for use by LandTrendr. See the `buildSRcollection` and `buildLTcollection` functions in the [Shortcut Functions](./shortcut-functions.html#functions) section.
+Note that within the API we provide functions to build annual Landsat surface reflectance collections and convert them to collections formatted for use by LandTrendr. See the `buildSRcollection` and `buildLTcollection` functions in the [API Functions](./api.html#functions) section.
 
 ## LT parameters
 

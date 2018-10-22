@@ -3,7 +3,7 @@
 **This guide is intended to introduce the basics of running LandTrendr (LT) in Google Earth Engine (GEE). 
 It describes the LT conceptual framework, what is required to run LT-GEE, how to run it, 
 what the outputs are, and how they are formatted. It also provides three example scripts,
-a series of user interfaces to the LT operations, and a shortcut JavaScript library.**
+a series of user interfaces to LT operations, and an API for opinionated, but easy use.**
 
 LandTrendr is set of spectral-temporal segmentation algorithms that are useful 
 for change detection in a time series of moderate resolution satellite imagery (primarily Landsat) 

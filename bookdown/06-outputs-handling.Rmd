@@ -10,7 +10,7 @@ specifically, this section will walk through:
 4. Apply a minimum mapping unit filter to identified disturbance pixels to reduce spatial noise 
 5. Convert a fitted (FTV) band from an image array to an image with a band per year in the time series
 
-Note that the following code snippets are intended to be a template for learning and building on. We also provide shortcut functions to perform these operations in the [Shortcut Functions](./shortcut-functions.html) section, which greatly simplify these steps.   
+Note that the following code snippets are intended to be a template for learning and building on. We also provide shortcut functions to perform these operations in the [API Functions](./api.html) section, which greatly simplify these steps.   
   
 ## Getting segment information
   
