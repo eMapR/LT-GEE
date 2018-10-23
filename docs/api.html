@@ -142,7 +142,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="8.1.1" data-path="ui-applications.html"><a href="ui-applications.html#steps"><i class="fa fa-check"></i><b>8.1.1</b> Steps</a></li>
 <li class="chapter" data-level="8.1.2" data-path="ui-applications.html"><a href="ui-applications.html#under-the-hood"><i class="fa fa-check"></i><b>8.1.2</b> Under the hood</a></li>
 </ul></li>
-<li class="chapter" data-level="8.2" data-path="ui-applications.html"><a href="ui-applications.html#ui-landtrendr-disturbance-mapper"><i class="fa fa-check"></i><b>8.2</b> UI LandTrendr Disturbance Mapper</a><ul>
+<li class="chapter" data-level="8.2" data-path="ui-applications.html"><a href="ui-applications.html#ui-landtrendr-change-mapper"><i class="fa fa-check"></i><b>8.2</b> UI LandTrendr Change Mapper</a><ul>
 <li class="chapter" data-level="8.2.1" data-path="ui-applications.html"><a href="ui-applications.html#steps-1"><i class="fa fa-check"></i><b>8.2.1</b> Steps</a></li>
 <li class="chapter" data-level="8.2.2" data-path="ui-applications.html"><a href="ui-applications.html#under-the-hood-1"><i class="fa fa-check"></i><b>8.2.2</b> Under the hood</a></li>
 <li class="chapter" data-level="8.2.3" data-path="ui-applications.html"><a href="ui-applications.html#todo"><i class="fa fa-check"></i><b>8.2.3</b> ToDo</a></li>
@@ -414,7 +414,7 @@ Map.addLayer(collectionBandStack, {&quot;bands&quot;:[&quot;2000&quot;],&quot;mi
 <li><strong>index (String)</strong>: The index from the list in the <a href="api.html#spectral-index-codes">Spectral index codes</a> section to be segmented by LandTrendr.</li>
 <li><strong>ftvList (List of strings)</strong>: A list of one or more indices from the list in the <a href="api.html#spectral-index-codes">Spectral index codes</a> section to be fitted to the segmentation of the <code>index</code> parameter.</li>
 <li><strong>runParams (Dictionary)</strong>: A dictionary of parameters to control LandTrendr segmentation. You can find definitions for the dictionary keys and values in <a href="./lt-gee-requirements.html#lt-parameters">LT parameters</a> section</li>
-<li><strong>maskThese (List of strings | deafault: [‘cloud’, ‘shadow’, ‘snow’])</strong>: A list of CFMASK mask classes to include as masked pixels. Classes include: ‘cloud’, ‘shadow’, ‘snow’ and ‘water’.</li>
+<li><strong>maskThese (List of strings | default: [‘cloud’, ‘shadow’, ‘snow’])</strong>: A list of CFMASK mask classes to include as masked pixels. Classes include: ‘cloud’, ‘shadow’, ‘snow’ and ‘water’.</li>
 </ul>
 <p><em>Result:</em></p>
 <p>An array image described in the <a href="./lt-gee-outputs.html">LT-GEE Outputs</a> section</p>

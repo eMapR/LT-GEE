@@ -5,12 +5,14 @@ To access the applications, visit this URL: https://code.earthengine.google.com/
 
 
 + **[UI LandTrendr Pixel Time Series Plotter]** | plot source and LandTrendr-fitted data for a pixel
-+ **[UI LandTrendr Disturbance Mapper]** | map disturbances and view attributes
++ **[UI LandTrendr Change Mapper]** | map disturbances and view attributes
 + **[UI LandTrendr Fitted Index Delta RGB Mapper]** | visualize change and relative band/index information
 
 
 
 ## UI LandTrendr Pixel Time Series Plotter
+
+[GEE App link](https://emaprlab.users.earthengine.app/view/lt-gee-pixel-time-series)
 
 The *UI LandTrendr Pixel Time Series Plotter* will plot the Landsat surface reflectance source and LandTrendr-fitted index for 
 a selected location. The script is useful for simply exploring and visualizing the spectral-temporal space of a pixel, for comparing
@@ -42,9 +44,11 @@ Wait a minute or two and plots of source and LandTrendr-fitted time series data 
 + Medoid annual compositing
 <br><br><br>
 
-## UI LandTrendr Disturbance Mapper
+## UI LandTrendr Change Mapper
 
-The *UI LandTrendr Disturbance Mapper* will display map layers of disturbance attributes including: year of disturbance detection, magnitude of disturbance, duration of disturbance, and pre-disturbance spectral value. 
+[GEE App link](https://emaprlab.users.earthengine.app/view/lt-gee-change-mapper)
+
+The *UI LandTrendr Change Mapper* will display map layers of disturbance attributes including: year of disturbance detection, magnitude of disturbance, duration of disturbance, and pre-disturbance spectral value. 
 
 <img src='imgs/dist_map_app.jpg'>
 
@@ -89,6 +93,8 @@ The *UI LandTrendr Disturbance Mapper* will display map layers of disturbance at
 
 
 ## UI LandTrendr Fitted Index Delta RGB Mapper
+
+[GEE App link](https://emaprlab.users.earthengine.app/view/lt-gee-fitted-index-delta-rgb-mapper)
 
 The *UI LandTrendr Fitted Index Delta RGB Mapper* will display an RGB color map representing spectral band or index values at three time slices. Formally, it is referred to as write function memory insertion change detection. Each color red, green, and blue are assigned a year of spectral data, then those data are composited to an RGB image where each of red, green, and blue are mixed by weighting of the spectral intensity for the year represented by each color. It is useful as a quick way to visualize change or non-change over time along with providing a relative sense for spectral intensity. If I'm just exploring change in an area, I'll often use this before strictly mapping disturbance, because I get a sense for spectral distribution and spatial pattern. Once you get a handle on interpreting the colors it is really quite an interesting and useful visualization.  
 

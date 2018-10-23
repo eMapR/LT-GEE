@@ -142,7 +142,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="8.1.1" data-path="ui-applications.html"><a href="ui-applications.html#steps"><i class="fa fa-check"></i><b>8.1.1</b> Steps</a></li>
 <li class="chapter" data-level="8.1.2" data-path="ui-applications.html"><a href="ui-applications.html#under-the-hood"><i class="fa fa-check"></i><b>8.1.2</b> Under the hood</a></li>
 </ul></li>
-<li class="chapter" data-level="8.2" data-path="ui-applications.html"><a href="ui-applications.html#ui-landtrendr-disturbance-mapper"><i class="fa fa-check"></i><b>8.2</b> UI LandTrendr Disturbance Mapper</a><ul>
+<li class="chapter" data-level="8.2" data-path="ui-applications.html"><a href="ui-applications.html#ui-landtrendr-change-mapper"><i class="fa fa-check"></i><b>8.2</b> UI LandTrendr Change Mapper</a><ul>
 <li class="chapter" data-level="8.2.1" data-path="ui-applications.html"><a href="ui-applications.html#steps-1"><i class="fa fa-check"></i><b>8.2.1</b> Steps</a></li>
 <li class="chapter" data-level="8.2.2" data-path="ui-applications.html"><a href="ui-applications.html#under-the-hood-1"><i class="fa fa-check"></i><b>8.2.2</b> Under the hood</a></li>
 <li class="chapter" data-level="8.2.3" data-path="ui-applications.html"><a href="ui-applications.html#todo"><i class="fa fa-check"></i><b>8.2.3</b> ToDo</a></li>
@@ -203,11 +203,12 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>We have developed a few UI applications for exploring LT-GEE time series data. They can be found in our public GEE repository. To access the applications, visit this URL: <a href="https://code.earthengine.google.com/?accept_repo=users/emaprlab/public" class="uri">https://code.earthengine.google.com/?accept_repo=users/emaprlab/public</a>). It will add the <strong><em>users/emaprlab/public</em></strong> repository to your GEE account. Once added, the repository can be found within the <strong><em>Reader</em></strong> permission group of your GEE scripts library. There you’ll find the following user interface applications.</p>
 <ul>
 <li><strong><a href="ui-applications.html#ui-landtrendr-pixel-time-series-plotter">UI LandTrendr Pixel Time Series Plotter</a></strong> | plot source and LandTrendr-fitted data for a pixel</li>
-<li><strong><a href="ui-applications.html#ui-landtrendr-disturbance-mapper">UI LandTrendr Disturbance Mapper</a></strong> | map disturbances and view attributes</li>
+<li><strong><a href="ui-applications.html#ui-landtrendr-change-mapper">UI LandTrendr Change Mapper</a></strong> | map disturbances and view attributes</li>
 <li><strong><a href="ui-applications.html#ui-landtrendr-fitted-index-delta-rgb-mapper">UI LandTrendr Fitted Index Delta RGB Mapper</a></strong> | visualize change and relative band/index information</li>
 </ul>
 <div id="ui-landtrendr-pixel-time-series-plotter" class="section level2">
 <h2><span class="header-section-number">8.1</span> UI LandTrendr Pixel Time Series Plotter</h2>
+<p><a href="https://emaprlab.users.earthengine.app/view/lt-gee-pixel-time-series">GEE App link</a></p>
 <p>The <em>UI LandTrendr Pixel Time Series Plotter</em> will plot the Landsat surface reflectance source and LandTrendr-fitted index for a selected location. The script is useful for simply exploring and visualizing the spectral-temporal space of a pixel, for comparing the effectiveness of a series of indices for identifying landscape change, and for parameterizing LandTrendr to work best for your study region.</p>
 <p><img src='imgs/time_series_app.jpg'></p>
 <div id="steps" class="section level3">
@@ -234,9 +235,10 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </ul>
 </div>
 </div>
-<div id="ui-landtrendr-disturbance-mapper" class="section level2">
-<h2><span class="header-section-number">8.2</span> UI LandTrendr Disturbance Mapper</h2>
-<p>The <em>UI LandTrendr Disturbance Mapper</em> will display map layers of disturbance attributes including: year of disturbance detection, magnitude of disturbance, duration of disturbance, and pre-disturbance spectral value.</p>
+<div id="ui-landtrendr-change-mapper" class="section level2">
+<h2><span class="header-section-number">8.2</span> UI LandTrendr Change Mapper</h2>
+<p><a href="https://emaprlab.users.earthengine.app/view/lt-gee-change-mapper">GEE App link</a></p>
+<p>The <em>UI LandTrendr Change Mapper</em> will display map layers of disturbance attributes including: year of disturbance detection, magnitude of disturbance, duration of disturbance, and pre-disturbance spectral value.</p>
 <p><img src='imgs/dist_map_app.jpg'></p>
 <div id="steps-1" class="section level3">
 <h3><span class="header-section-number">8.2.1</span> Steps</h3>
@@ -279,6 +281,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </div>
 <div id="ui-landtrendr-fitted-index-delta-rgb-mapper" class="section level2">
 <h2><span class="header-section-number">8.3</span> UI LandTrendr Fitted Index Delta RGB Mapper</h2>
+<p><a href="https://emaprlab.users.earthengine.app/view/lt-gee-fitted-index-delta-rgb-mapper">GEE App link</a></p>
 <p>The <em>UI LandTrendr Fitted Index Delta RGB Mapper</em> will display an RGB color map representing spectral band or index values at three time slices. Formally, it is referred to as write function memory insertion change detection. Each color red, green, and blue are assigned a year of spectral data, then those data are composited to an RGB image where each of red, green, and blue are mixed by weighting of the spectral intensity for the year represented by each color. It is useful as a quick way to visualize change or non-change over time along with providing a relative sense for spectral intensity. If I’m just exploring change in an area, I’ll often use this before strictly mapping disturbance, because I get a sense for spectral distribution and spatial pattern. Once you get a handle on interpreting the colors it is really quite an interesting and useful visualization.</p>
 <p><img src='imgs/delta_rgb_app.jpg'></p>
 <p>The following figure is a guide to help interpret the colors.</p>

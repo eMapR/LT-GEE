@@ -277,7 +277,7 @@ Map.addLayer(collectionBandStack, {"bands":["2000"],"min":-100,"max":1000,"palet
 + **index (String)**: The index from the list in the [Spectral index codes] section to be segmented by LandTrendr.
 + **ftvList (List of strings)**: A list of one or more indices from the list in the [Spectral index codes] section to be fitted to the segmentation of the `index` parameter.
 + **runParams (Dictionary)**: A dictionary of parameters to control LandTrendr segmentation. You can find definitions for the dictionary keys and values in [LT parameters](./lt-gee-requirements.html#lt-parameters) section 
-+ **maskThese (List of strings | deafault: ['cloud', 'shadow', 'snow'])**: A list of CFMASK mask classes to include as masked pixels. Classes include: 'cloud', 'shadow', 'snow' and 'water'.
++ **maskThese (List of strings | default: ['cloud', 'shadow', 'snow'])**: A list of CFMASK mask classes to include as masked pixels. Classes include: 'cloud', 'shadow', 'snow' and 'water'.
 
 *Result:*
 
