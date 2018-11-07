@@ -1,9 +1,54 @@
 # Example Scripts {#example-scripts}
 
+These example scripts rely on the [LT-GEE API](./api.html), which needs to be added to your Google Earth Engine
+script library before running the scripts. To add the API, click this [link](https://code.earthengine.google.com/?accept_repo=users/emaprlab/public).
 
-Three use case examples are provided, each of them begins with the same process of parameter definition and collection building and then varies on what is done with the results from the LT-GEE call. Keep in mind that these are simple building blocks to learn from. The parameter settings, methods for building collections, and the way we handle outputs in these examples are not intended to be standard protocol. We hope that the GEE community will help us develop better scripts and push what we can learn about our dynamic Earth using the LT-GEE tool.
+See the [API reference](./api.html#functions) to find more functionality for building image collections and dealing
+with LandTrendr outputs.
 
-Note that the majority of the lines included in these scripts for collection building and manipulating outputs can be reduced to a single shortcut function - see them [here](./api.html#functions).
+## Change mapping
+
+Change events can be extracted and mapped from LandTrendr's segmented line vertices. 
+Information regarding the year of change event detection, magnitude of change, duration 
+of change, and pre-change event spectral data can all be mapped. These change mapping 
+script examples use the same LT-GEE API functions as the GEE APP [UI LandTrendr Change Mapper](https://emaprlab.users.earthengine.app/view/lt-gee-change-mapper). Use it to help parameterize
+the script and explore outputs before committing to downloading data to Google Drive.
+
+<img src='imgs/yod_mapped.png'>
+
+### Map vegetation loss
+
+In this example we'll map the greatest vegetation loss segment and display the year of change detection
+and the magnitude of the change. Additionally, we'll write the change attributes as GeoTiff files to
+your Google Drive account.
+
+[Example script](https://code.earthengine.google.com/3bf818e88952e4f84c4fac90c3ea3672)
+
+*GEE path*: users/emaprlab/public:Scripts/LandTrendr Examples/LandTrendr Greatest Disturbance Mapping
+
+### Map vegetation gain
+
+In this example we'll map the greatest vegetation gain segment and display the year of change detection
+and the magnitude of the change. Additionally, we'll write the change attributes as GeoTiff files to
+your Google Drive account.
+
+[Example script](https://code.earthengine.google.com/f03606979139787c0c18f4efeeed76d6)
+
+*GEE path*: users/emaprlab/public:Scripts/LandTrendr Examples/LandTrendr Greatest Growth Mapping
+
+
+
+<!--
+## Build an annual segmented time series stack of a spectral index
+
+## Short-form
+
+### 
+
+
+
+## Long-form
+
 
 ## Exploration and parameterization
 
@@ -46,4 +91,4 @@ of change, and pre-change event spectral data can all be mapped. In this example
 [Example script](https://code.earthengine.google.com/03eed078311c86e1c3b311150fe11780)
 
 *GEE path*: users/emaprlab/public:Scripts/LandTrendr Examples/LandTrendr Greatest Disturbance Mapping
-
+-->

@@ -4,9 +4,9 @@ We have developed a few UI applications for exploring LT-GEE time series data. T
 To access the applications, visit this URL: https://code.earthengine.google.com/?accept_repo=users/emaprlab/public). It will add the ***users/emaprlab/public*** repository to your GEE account. Once added, the repository can be found within the ***Reader*** permission group of your GEE scripts library. There you'll find the following user interface applications.
 
 
-+ **[UI LandTrendr Pixel Time Series Plotter]** | plot source and LandTrendr-fitted data for a pixel
-+ **[UI LandTrendr Change Mapper]** | map disturbances and view attributes
-+ **[UI LandTrendr Fitted Index Delta RGB Mapper]** | visualize change and relative band/index information
++ **[UI LandTrendr Pixel Time Series Plotter]** | [link](https://emaprlab.users.earthengine.app/view/lt-gee-pixel-time-seriesplot) | source and LandTrendr-fitted data for a pixel
++ **[UI LandTrendr Change Mapper]** | [link](https://emaprlab.users.earthengine.app/view/lt-gee-change-mapper) | map disturbances and view attributes
++ **[UI LandTrendr Fitted Index Delta RGB Mapper]** | [link](https://emaprlab.users.earthengine.app/view/lt-gee-fitted-index-delta-rgb-mapper) | visualize change and relative band/index information
 
 
 
@@ -38,7 +38,6 @@ Wait a minute or two and plots of source and LandTrendr-fitted time series data 
 
 ### Under the hood
 
-+ Collection building is same as that described in the [example scripts](./example-scripts.html)
 + Landsat 8 is transformed to the properties of Landsat 7 using slopes and intercepts from reduced major axis regressions reported in Roy et al  2016 Table 2
 + Masking out clouds, cloud shadows, and snow using CFMASK product from USGS 
 + Medoid annual compositing
@@ -48,7 +47,7 @@ Wait a minute or two and plots of source and LandTrendr-fitted time series data 
 
 [GEE App link](https://emaprlab.users.earthengine.app/view/lt-gee-change-mapper)
 
-The *UI LandTrendr Change Mapper* will display map layers of disturbance attributes including: year of disturbance detection, magnitude of disturbance, duration of disturbance, and pre-disturbance spectral value. 
+The *UI LandTrendr Change Mapper* will display map layers of change (vegetation loss or gain) attributes including: year of change detection, magnitude of change, duration of change event, and pre-change spectral value. 
 
 <img src='imgs/dist_map_app.jpg'>
 
@@ -57,26 +56,27 @@ The *UI LandTrendr Change Mapper* will display map layers of disturbance attribu
 
 ### Steps
 
-1. Click on the script to load it and then click the *Run* button to initialize the application.
-2. Drag the map panel to the top of the page for better viewing.
-3. Define a year range over which to identify disturbances - best to set this close to the maximum range, you can filter disturbances by year in a different setting below. 
-4. Define the date range over which to generate annual composites. The format is (month-day) with two digits for both month and day Note that if your study area is in the southern hemisphere and you want to include dates that cross the year boundary to capture the summer season, this is not possible yet - it is on our list!
-5. Select spectral index or band to use for disturbance detection.
-6. Optionally define a pixel coordinate set to define the center of the disturbance map, alternatively you'll simply click on the map. Note that the coordinates are in units of latitude and longitude formatted as decimal degrees (WGS 84  EPSG:4326). Also note that when you click a point on the map, the coordinates of the point will populate these entry boxes.
-7. Define a buffer around the center point defined by a map click or provided in the latitude and longitude coordinate boxes from step 6. The units are in kilometers. It will draw and clip the map to the bounds of the square region created by the buffer around the point of interest.
-8. Define the disturbance type you are interested in - this applies only if there are multiple disturbances in a pixel time series. It is a relative qualifier among a series of disturbances for a pixel time series.
-9. Optionally filter disturbances by the year of detection. Adjust the sliders to constrain the results to a given range of years. The filter is only applied if the *Filter by Year* box is checked.
-10. Optionally filter disturbances by magnitude. Magnitude filtering is achieved by interpolation of a magnitude threshold from 1 year to 20 years. Define the magnitude threshold considered a disturbance for disturbances that are one year in duration and also 20 years in duration. If you want to apply the same threshold value across all durations, enter the same value in each box. The values should be the minimum spectral delta value that is considered a disturbance. They should be the absolute value and multiplied by 1000 for decimal-based surface reflectance bands and spectral indices (we multiply all the decimal-based data by 1000 so that we can convert the data type to signed 16-bit and retain some precision). The filter is only applied if the *Filter by Magnitude* box is checked.
-11. Optionally filter by pre-disturbance spectral value. This filter will limit the resulting disturbances by those that have a spectral value prior to the disturbance either greater/less then (depending on index) or equal to the defined value. The units are a of the spectral index selected for segmentation and should be scaled by 1000 (if you are you only want disturbances that had an NBR value of 0.4 prior to disturbance, you would set this parameter to 400). The filter is only applied if the *Filter by Pre-Dist Value* box is checked.
-12. Optionally filter by a minimum disturbance patch size, as defined by 8-neighbor connectivity of pixels having the same disturbance year of detection. The value is the minimum number of pixel in a patch. The filter is only applied if the *Filter by MMU* box is checked. 
-13. Define the LandTrendr segmentation parameters. See the [LT Parameters](./lt-gee-requirements.html#lt-parameters) section for definitions.      
+1. Define a year range over which to build a Landsat time series to identify change - best to set this close to the maximum range, you can filter changes by year in a different setting below. 
+2. Define the date range over which to generate annual Landsat image composites. The format is (month-day) with two digits for both month and day. Note that you can cross the year boundary, which is desirable if your study area is in the southern hemisphere, for example, Start Date: 11-15 and End Date: 03-15. If the start day month is greater than the end day month, then the function will composite across the new year, and assign the year of the composite as the new year.
+3. Select spectral index or band to use for change detection.
+4. Select the features you would like to mask from the imagery - these features are identified from the CFMASK quality band included with each image.
+5. Optionally provide a pixel coordinate set to define the center of the change map, alternatively you will simply click on the map location desired. Note that the coordinates are in units of longitude and latitude formatted as decimal degrees (WGS 84  EPSG:4326). Also note that when you click a point on the map, the coordinates of the point will populate these entry boxes. If you choose to enter coordinates, then you must click the submit button at the bottom of the control panel once all options are selected to generate the map.
+6. Define a buffer around the center point defined by a map click or provided in the longitude and latitude coordinate boxes from step 5. The units are in kilometers. It will draw and clip the map to the bounds of the square region created by the buffer around the point of interest.
+7. Define the vegetation change type you are interested in - either vegetation gain or loss.
+8. Define the vegetation change sort - should the change be the greatest, least, longest, etc. This applies only if there are multiple vegetation changes of a given type in a pixel time series. It is a relative qualifier for a pixel time series.
+9. Optionally filter changes by the year of detection. Adjust the sliders to constrain the results to a given range of years. The filter is only applied if the *Filter by Year* box is checked.
+10. Optionally filter changes by magnitude. Enter a threshold value and select a conditional operator. For example, if you selected the change type as vegetation loss defined by NBR and wanted only high magnitude losses shown, you would maybe want to keep only those pixels that had greater than 0.4 NBR units loss - you would set value as 400 (NBR scaled by 1000 - keep reading for more on this) and select the > operator. The value should always be positive which is on a scale of either vegetation loss or gain with 0 being no loss or gain and high values being high loss or gain, where gain and loss are defined by the vegetation change type selected above. Values should be multiplied by 1000 for ratio and normalized difference spectral indices (we multiply all the decimal-based data by 1000 so that we can convert the data type to signed 16-bit and retain some precision), and keep in mind that surface reflectance bands are multiplied by 10000 according to LEDAPS and LaSRC processing The filter is only applied if the *Filter by Magnitude* box is checked.
+11. Optionally filter by change event duration. Enter a threshold value and select a conditional operator. For example, if you only want to display change events that occurred rapidly, you would maybe set the value as 2 (years) and the operator as < to retain only those changes that completed within a single year. The filter is only applied if the *Filter by Duration* box is checked. 
+12. Optionally filter by pre-change spectral value. This filter will limit the resulting changes by those that have a spectral value prior to the change either greater or less than the value provided. Values should be multiplied by 1000 for ratio and normalized difference spectral indices (we multiply all the decimal-based data by 1000 so that we can convert the data type to signed 16-bit and retain some precision), and keep in mind that surface reflectance bands are multiplied by 10000 according to LEDAPS and LaSRC processing. The filter is only applied if the *Filter by Pre-Dist Value* box is checked.
+13. Optionally filter by a minimum disturbance patch size, as defined by 8-neighbor connectivity of pixels having the same year of change detection. The value is the minimum number of pixel in a patch. The filter is only applied if the *Filter by MMU* box is checked. 
+14. Define the LandTrendr segmentation parameters. See the [LT Parameters](./lt-gee-requirements.html#lt-parameters) section for definitions.
+15. Optionally submit the options for processing. If you have provided longitude and latitude coordinates to define the map center in step 5, you must submit the task. If you have generated a map and want to change a parameter, do so and then redraw the map by pressing this submit button.
 
 
-***Inspector mode*** selector. In the center top of the map there is a check box for whether to interact with the map in *Inspector mode* or not. When inspector mode is activated, map clicks engage the GEE Inspector functionality so that you can explore map layer values for a point (see the Inspector tab). When deactivated, a map click will start mapping disturbances for the region surrounding the clicked point. 
+***Inspector mode*** selector. In the right hand panel the app there is a check box for whether to interact with the map in *Inspector mode* or not. When inspector mode is activated, map clicks will retrieve change event attributes for the clicked pixel and display them in the right hand panel. When deactivated, a map click will start mapping changes for the region surrounding the clicked point. 
 
 ### Under the hood
 
-+ Collection building is same as that described in the [example scripts](./example-scripts.html)
 + Landsat 8 is transformed to the properties of Landsat 7 using slopes and intercepts from reduced major axis regressions reported in Roy et al  2016 Table 2
 + Masking out clouds, cloud shadows, and snow using CFMASK product from USGS 
 + Medoid annual compositing
@@ -127,7 +127,6 @@ The following figure is a guide to help interpret the colors.
 
 ### Under the hood
 
-+ Collection building is same as that described in the [example scripts](./example-scripts.html)
 + Landsat 8 is transformed to the properties of Landsat 7 using slopes and intercepts from reduced major axis regressions reported in Roy et al  2016 Table 2
 + Masking out clouds, cloud shadows, and snow using CFMASK product from USGS 
 + Medoid annual compositing

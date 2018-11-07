@@ -2,6 +2,14 @@
 
 If you have questions or find that updates introduce errors, please post an issue in the [LT-GEE GitHub repository](https://github.com/eMapR/LT-GEE/issues) - if you don't have a GitHub account, email Justin at: jstnbraaten@gmail.com
 
+## 2018-11-07
+
++ Replaced the `disturbanceMap` API function with [getChangeMap](./api.html#getChangeMap), which fixes many logic problems and adds
+the ability to map vegetation gain as well as loss.
++ Updated the [UI Change Mapping app](https://emapr.github.io/LT-GEE/ui-applications.html) to use the `disturbanceMap` function.
++ Updated [example scripts](./example-scripts.html) to include an example of mapping vegetation loss and gain using the new 
+`disturbanceMap` function.
+
 ## 2018-10-09
 
 + Added the option to define the CFMASK classes to include in the image mask to functions [buildSRcollection](./api.html#buildsrcollection) and [runLT](./api.html#runlt). The default is ['cloud', 'shadow', 'snow']. Also added the function [buildClearPixelCountCollection](./api.html#buildclearpixelcountcollection), which returns the count of unmasked pixels per year that are available for compositing for the provided years and date ranges.

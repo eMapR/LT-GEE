@@ -489,7 +489,7 @@ An ee.Image with bands for attributes of change events meeting filtering criteri
 
 *Note:*
 
-Relies on outputs from the `runLT` function. Find them above and see their usage in the following example.
+Use the [LT-GEE Change Mapper App](https://emaprlab.users.earthengine.app/view/lt-gee-change-mapper) as a test to determine parameter values. 
 
 *Example:*
 
@@ -519,7 +519,7 @@ var runParams = {
   minObservationsNeeded:  6
 };
 
-// define disturbance parameters
+// define change parameters
 var changeParams = {
   delta:  'loss',
   sort:   'greatest',
@@ -560,7 +560,7 @@ var magVizParms = {
   palette: palette
 };
 
-// display the disturbance attribute map - note that there are other layers - print distImg to console to see
+// display the change attribute map - note that there are other layers - print changeImg to console to see
 Map.centerObject(aoi, 11);
 Map.addLayer(changeImg.select(['mag']), magVizParms, 'Magnitude of Change');
 Map.addLayer(changeImg.select(['yod']), yodVizParms, 'Year of Detection');
