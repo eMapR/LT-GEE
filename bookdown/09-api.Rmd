@@ -86,7 +86,7 @@ print(annualSRcollection);
 + **startDay (String | month day formatted as 'mm-dd')**: The minimum date in the desired seasonal range over which to generate annual composite.
 + **endDay (String | month day formatted as 'mm-dd')**: The maximum date in the desired seasonal range over which to generate annual composite.
 + **aoi (Geometry)**: The area-of-interest over which to mosaic images
-+ **maskThese (List of strings | deafault: ['cloud', 'shadow', 'snow'])**: A list of CFMASK mask classes to include as masked
++ **maskThese (List of strings | deafault: ['cloud', 'shadow', 'snow'])**: A list of CFMASK mask classes to include as masked image features
 
 *Result:*
 
@@ -111,7 +111,7 @@ Map.centerObject(aoi,10);
 Map.addLayer(aoi);
 
 // apply LandTrendr.js functions
-var nClearCollection = buildClearPixelCountCollection(startYear, endYear, startDay, endDay, aoi, maskThese);
+var nClearCollection = ltgee.buildClearPixelCountCollection(startYear, endYear, startDay, endDay, aoi, maskThese);
 print(nClearCollection);
 ```
 

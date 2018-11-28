@@ -266,7 +266,7 @@ print(annualSRcollection);</code></pre>
 <li><strong>startDay (String | month day formatted as ‘mm-dd’)</strong>: The minimum date in the desired seasonal range over which to generate annual composite.</li>
 <li><strong>endDay (String | month day formatted as ‘mm-dd’)</strong>: The maximum date in the desired seasonal range over which to generate annual composite.</li>
 <li><strong>aoi (Geometry)</strong>: The area-of-interest over which to mosaic images</li>
-<li><strong>maskThese (List of strings | deafault: [‘cloud’, ‘shadow’, ‘snow’])</strong>: A list of CFMASK mask classes to include as masked</li>
+<li><strong>maskThese (List of strings | deafault: [‘cloud’, ‘shadow’, ‘snow’])</strong>: A list of CFMASK mask classes to include as masked image features</li>
 </ul>
 <p><em>Result:</em></p>
 <p>An ee.ImageCollection that includes one single band image per year in the provided year range that represents the number of unmasked pixels available for compositing given the date range and mask classes to include as masked pixels.</p>
@@ -287,7 +287,7 @@ Map.centerObject(aoi,10);
 Map.addLayer(aoi);
 
 // apply LandTrendr.js functions
-var nClearCollection = buildClearPixelCountCollection(startYear, endYear, startDay, endDay, aoi, maskThese);
+var nClearCollection = ltgee.buildClearPixelCountCollection(startYear, endYear, startDay, endDay, aoi, maskThese);
 print(nClearCollection);</code></pre>
 </div>
 <div id="transformsrcollection" class="section level3">
