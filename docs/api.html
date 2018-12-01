@@ -579,7 +579,7 @@ print(ndviFTV);</code></pre>
 <li><strong>checked (Boolean)</strong>: <code>true</code> or <code>false</code> for whether to filter by magnitude. If <code>true</code>, then you must define <code>value</code> and <code>operator</code> described as follows.</li>
 <li><strong>value (Integer)</strong>: The absolute value representing the spectral delta of change events to be compared against the following <code>operator</code> parameter. It is in the units of the spectral index defined by the <code>index</code> parameter in the <code>runLT</code> function described above. If the <code>index</code> is a normalized index like NBR or NDVI, the value should be multiplied by 1000. For instance, if you want to map NDVI delta segments greater than 0.4, the value here would be 400. If the <code>index</code> is a Landsat spectral band, like ‘B5’, the units are that of the USGS Collection 1 Surface Reflectance product.</li>
 <li><strong>operator (String)</strong>: A comparative operator, either <code>'&lt;'</code> or <code>'&gt;'</code>, used to compare change event magnitude against the threshold <code>value</code> described previously. Only change segments resulting in a <code>true</code> condition will be included in the map</li>
-<li><strong>rmse (Boolean)</strong>: <code>true</code> or <code>false</code> for whether the magnitude should be standardized by the RMSE of the LandTrendr fit. If <code>true</code> then the <code>value</code> needs to be interpreted as a factor of RMSE. If you want to only include change that is greater than the RMSE of the fit, then <code>value</code> should be 1, if you only want change that is greater than 2 times the RMSE, then <code>value</code> should be 2.<br />
+<li><strong>dsnr (Boolean)</strong>: <code>true</code> or <code>false</code> for whether the magnitude should be standardized by the RMSE of the LandTrendr fit. If <code>true</code> then the <code>value</code> needs to be interpreted as a factor of RMSE. If you want to only include change that is greater than the RMSE of the fit, then <code>value</code> should be 1, if you only want change that is greater than 2 times the RMSE, then <code>value</code> should be 2.<br />
 </li>
 </ul></li>
 <li><strong>dur (Dictionary)</strong>: Options for filtering change events by duration.
@@ -643,7 +643,7 @@ var changeParams = {
   delta:  &#39;loss&#39;,
   sort:   &#39;greatest&#39;,
   year:   {checked:false, start:2000, end:2010},
-  mag:    {checked:true,  value:200,  operator: &#39;&gt;&#39;, rmse:false},
+  mag:    {checked:true,  value:200,  operator: &#39;&gt;&#39;, dsnr:false},
   dur:    {checked:true,  value:4,    operator: &#39;&lt;&#39;},
   preval: {checked:true,  value:300,  operator: &#39;&gt;&#39;},
   mmu:    {checked:true,  value:11},
