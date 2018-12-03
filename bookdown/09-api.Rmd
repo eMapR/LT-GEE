@@ -463,7 +463,7 @@ print(ndviFTV);
         + **checked (Boolean)**: `true` or `false` for whether to filter by magnitude. If `true`, then you must define `value` and `operator` described as follows.
         + **value (Integer)**: The absolute value representing the spectral delta of change events to be compared against the following `operator` parameter. It is in the units of the spectral index defined by the `index` parameter in the `runLT` function described above. If the `index` is a normalized index like NBR or NDVI, the value should be multiplied by 1000. For instance, if you want to map NDVI delta segments greater than 0.4, the value here would be 400. If the `index` is a Landsat spectral band, like 'B5', the units are that of the USGS Collection 1 Surface Reflectance product.
         + **operator (String)**: A comparative operator, either `'<'` or `'>'`, used to compare change event magnitude against the threshold `value` described previously. Only change segments resulting in a `true` condition will be included in the map
-        + **dsnr (Boolean)**: `true` or `false` for whether the magnitude should be standardized by the RMSE of the LandTrendr fit. If `true` then the `value` needs to be interpreted as a factor of RMSE. If you want to only include change that is greater than the RMSE of the fit, then `value` should be 1, if you only want change that is greater than 2 times the RMSE, then `value` should be 2.    
+        + **dsnr (Boolean)**: `true` or `false` for whether the magnitude should be standardized by the RMSE of the LandTrendr fit. If `true` then the `value` needs to be interpreted as a factor of RMSE. If you want to only include change that is greater than the RMSE of the fit, then `value` should be 1, if you only want change that is greater than 2 times the RMSE, then `value` should be 2. More details on DSNR can be found here: Cohen, W. B., Yang, Z., Healey, S. P., Kennedy, R. E., & Gorelick, N. (2018). A LandTrendr multispectral ensemble for forest disturbance detection. Remote Sensing of Environment, 205, 131-140.   
     + **dur (Dictionary)**: Options for filtering change events by duration.
         + **checked (Boolean)**: `true` or `false` for whether to filter by duration. If `true`, then you must define `value` and `operator` described as follows.
         + **value (Integer)**: The number of years a change event took to complete to be compared against the following `operator` parameter. It is in units of years.
@@ -486,7 +486,8 @@ An ee.Image with bands for attributes of change events meeting filtering criteri
 + **Magnitude of change event**: `'mag'` (absolute value of change event spectral delta)
 + **Duration of change event**: `'dur'` (years)
 + **Pre-change event spectral value**: `'preval'` (spectral value) 
-+ **Rate of spectral change for event** `'rate'` (`mag/dur`) 
++ **Rate of spectral change for event** `'rate'` (`mag/dur`)
++ **DSNR** `'dsnr'` (`mag/fit rmse`) multipled by 100 to retain two decimal precision with Int16 data. See the following for more information on the metric: Cohen, W. B., Yang, Z., Healey, S. P., Kennedy, R. E., & Gorelick, N. (2018). A LandTrendr multispectral ensemble for forest disturbance detection. Remote Sensing of Environment, 205, 131-140.
 
 *Note:*
 

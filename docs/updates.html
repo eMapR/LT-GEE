@@ -173,12 +173,13 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="12" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i><b>12</b> References</a></li>
 <li class="chapter" data-level="13" data-path="citation.html"><a href="citation.html"><i class="fa fa-check"></i><b>13</b> Citation</a></li>
 <li class="chapter" data-level="14" data-path="updates.html"><a href="updates.html"><i class="fa fa-check"></i><b>14</b> Updates</a><ul>
-<li class="chapter" data-level="14.1" data-path="updates.html"><a href="updates.html#section"><i class="fa fa-check"></i><b>14.1</b> 2018-11-07</a></li>
-<li class="chapter" data-level="14.2" data-path="updates.html"><a href="updates.html#section-1"><i class="fa fa-check"></i><b>14.2</b> 2018-10-09</a></li>
-<li class="chapter" data-level="14.3" data-path="updates.html"><a href="updates.html#section-2"><i class="fa fa-check"></i><b>14.3</b> 2018-10-08</a></li>
-<li class="chapter" data-level="14.4" data-path="updates.html"><a href="updates.html#section-3"><i class="fa fa-check"></i><b>14.4</b> 2018-07-25</a></li>
-<li class="chapter" data-level="14.5" data-path="updates.html"><a href="updates.html#section-4"><i class="fa fa-check"></i><b>14.5</b> 2018-06-26</a></li>
-<li class="chapter" data-level="14.6" data-path="updates.html"><a href="updates.html#section-5"><i class="fa fa-check"></i><b>14.6</b> 2018-06-13</a></li>
+<li class="chapter" data-level="14.1" data-path="updates.html"><a href="updates.html#section"><i class="fa fa-check"></i><b>14.1</b> 2018-12-02</a></li>
+<li class="chapter" data-level="14.2" data-path="updates.html"><a href="updates.html#section-1"><i class="fa fa-check"></i><b>14.2</b> 2018-11-07</a></li>
+<li class="chapter" data-level="14.3" data-path="updates.html"><a href="updates.html#section-2"><i class="fa fa-check"></i><b>14.3</b> 2018-10-09</a></li>
+<li class="chapter" data-level="14.4" data-path="updates.html"><a href="updates.html#section-3"><i class="fa fa-check"></i><b>14.4</b> 2018-10-08</a></li>
+<li class="chapter" data-level="14.5" data-path="updates.html"><a href="updates.html#section-4"><i class="fa fa-check"></i><b>14.5</b> 2018-07-25</a></li>
+<li class="chapter" data-level="14.6" data-path="updates.html"><a href="updates.html#section-5"><i class="fa fa-check"></i><b>14.6</b> 2018-06-26</a></li>
+<li class="chapter" data-level="14.7" data-path="updates.html"><a href="updates.html#section-6"><i class="fa fa-check"></i><b>14.7</b> 2018-06-13</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -204,39 +205,45 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h1><span class="header-section-number">14</span> Updates</h1>
 <p>If you have questions or find that updates introduce errors, please post an issue in the <a href="https://github.com/eMapR/LT-GEE/issues">LT-GEE GitHub repository</a> - if you don’t have a GitHub account, email Justin at: <a href="mailto:jstnbraaten@gmail.com">jstnbraaten@gmail.com</a></p>
 <div id="section" class="section level2">
-<h2><span class="header-section-number">14.1</span> 2018-11-07</h2>
+<h2><span class="header-section-number">14.1</span> 2018-12-02</h2>
+<ul>
+<li>Added the option to filter change maps by change magnitude standarized by the LandTrendr fit RMSE. This metric is refered to as DSNR. Please see the <a href="./api.html#getChangeMap">getChangeMap</a> function for more details on using this option and for the metric reference. The change also included exporting the DSNR metric as an additional band to the change map attribute image stack.</li>
+</ul>
+</div>
+<div id="section-1" class="section level2">
+<h2><span class="header-section-number">14.2</span> 2018-11-07</h2>
 <ul>
 <li>Replaced the <code>disturbanceMap</code> API function with <a href="./api.html#getChangeMap">getChangeMap</a>, which fixes many logic problems and adds the ability to map vegetation gain as well as loss.</li>
 <li>Updated the <a href="https://emapr.github.io/LT-GEE/ui-applications.html">UI Change Mapping app</a> to use the <code>disturbanceMap</code> function.</li>
 <li>Updated <a href="./example-scripts.html">example scripts</a> to include an example of mapping vegetation loss and gain using the new <code>disturbanceMap</code> function.</li>
 </ul>
 </div>
-<div id="section-1" class="section level2">
-<h2><span class="header-section-number">14.2</span> 2018-10-09</h2>
+<div id="section-2" class="section level2">
+<h2><span class="header-section-number">14.3</span> 2018-10-09</h2>
 <ul>
 <li>Added the option to define the CFMASK classes to include in the image mask to functions <a href="./api.html#buildsrcollection">buildSRcollection</a> and <a href="./api.html#runlt">runLT</a>. The default is [‘cloud’, ‘shadow’, ‘snow’]. Also added the function <a href="./api.html#buildclearpixelcountcollection">buildClearPixelCountCollection</a>, which returns the count of unmasked pixels per year that are available for compositing for the provided years and date ranges.</li>
 </ul>
 </div>
-<div id="section-2" class="section level2">
-<h2><span class="header-section-number">14.3</span> 2018-10-08</h2>
+<div id="section-3" class="section level2">
+<h2><span class="header-section-number">14.4</span> 2018-10-08</h2>
 <ul>
 <li>Added <a href="./api.html#collectionToBandStack">collectionToBandStack</a> function to the API. Transforms an image collection into an image stack where each band of each image in the collection is concatentated as a band into a single image. Useful for mapping a function over a collection, like transforming surface reflectance to NDVI, and then transforming the resulting collection into a band sequential time series image stack.</li>
 </ul>
 </div>
-<div id="section-3" class="section level2">
-<h2><span class="header-section-number">14.4</span> 2018-07-25</h2>
+<div id="section-4" class="section level2">
+<h2><span class="header-section-number">14.5</span> 2018-07-25</h2>
 <ul>
 <li>Added the <a href="./api.html#disturbanceMap">disturbanceMap</a> function to the API. It generates a disturbance map with attributes for: year of disturbance detection, magnitude, duration, pre-disturbance spectral value, and the rate of spectral change. Each attribute is a band of an ee.Image for easy display and export. Note that at this time it is still being tested. So please do not trust results - let me know if you suspect errors.</li>
 </ul>
 </div>
-<div id="section-4" class="section level2">
-<h2><span class="header-section-number">14.5</span> 2018-06-26</h2>
+<div id="section-5" class="section level2">
+<h2><span class="header-section-number">14.6</span> 2018-06-26</h2>
 <ul>
 <li>Clarification was made regarding the <code>distDir</code> variable being used in the section <a href="./working-with-outputs.html#filter-an-isolated-segment-by-an-attribute">6.3 Working with Outputs</a>. This section now includes information about it.</li>
 </ul>
 </div>
-<div id="section-5" class="section level2">
-<h2><span class="header-section-number">14.6</span> 2018-06-13</h2>
+<div id="section-6" class="section level2">
+<h2><span class="header-section-number">14.7</span> 2018-06-13</h2>
 <ul>
 <li><p>Added the <a href="./api.html#transformsrcollection">transformSRcollection</a> function to the API. It transforms the images within an annual surface reflectance collection built by <code>buildSRcollection</code> to a list of provided indices or bands. If you just want NDVI (or other index/band) derived from an annual cloud-free surface reflectance medoid composite, this function will do it.</p></li>
 <li><p>The <a href="./api.html#buildsrcollection">buildSRcollection</a> function will now generate composites that cross the new year. For instance, if your study area is in mid- to high-latitudes of the southern hemisphere, your peak leaf-on season is maybe December 20 - February 20, which crosses the new year. Previously, the <code>buildSRcollection</code> function did not composite across the new year. This change affects the <a href="./LT-GEE/ui-applications.html">UIs</a> and the <code>buildSRcollection</code>. To apply this functionality, set annual composite start day to something like ‘12-20’ and the end day to ‘02-20’, where the format is mm-dd. If the start day month is greater than the end day month, then the function will composite across the new year, and assign the year of the composite as the new year. So if we built a collection that included images from 2000 (Dec.) and 2001 (Jan-Feb), the composite will be assigned the year 2001. Here is an example of building a surface reflectance collection across the new year (note the <code>startDay</code> and <code>endDay</code> parameters):</p></li>

@@ -173,12 +173,13 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="12" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i><b>12</b> References</a></li>
 <li class="chapter" data-level="13" data-path="citation.html"><a href="citation.html"><i class="fa fa-check"></i><b>13</b> Citation</a></li>
 <li class="chapter" data-level="14" data-path="updates.html"><a href="updates.html"><i class="fa fa-check"></i><b>14</b> Updates</a><ul>
-<li class="chapter" data-level="14.1" data-path="updates.html"><a href="updates.html#section"><i class="fa fa-check"></i><b>14.1</b> 2018-11-07</a></li>
-<li class="chapter" data-level="14.2" data-path="updates.html"><a href="updates.html#section-1"><i class="fa fa-check"></i><b>14.2</b> 2018-10-09</a></li>
-<li class="chapter" data-level="14.3" data-path="updates.html"><a href="updates.html#section-2"><i class="fa fa-check"></i><b>14.3</b> 2018-10-08</a></li>
-<li class="chapter" data-level="14.4" data-path="updates.html"><a href="updates.html#section-3"><i class="fa fa-check"></i><b>14.4</b> 2018-07-25</a></li>
-<li class="chapter" data-level="14.5" data-path="updates.html"><a href="updates.html#section-4"><i class="fa fa-check"></i><b>14.5</b> 2018-06-26</a></li>
-<li class="chapter" data-level="14.6" data-path="updates.html"><a href="updates.html#section-5"><i class="fa fa-check"></i><b>14.6</b> 2018-06-13</a></li>
+<li class="chapter" data-level="14.1" data-path="updates.html"><a href="updates.html#section"><i class="fa fa-check"></i><b>14.1</b> 2018-12-02</a></li>
+<li class="chapter" data-level="14.2" data-path="updates.html"><a href="updates.html#section-1"><i class="fa fa-check"></i><b>14.2</b> 2018-11-07</a></li>
+<li class="chapter" data-level="14.3" data-path="updates.html"><a href="updates.html#section-2"><i class="fa fa-check"></i><b>14.3</b> 2018-10-09</a></li>
+<li class="chapter" data-level="14.4" data-path="updates.html"><a href="updates.html#section-3"><i class="fa fa-check"></i><b>14.4</b> 2018-10-08</a></li>
+<li class="chapter" data-level="14.5" data-path="updates.html"><a href="updates.html#section-4"><i class="fa fa-check"></i><b>14.5</b> 2018-07-25</a></li>
+<li class="chapter" data-level="14.6" data-path="updates.html"><a href="updates.html#section-5"><i class="fa fa-check"></i><b>14.6</b> 2018-06-26</a></li>
+<li class="chapter" data-level="14.7" data-path="updates.html"><a href="updates.html#section-6"><i class="fa fa-check"></i><b>14.7</b> 2018-06-13</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -579,7 +580,7 @@ print(ndviFTV);</code></pre>
 <li><strong>checked (Boolean)</strong>: <code>true</code> or <code>false</code> for whether to filter by magnitude. If <code>true</code>, then you must define <code>value</code> and <code>operator</code> described as follows.</li>
 <li><strong>value (Integer)</strong>: The absolute value representing the spectral delta of change events to be compared against the following <code>operator</code> parameter. It is in the units of the spectral index defined by the <code>index</code> parameter in the <code>runLT</code> function described above. If the <code>index</code> is a normalized index like NBR or NDVI, the value should be multiplied by 1000. For instance, if you want to map NDVI delta segments greater than 0.4, the value here would be 400. If the <code>index</code> is a Landsat spectral band, like ‘B5’, the units are that of the USGS Collection 1 Surface Reflectance product.</li>
 <li><strong>operator (String)</strong>: A comparative operator, either <code>'&lt;'</code> or <code>'&gt;'</code>, used to compare change event magnitude against the threshold <code>value</code> described previously. Only change segments resulting in a <code>true</code> condition will be included in the map</li>
-<li><strong>dsnr (Boolean)</strong>: <code>true</code> or <code>false</code> for whether the magnitude should be standardized by the RMSE of the LandTrendr fit. If <code>true</code> then the <code>value</code> needs to be interpreted as a factor of RMSE. If you want to only include change that is greater than the RMSE of the fit, then <code>value</code> should be 1, if you only want change that is greater than 2 times the RMSE, then <code>value</code> should be 2.<br />
+<li><strong>dsnr (Boolean)</strong>: <code>true</code> or <code>false</code> for whether the magnitude should be standardized by the RMSE of the LandTrendr fit. If <code>true</code> then the <code>value</code> needs to be interpreted as a factor of RMSE. If you want to only include change that is greater than the RMSE of the fit, then <code>value</code> should be 1, if you only want change that is greater than 2 times the RMSE, then <code>value</code> should be 2. More details on DSNR can be found here: Cohen, W. B., Yang, Z., Healey, S. P., Kennedy, R. E., &amp; Gorelick, N. (2018). A LandTrendr multispectral ensemble for forest disturbance detection. Remote Sensing of Environment, 205, 131-140.<br />
 </li>
 </ul></li>
 <li><strong>dur (Dictionary)</strong>: Options for filtering change events by duration.
@@ -609,6 +610,7 @@ print(ndviFTV);</code></pre>
 <li><strong>Duration of change event</strong>: <code>'dur'</code> (years)</li>
 <li><strong>Pre-change event spectral value</strong>: <code>'preval'</code> (spectral value)</li>
 <li><strong>Rate of spectral change for event</strong> <code>'rate'</code> (<code>mag/dur</code>)</li>
+<li><strong>DSNR</strong> <code>'dsnr'</code> (<code>mag/fit rmse</code>) multipled by 100 to retain two decimal precision with Int16 data. See the following for more information on the metric: Cohen, W. B., Yang, Z., Healey, S. P., Kennedy, R. E., &amp; Gorelick, N. (2018). A LandTrendr multispectral ensemble for forest disturbance detection. Remote Sensing of Environment, 205, 131-140.</li>
 </ul>
 <p><em>Note:</em></p>
 <p>Use the <a href="https://emaprlab.users.earthengine.app/view/lt-gee-change-mapper">LT-GEE Change Mapper App</a> as a test to determine parameter values.</p>

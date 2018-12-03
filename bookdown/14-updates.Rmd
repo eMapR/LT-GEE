@@ -2,6 +2,10 @@
 
 If you have questions or find that updates introduce errors, please post an issue in the [LT-GEE GitHub repository](https://github.com/eMapR/LT-GEE/issues) - if you don't have a GitHub account, email Justin at: jstnbraaten@gmail.com
 
+## 2018-12-02
+
++ Added the option to filter change maps by change magnitude standarized by the LandTrendr fit RMSE. This metric is refered to as DSNR. Please see the [getChangeMap](./api.html#getChangeMap) function for more details on using this option and for the metric reference. The change also included exporting the DSNR metric as an additional band to the change map attribute image stack.
+
 ## 2018-11-07
 
 + Replaced the `disturbanceMap` API function with [getChangeMap](./api.html#getChangeMap), which fixes many logic problems and adds
