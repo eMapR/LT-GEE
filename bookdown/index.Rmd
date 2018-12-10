@@ -31,7 +31,7 @@ output:
 
 # Welcome {-}
 
-*Documentation by [Justin Braaten](https://github.com/jdbcode) of Oregon State University's [eMapR Lab](http://emapr.ceoas.oregonstate.edu/), directed by [Dr. Robert Kennedy](http://ceoas.oregonstate.edu/profile/kennedy/)*
+*Documentation, Apps, and API by [Justin Braaten](https://github.com/jdbcode) of Oregon State University's [eMapR Lab](http://emapr.ceoas.oregonstate.edu/), directed by [Dr. Robert Kennedy](http://ceoas.oregonstate.edu/profile/kennedy/)*
 
 
 
