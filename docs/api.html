@@ -214,15 +214,17 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li><strong><a href="api.html#buildclearpixelcountcollection">buildClearPixelCountCollection</a></strong> - <code>buildSRcollection</code> builds an annual surface reflectance collection potentially many images in a given year. It can be helpful to know how many pixels were available to generate the annual composite images. This function returns the count of unmasked pixels per year that are available for compositing for the provided years and date ranges.</li>
 <li><strong><a href="api.html#transformsrcollection">transformSRcollection</a></strong> - Transforms the images within an annual surface reflectance collection built by <code>buildSRcollection</code> to a list of provided indices or bands.</li>
 <li><strong><a href="api.html#buildltcollection">buildLTcollection</a></strong> - Builds a collection as input to LandTrendr. It will prepare a collection where the first band is the spectral index to base temporal segmentation on, and the subsequent bands will be fitted to segmentation structure of the segmentation index.</li>
-<li><strong><a href="api.html#collectiontobandstack">collectionToBandStack</a></strong> - Transforms an image collection into an image stack where each band of each image in the collection is concatentated as a band into a single image. Useful for mapping a function over a collection, like transforming surface reflectance to NDVI, and then transforming the resulting collection into a band sequential time series image stack.</li>
+<li><strong><a href="api.html#collectiontobandstack">collectionToBandStack</a></strong> - Transforms an image collection into an image stack where each band of each image in the collection is concatenated as a band into a single image. Useful for mapping a function over a collection, like transforming surface reflectance to NDVI, and then transforming the resulting collection into a band sequential time series image stack.</li>
 <li><strong><a href="api.html#runlt">runLT</a></strong> - Run LandTrendr given a set of parameters. This is a wrapper around <code>buildSRcollection</code> and <code>buildLTcollection</code> functions.</li>
 <li><strong><a href="api.html#getsegmentdata">getSegmentData</a></strong> - Generates an array of information about spectral-temporal segments from the breakpoint vertices identified by LandTrendr. Returns either all spectral-temporal segments, or just vegetation loss segments, or just vegetation growth segments.</li>
-<li><strong><a href="api.html#getfitteddata">getFittedData</a></strong> - Generates an annual band stack for a given index provided as <em>ftvList</em> indices to either <em>buildLTcollection</em> or <em>runLT</em>. It flattens the FTV array format to a band per year for a given FTV index.</li>
+<li><strong><a href="api.html#getfitteddata">getFittedData</a></strong> - Generates an annual band stack for a given index provided as <code>ftvList</code> indices to either <code>buildLTcollection</code> or <code>runLT</code>. It flattens the FTV array format to a band per year for a given FTV index.</li>
 <li><strong><a href="api.html#getchangemap">getChangeMap</a></strong> - Generates a set of map layers describing either vegetation loss or gain events with attributes including: year of change detection, spectral delta, duration of change event, pre-change event spectral value, and the rate of spectral change. Each attribute is a band of an ee.Image.</li>
 <li><strong>disturbanceMap</strong> - Deprecated, use <code>getChangeMap</code></li>
 </ul>
 <div id="buildsrcollection" class="section level3">
 <h3><span class="header-section-number">9.1.1</span> buildSRcollection</h3>
+<p><em>Description:</em></p>
+<p>Builds an annual cloud and cloud shadow masked medoid composite of Landsat surface reflectance TM-equivalent bands 1,2,3,4,5,7. This collection can be useful outside of use by LandTrendr, but is also the base for creating the input collection for LandTrendr.</p>
 <p><em>Usage:</em></p>
 <p><code>buildSRcollection(startYear, endYear, startDay, endDay, aoi, maskThese)</code></p>
 <p><em>Parameters:</em></p>
@@ -258,6 +260,8 @@ print(annualSRcollection);</code></pre>
 </div>
 <div id="buildclearpixelcountcollection" class="section level3">
 <h3><span class="header-section-number">9.1.2</span> buildClearPixelCountCollection</h3>
+<p><em>Description:</em></p>
+<p>Returns the count of unmasked pixels per year that are available for compositing for the provided years and date ranges.</p>
 <p><em>Usage:</em></p>
 <p><code>buildClearPixelCountCollection(startYear, endYear, startDay, endDay, aoi, maskThese)</code></p>
 <p><em>Parameters:</em></p>
@@ -293,6 +297,8 @@ print(nClearCollection);</code></pre>
 </div>
 <div id="transformsrcollection" class="section level3">
 <h3><span class="header-section-number">9.1.3</span> transformSRcollection</h3>
+<p><em>Description:</em></p>
+<p>Transforms the images within an annual surface reflectance collection built by <code>buildSRcollection</code> to a list of provided indices or bands.</p>
 <p><em>Usage:</em></p>
 <p><code>transformSRcollection(srCollection, bandList)</code></p>
 <p><em>Parameters:</em></p>
@@ -331,6 +337,8 @@ print(year2000);</code></pre>
 </div>
 <div id="buildltcollection" class="section level3">
 <h3><span class="header-section-number">9.1.4</span> buildLTcollection</h3>
+<p><em>Description:</em></p>
+<p>Builds a collection as input to LandTrendr. It will prepare a collection where the first band is the spectral index to base temporal segmentation on, and the subsequent bands will be fitted to segmentation structure of the segmentation index.</p>
 <p><em>Usage:</em></p>
 <p><code>buildLTcollection(collection, index, ftvList)</code></p>
 <p><em>Parameters:</em></p>
@@ -365,6 +373,8 @@ print(annualLTcollection)</code></pre>
 </div>
 <div id="collectiontobandstack" class="section level3">
 <h3><span class="header-section-number">9.1.5</span> collectionToBandStack</h3>
+<p><em>Description:</em></p>
+<p>Transforms an image collection into an image stack where each band of each image in the collection is concatenated as a band into a single image. Useful for mapping a function over a collection, like transforming surface reflectance to NDVI, and then transforming the resulting collection into a band sequential time series image stack.</p>
 <p><em>Usage:</em></p>
 <p><code>collectionToBandStack(collection, startYear, endYear)</code></p>
 <p><em>Parameters:</em></p>
@@ -405,6 +415,8 @@ Map.addLayer(collectionBandStack, {&quot;bands&quot;:[&quot;2000&quot;],&quot;mi
 </div>
 <div id="runlt" class="section level3">
 <h3><span class="header-section-number">9.1.6</span> runLT</h3>
+<p><em>Description:</em></p>
+<p>Run LandTrendr given a set of parameters. This is a wrapper around <code>buildSRcollection</code> and <code>buildLTcollection</code> functions.</p>
 <p><em>Usage:</em></p>
 <p><code>runLT(startYear, endYear, startDay, endDay, aoi, index, ftvList, runParams, maskThese)</code></p>
 <p><em>Parameters:</em></p>
@@ -455,17 +467,19 @@ print(lt)</code></pre>
 </div>
 <div id="getsegmentdata" class="section level3">
 <h3><span class="header-section-number">9.1.7</span> getSegmentData</h3>
+<p><em>Description:</em></p>
+<p>Generates an array of information about spectral-temporal segments from the breakpoint vertices identified by LandTrendr. Returns either all spectral-temporal segments, or just vegetation loss segments, or just vegetation growth segments.</p>
 <p><em>Usage:</em></p>
-<p><code>getSegmentData(lt, index, delta, invert)</code></p>
+<p><code>getSegmentData(lt, index, delta, right)</code></p>
 <p><em>Parameters:</em></p>
 <ul>
 <li><strong>lt (Image Array)</strong>: The image array that is the result of running LandTrendr with either <code>runLT()</code> or <code>ee.Algorithms.TemporalSegmentation.LandTrendr()</code>.</li>
 <li><strong>index (String)</strong>: The index from the list in the <a href="api.html#spectral-index-codes">Spectral index codes</a> section used to generate LandTrendr outputs for the previous <code>lt</code> argument.</li>
 <li><strong>delta (String)</strong>: A parameter to define what segments to return information about. Either <code>'all'</code> segments, only vegetation <code>'loss'</code> segments, or only vegetation <code>'gain'</code> segments.</li>
-<li><strong>right (Boolean)</strong>: Optional: <code>true</code> or <code>false</code> for whether to right the spectral values to their natural orientation around 0. LandTrendr requires that the spectral index being segmented be oriented so that vegetation loss is represented as a positive spectral delta (see <a href="lt-gee-requirements.html#image-collection">LandTrendr collection building</a>). This simplifies interpretation of the resulting segmentation - every positive delta indicates vegetation loss (the algorithm was designed around Landsat TM Band 5 SWIR). As a result, you may want to re-orient or right the spectral values in the segment data so that it is in its natural form and easier to intuitively interpret. This parameter only affects the results when providing the <code>all</code> argument to the <code>delta</code> parameter. The default is <code>false</code>.</li>
+<li><strong>right (Boolean)</strong>: Optional: <code>true</code> or <code>false</code> for whether to right the spectral values to their natural orientation around 0. LandTrendr requires that the spectral index being segmented be oriented so that vegetation loss is represented as a positive spectral delta (see <a href="lt-gee-requirements.html#image-collection">LandTrendr collection building</a>). This simplifies interpretation of the resulting segmentation - every positive delta indicates vegetation loss (the algorithm was designed around Landsat TM Band 5 SWIR). As a result, you may want to re-orient or right the spectral values in the segment data so that it is in its natural form and easier to intuitively interpret. This parameter only affects the results when providing the <code>'all'</code> argument to the <code>delta</code> parameter. The default is <code>false</code>.</li>
 </ul>
 <p><em>Result:</em></p>
-<p>An image array with dimensions: 7 (rows) x nSegments (cols). Each row describes an attribute of the segments idenitifed by LandTrendr per pixel time series. Each column represents a segment in the time series per pixel ordered from earliest to lastest in the series.</p>
+<p>An image array with dimensions: 8 (rows) x nSegments (cols). Each row describes an attribute of the segments identified by LandTrendr per pixel time series. Each column represents a segment in the time series per pixel ordered from earliest to latest in the series.</p>
 <ul>
 <li>Row 1: segment start year</li>
 <li>Row 2: segment end year</li>
@@ -474,8 +488,10 @@ print(lt)</code></pre>
 <li>Row 5: segment spectral delta</li>
 <li>Row 6: segment duration</li>
 <li>Row 7: segment rate of spectral change</li>
+<li>Row 8: segment DSNR*</li>
 </ul>
-<p>To extract a row, use the <code>arraySlice</code> function. For example, if you wanted to work only with the segment start years, you would do this: <code>var segStartYr = arraySlice(segInfo, 0, 1)</code>. See the <a href="./working-with-outputs.html#getting-segment-information">Working with Outputs</a> section for more information on handling these data.</p>
+<p>*Segment spectral delta standardized by the RMSE of the LandTrendr fit. More details on DSNR can be found here: Cohen, W. B., Yang, Z., Healey, S. P., Kennedy, R. E., &amp; Gorelick, N. (2018). A LandTrendr multispectral ensemble for forest disturbance detection. Remote Sensing of Environment, 205, 131-140.</p>
+<p>To extract a row, use the <code>arraySlice</code> function. For example, if you wanted to work only with the segment start years, you would do this: <code>var segStartYr = segInfo.arraySlice(0, 0, 1)</code>. See the <a href="./working-with-outputs.html#getting-segment-information">Working with Outputs</a> section for more information on handling these data.</p>
 <p>The spectral segment start and end value will be in the natural index orientation around 0 when selecting either <code>loss</code> or <code>growth</code> for the <code>delta</code> parameter argument, and if <code>all</code> is selected while the <code>right</code> parameter argument is equal to <code>true</code>. In other cases, depending on the segmented index, these values could be inverted. Additionally, when selecting either <code>loss</code> or <code>growth</code> for the <code>delta</code> parameter argument, segment delta and rate will be the absolute value. In the case where <code>all</code> is selected as the <code>delta</code> parameter argument, the sign of spectral delta and change rate will depend on the index’s orientation around zero and whether the <code>right</code> parameter argument is equal to <code>true</code> or false.</p>
 <p><em>Example:</em></p>
 <pre><code>// load the LandTrendr.js module
@@ -513,6 +529,8 @@ Map.addLayer(segInfo); // use &#39;Inspector&#39; to explore values
 </div>
 <div id="getfitteddata" class="section level3">
 <h3><span class="header-section-number">9.1.8</span> getFittedData</h3>
+<p><em>Description:</em></p>
+<p>Generates an annual band stack for a given index provided as <code>ftvList</code> indices to either <code>buildLTcollection</code> or <code>runLT</code>. It flattens the FTV array format to a band per year for a given FTV index.</p>
 <p><em>Usage:</em></p>
 <p><code>getFittedData(lt, startYear, endYear, index)</code></p>
 <p><em>Parameters:</em></p>
@@ -560,6 +578,8 @@ print(ndviFTV);</code></pre>
 </div>
 <div id="getchangemap" class="section level3">
 <h3><span class="header-section-number">9.1.9</span> getChangeMap</h3>
+<p><em>Description:</em></p>
+<p>Generates a set of map layers describing either vegetation loss or gain events with attributes including: year of change detection, spectral delta, duration of change event, pre-change event spectral value, and the rate of spectral change. Each attribute is a band of an ee.Image.</p>
 <p><em>Usage:</em></p>
 <p><code>getChangeMap(lt, changeParams)</code></p>
 <p><em>Parameters:</em></p>
