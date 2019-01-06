@@ -2,9 +2,13 @@
 
 If you have questions or find that updates introduce errors, please post an issue in the [LT-GEE GitHub repository](https://github.com/eMapR/LT-GEE/issues) - if you don't have a GitHub account, email Justin at: jstnbraaten@gmail.com
 
+## 2019-01-06
+
++ Added description of missing DSNR output row and corrected an example for the [getSegmentData](./api.html#getSegmentData) function. Also added a function description to each API function section.
+
 ## 2018-12-02
 
-+ Added the option to filter change maps by change magnitude standarized by the LandTrendr fit RMSE. This metric is refered to as DSNR. Please see the [getChangeMap](./api.html#getChangeMap) function for more details on using this option and for the metric reference. The change also included exporting the DSNR metric as an additional band to the change map attribute image stack.
++ Added the option to filter change maps by change magnitude standardized by the LandTrendr fit RMSE. This metric is referred to as DSNR. Please see the [getChangeMap](./api.html#getChangeMap) function for more details on using this option and for the metric reference. The change also included exporting the DSNR metric as an additional band to the change map attribute image stack.
 
 ## 2018-11-07
 
@@ -20,11 +24,11 @@ the ability to map vegetation gain as well as loss.
 
 ## 2018-10-08
 
-+ Added [collectionToBandStack](./api.html#collectionToBandStack) function to the API. Transforms an image collection into an image stack where each band of each image in the collection is concatentated as a band into a single image. Useful for mapping a function over a collection, like transforming surface reflectance to NDVI, and then transforming the resulting collection into a band sequential time series image stack.
++ Added [collectionToBandStack](./api.html#collectionToBandStack) function to the API. Transforms an image collection into an image stack where each band of each image in the collection is concatenated as a band into a single image. Useful for mapping a function over a collection, like transforming surface reflectance to NDVI, and then transforming the resulting collection into a band sequential time series image stack.
 
 ## 2018-07-25
 
-+ Added the [disturbanceMap](./api.html#disturbanceMap) function to the API. It generates a disturbance map with attributes for: year of disturbance detection, magnitude, duration, pre-disturbance spectral value, and the rate of spectral change. Each attribute is a band of an ee.Image for easy display and export. Note that at this time it is still being tested. So please do not trust results - let me know if you suspect errors.
++ Added the [disturbanceMap](./api.html#disturbanceMap) function to the API. It generates a disturbance map with attributes for: year of disturbance detection, magnitude, duration, -disturbance spectral value, and the rate of spectral change. Each attribute is a band of an ee.Image for easy display and export. Note that at this time it is still being tested. So please do not trust results - let me know if you suspect errors.
 
 ## 2018-06-26
 
