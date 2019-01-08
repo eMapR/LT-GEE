@@ -23,6 +23,7 @@ LandTrendr API functions use *USGS Landsat Surface Reflectance Tier 1* data sets
 + **[getSegmentData]** - Generates an array of information about spectral-temporal segments from the breakpoint vertices identified by LandTrendr. Returns either all spectral-temporal segments, or just vegetation loss segments, or just vegetation growth segments.
 + **[getFittedData]** - Generates an annual band stack for a given index provided as `ftvList` indices to either `buildLTcollection` or `runLT`. It flattens the FTV array format to a band per year for a given FTV index.
 + **[getChangeMap]** - Generates a set of map layers describing either vegetation loss or gain events with attributes including: year of change detection, spectral delta, duration of change event, pre-change event spectral value, and the rate of spectral change. Each attribute is a band of an ee.Image.
++ **[getSegmentCount]** - Given a segment data array produced by the `getSegmentData` function, this function returns the number of segments identified by LandTrendr as an ee.Image.
 + **disturbanceMap** - Deprecated, use `getChangeMap`
 
 
@@ -591,6 +592,69 @@ Map.addLayer(changeImg.select(['mag']), magVizParms, 'Magnitude of Change');
 Map.addLayer(changeImg.select(['yod']), yodVizParms, 'Year of Detection');
 ```
 
+
+
+### getSegmentCount
+
+*Description:*
+
+Given a segment data array produced by the `getSegmentData` function, this function returns the number of segments identified by LandTrendr as an ee.Image.
+
+*Usage:*
+
+`getSegmentCount(segData)`
+
+*Parameters:*
+
++ **segData**: an image array returned from the `getSegmentData` function. 
+
+*Result:*
+
+A single-band ee.Image describing the number of segments per pixel time series identified by LandTrendr.
+
+*Note:*
+
+This function counts the number of segments returned from the `getSegmentData` function, which can optionally return vegetation *loss*, *gain*, or *all* segments. The count of segments will reflect the `delta` argument provided to  the `getSegmentData` function. For instance, if you ran the `getSegmentData`  function and set the `delta` argument as `'loss'` and then ran this function, you'd get a map of the number of vegetation loss segments. Alternatively, if the`delta` argument was set to `'all'`, you'd get a map of the segment count including all segment types.
+
+*Example:*
+
+```
+// load the LandTrendr.js module
+var ltgee = require('users/emaprlab/public:Modules/LandTrendr.js');
+
+// define parameters
+var startYear = 1985;
+var endYear = 2017;
+var startDay = '06-20';
+var endDay = '09-20';
+var aoi = ee.Geometry.Point(-122.8848, 43.7929);
+var index = 'NBR';
+var ftvList = [];
+var runParams = { 
+  maxSegments:            6,
+  spikeThreshold:         0.9,
+  vertexCountOvershoot:   3,
+  preventOneYearRecovery: true,
+  recoveryThreshold:      0.25,
+  pvalThreshold:          0.05,
+  bestModelProportion:    0.75,
+  minObservationsNeeded:  6
+};
+var maskThese = ['cloud', 'shadow', 'snow'];
+
+// center and zoom the display in case outputs are to be mapped 
+Map.centerObject(aoi,10);
+
+// run LandTrendr using the LT-GEE API
+var lt = ltgee.runLT(startYear, endYear, startDay, endDay, aoi, index, ftvList, runParams, maskThese);
+
+// get the segment data array
+var segData = ltgee.getSegmentData(lt, index, 'all', true);
+
+// get the segment count
+var segCount = ltgee.getSegmentCount(segData);
+Map.addLayer(segCount, {"min":0, "max":6});
+```
 
 
 

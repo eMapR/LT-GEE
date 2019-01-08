@@ -165,6 +165,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="9.1.7" data-path="api.html"><a href="api.html#getsegmentdata"><i class="fa fa-check"></i><b>9.1.7</b> getSegmentData</a></li>
 <li class="chapter" data-level="9.1.8" data-path="api.html"><a href="api.html#getfitteddata"><i class="fa fa-check"></i><b>9.1.8</b> getFittedData</a></li>
 <li class="chapter" data-level="9.1.9" data-path="api.html"><a href="api.html#getchangemap"><i class="fa fa-check"></i><b>9.1.9</b> getChangeMap</a></li>
+<li class="chapter" data-level="9.1.10" data-path="api.html"><a href="api.html#getsegmentcount"><i class="fa fa-check"></i><b>9.1.10</b> getSegmentCount</a></li>
 </ul></li>
 <li class="chapter" data-level="9.2" data-path="api.html"><a href="api.html#spectral-index-codes"><i class="fa fa-check"></i><b>9.2</b> Spectral index codes</a></li>
 </ul></li>
@@ -173,14 +174,15 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="12" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i><b>12</b> References</a></li>
 <li class="chapter" data-level="13" data-path="citation.html"><a href="citation.html"><i class="fa fa-check"></i><b>13</b> Citation</a></li>
 <li class="chapter" data-level="14" data-path="updates.html"><a href="updates.html"><i class="fa fa-check"></i><b>14</b> Updates</a><ul>
-<li class="chapter" data-level="14.1" data-path="updates.html"><a href="updates.html#section"><i class="fa fa-check"></i><b>14.1</b> 2019-01-06</a></li>
-<li class="chapter" data-level="14.2" data-path="updates.html"><a href="updates.html#section-1"><i class="fa fa-check"></i><b>14.2</b> 2018-12-02</a></li>
-<li class="chapter" data-level="14.3" data-path="updates.html"><a href="updates.html#section-2"><i class="fa fa-check"></i><b>14.3</b> 2018-11-07</a></li>
-<li class="chapter" data-level="14.4" data-path="updates.html"><a href="updates.html#section-3"><i class="fa fa-check"></i><b>14.4</b> 2018-10-09</a></li>
-<li class="chapter" data-level="14.5" data-path="updates.html"><a href="updates.html#section-4"><i class="fa fa-check"></i><b>14.5</b> 2018-10-08</a></li>
-<li class="chapter" data-level="14.6" data-path="updates.html"><a href="updates.html#section-5"><i class="fa fa-check"></i><b>14.6</b> 2018-07-25</a></li>
-<li class="chapter" data-level="14.7" data-path="updates.html"><a href="updates.html#section-6"><i class="fa fa-check"></i><b>14.7</b> 2018-06-26</a></li>
-<li class="chapter" data-level="14.8" data-path="updates.html"><a href="updates.html#section-7"><i class="fa fa-check"></i><b>14.8</b> 2018-06-13</a></li>
+<li class="chapter" data-level="14.1" data-path="updates.html"><a href="updates.html#section"><i class="fa fa-check"></i><b>14.1</b> 2019-01-08</a></li>
+<li class="chapter" data-level="14.2" data-path="updates.html"><a href="updates.html#section-1"><i class="fa fa-check"></i><b>14.2</b> 2019-01-06</a></li>
+<li class="chapter" data-level="14.3" data-path="updates.html"><a href="updates.html#section-2"><i class="fa fa-check"></i><b>14.3</b> 2018-12-02</a></li>
+<li class="chapter" data-level="14.4" data-path="updates.html"><a href="updates.html#section-3"><i class="fa fa-check"></i><b>14.4</b> 2018-11-07</a></li>
+<li class="chapter" data-level="14.5" data-path="updates.html"><a href="updates.html#section-4"><i class="fa fa-check"></i><b>14.5</b> 2018-10-09</a></li>
+<li class="chapter" data-level="14.6" data-path="updates.html"><a href="updates.html#section-5"><i class="fa fa-check"></i><b>14.6</b> 2018-10-08</a></li>
+<li class="chapter" data-level="14.7" data-path="updates.html"><a href="updates.html#section-6"><i class="fa fa-check"></i><b>14.7</b> 2018-07-25</a></li>
+<li class="chapter" data-level="14.8" data-path="updates.html"><a href="updates.html#section-7"><i class="fa fa-check"></i><b>14.8</b> 2018-06-26</a></li>
+<li class="chapter" data-level="14.9" data-path="updates.html"><a href="updates.html#section-8"><i class="fa fa-check"></i><b>14.9</b> 2018-06-13</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -220,6 +222,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li><strong><a href="api.html#getsegmentdata">getSegmentData</a></strong> - Generates an array of information about spectral-temporal segments from the breakpoint vertices identified by LandTrendr. Returns either all spectral-temporal segments, or just vegetation loss segments, or just vegetation growth segments.</li>
 <li><strong><a href="api.html#getfitteddata">getFittedData</a></strong> - Generates an annual band stack for a given index provided as <code>ftvList</code> indices to either <code>buildLTcollection</code> or <code>runLT</code>. It flattens the FTV array format to a band per year for a given FTV index.</li>
 <li><strong><a href="api.html#getchangemap">getChangeMap</a></strong> - Generates a set of map layers describing either vegetation loss or gain events with attributes including: year of change detection, spectral delta, duration of change event, pre-change event spectral value, and the rate of spectral change. Each attribute is a band of an ee.Image.</li>
+<li><strong><a href="api.html#getsegmentcount">getSegmentCount</a></strong> - Given a segment data array produced by the <code>getSegmentData</code> function, this function returns the number of segments identified by LandTrendr as an ee.Image.</li>
 <li><strong>disturbanceMap</strong> - Deprecated, use <code>getChangeMap</code></li>
 </ul>
 <div id="buildsrcollection" class="section level3">
@@ -706,6 +709,57 @@ var magVizParms = {
 Map.centerObject(aoi, 11);
 Map.addLayer(changeImg.select([&#39;mag&#39;]), magVizParms, &#39;Magnitude of Change&#39;);
 Map.addLayer(changeImg.select([&#39;yod&#39;]), yodVizParms, &#39;Year of Detection&#39;);</code></pre>
+</div>
+<div id="getsegmentcount" class="section level3">
+<h3><span class="header-section-number">9.1.10</span> getSegmentCount</h3>
+<p><em>Description:</em></p>
+<p>Given a segment data array produced by the <code>getSegmentData</code> function, this function returns the number of segments identified by LandTrendr as an ee.Image.</p>
+<p><em>Usage:</em></p>
+<p><code>getSegmentCount(segData)</code></p>
+<p><em>Parameters:</em></p>
+<ul>
+<li><strong>segData</strong>: an image array returned from the <code>getSegmentData</code> function.</li>
+</ul>
+<p><em>Result:</em></p>
+<p>A single-band ee.Image describing the number of segments per pixel time series identified by LandTrendr.</p>
+<p><em>Note:</em></p>
+<p>This function counts the number of segments returned from the <code>getSegmentData</code> function, which can optionally return vegetation <em>loss</em>, <em>gain</em>, or <em>all</em> segments. The count of segments will reflect the <code>delta</code> argument provided to the <code>getSegmentData</code> function. For instance, if you ran the <code>getSegmentData</code> function and set the <code>delta</code> argument as <code>'loss'</code> and then ran this function, you’d get a map of the number of vegetation loss segments. Alternatively, if the<code>delta</code> argument was set to <code>'all'</code>, you’d get a map of the segment count including all segment types.</p>
+<p><em>Example:</em></p>
+<pre><code>// load the LandTrendr.js module
+var ltgee = require(&#39;users/emaprlab/public:Modules/LandTrendr.js&#39;);
+
+// define parameters
+var startYear = 1985;
+var endYear = 2017;
+var startDay = &#39;06-20&#39;;
+var endDay = &#39;09-20&#39;;
+var aoi = ee.Geometry.Point(-122.8848, 43.7929);
+var index = &#39;NBR&#39;;
+var ftvList = [];
+var runParams = { 
+  maxSegments:            6,
+  spikeThreshold:         0.9,
+  vertexCountOvershoot:   3,
+  preventOneYearRecovery: true,
+  recoveryThreshold:      0.25,
+  pvalThreshold:          0.05,
+  bestModelProportion:    0.75,
+  minObservationsNeeded:  6
+};
+var maskThese = [&#39;cloud&#39;, &#39;shadow&#39;, &#39;snow&#39;];
+
+// center and zoom the display in case outputs are to be mapped 
+Map.centerObject(aoi,10);
+
+// run LandTrendr using the LT-GEE API
+var lt = ltgee.runLT(startYear, endYear, startDay, endDay, aoi, index, ftvList, runParams, maskThese);
+
+// get the segment data array
+var segData = ltgee.getSegmentData(lt, index, &#39;all&#39;, true);
+
+// get the segment count
+var segCount = ltgee.getSegmentCount(segData);
+Map.addLayer(segCount, {&quot;min&quot;:0, &quot;max&quot;:6});</code></pre>
 </div>
 </div>
 <div id="spectral-index-codes" class="section level2">
