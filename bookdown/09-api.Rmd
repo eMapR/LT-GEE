@@ -24,6 +24,7 @@ LandTrendr API functions use *USGS Landsat Surface Reflectance Tier 1* data sets
 + **[getFittedData]** - Generates an annual band stack for a given index provided as `ftvList` indices to either `buildLTcollection` or `runLT`. It flattens the FTV array format to a band per year for a given FTV index.
 + **[getChangeMap]** - Generates a set of map layers describing either vegetation loss or gain events with attributes including: year of change detection, spectral delta, duration of change event, pre-change event spectral value, and the rate of spectral change. Each attribute is a band of an ee.Image.
 + **[getSegmentCount]** - Given a segment data array produced by the `getSegmentData` function, this function returns the number of segments identified by LandTrendr as an ee.Image.
++ **[getFittedRGBcol]** - Creates a collection of RGB visualization images from three FTV bands resulting from a call to LandTrendr segmentation. This is useful for creating thumbnails, filmstrips, and GIFs.
 + **disturbanceMap** - Deprecated, use `getChangeMap`
 
 
@@ -653,9 +654,95 @@ var segData = ltgee.getSegmentData(lt, index, 'all', true);
 
 // get the segment count
 var segCount = ltgee.getSegmentCount(segData);
-Map.addLayer(segCount, {"min":0, "max":6});
+Map.addLayer(segCount, {"min":0, "max":runParams.maxSegments});
 ```
 
+
+
+### getFittedRGBcol
+
+*Description:*
+
+Creates a collection of RGB visualization images from three FTV bands resulting from a call to LandTrendr segmentation. This is useful for creating thumbnails, filmstrips, and GIFs.
+
+*Usage:*
+
+`getFittedRGBcol(lt, startYear, endYear, bands, visParams)`
+
+*Parameters:*
+
++ **lt (Image Array)**: The image array that is the result of running LandTrendr with either `runLT()` or `ee.Algorithms.TemporalSegmentation.LandTrendr()`
++ **startYear (Integer)**: The minimum year in the desired range of annual collection
++ **endYear (Integer)**: The maximum year in the desired range of annual collection
++ **bands (List of strings)**: Three bands in order of Red, Green, Blue
++ **visParams (dictionary)**:
+    + **min (List of numbers)**: The minimum values for the three RGB bands that define low end of stretch range
+    + **max (List of numbers)**: The maximum values for the three RGB bands that define high end of stretch range
+    + **max (List of numbers)**: The gamma values for the three RGB bands 
+
+*Result:*
+
+An image collection with an RGB image for each year between and including `startYear` and `endYear`.
+
+*Note:*
+
+This function is useful for generating high-quality time series frames for use in GIF movies. The following examples
+applies the output to the Earth Engine `getVideoThumbURL` function.
+
+*Example:*
+
+```
+// load the LandTrendr.js module
+var ltgee = require('users/emaprlab/public:Modules/LandTrendr.js');
+
+// define parameters
+var startYear = 1984;
+var endYear = 2018;
+var startDay = '06-20';
+var endDay = '09-20';
+var aoi = ee.Geometry.Point(-122.8848, 43.7929);
+var index = 'NBR';
+var ftvList = ['TCB', 'TCG', 'TCW'];
+var runParams = { 
+  maxSegments:            6,
+  spikeThreshold:         0.9,
+  vertexCountOvershoot:   3,
+  preventOneYearRecovery: true,
+  recoveryThreshold:      0.25,
+  pvalThreshold:          0.05,
+  bestModelProportion:    0.75,
+  minObservationsNeeded:  6
+};
+
+// define the RGB visualization parameters
+var visParams = {
+  min: [604, -49, -2245],
+  max: [5592, 3147, 843],
+  gamma: [1, 1, 1]
+};
+
+// define the GIF video parameters
+var vidParams = {
+  crs: 'EPSG:3857',
+  dimensions: 300,
+  region: aoi.buffer(10000).bounds(),
+  framesPerSecond: 8
+};
+
+// apply LandTrendr.js functions
+var lt = ltgee.runLT(startYear, endYear, startDay, endDay, aoi, index, ftvList, runParams);
+
+// get RGB collection
+var rgbCol = ltgee.getFittedRGBcol(lt, startYear, endYear, ftvList, visParams);
+
+// print the RGB GIF link
+print(rgbCol.getVideoThumbURL(vidParams));
+
+// show RGB image for year 2000 on map
+var rgb2000 = rgbCol.filterDate('2000-01-01', '2000-12-31').first().clip(vidParams.region);
+Map.centerObject(rgb2000, 10);
+Map.addLayer(rgb2000, {}, 'TC/RGB');
+```
 
 
 

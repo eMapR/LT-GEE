@@ -5,11 +5,11 @@
 
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>LT-GEE Guide</title>
-  <meta name="description" content="LT-GEE Guide">
-  <meta name="generator" content="bookdown 0.7 and GitBook 2.6.7">
+  <title>9 API | LT-GEE Guide</title>
+  <meta name="description" content="9 API | LT-GEE Guide">
+  <meta name="generator" content="bookdown  and GitBook 2.6.7">
 
-  <meta property="og:title" content="LT-GEE Guide" />
+  <meta property="og:title" content="9 API | LT-GEE Guide" />
   <meta property="og:type" content="book" />
   
   
@@ -17,7 +17,7 @@
   <meta name="github-repo" content="eMapR/LT-GEE" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="LT-GEE Guide" />
+  <meta name="twitter:title" content="9 API | LT-GEE Guide" />
   
   
   
@@ -34,11 +34,11 @@
 <link rel="next" href="validation.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
-
 
 
 <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -49,6 +49,7 @@ function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'UA-120674089-1');
 </script>
+
 
 
 
@@ -166,6 +167,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="9.1.8" data-path="api.html"><a href="api.html#getfitteddata"><i class="fa fa-check"></i><b>9.1.8</b> getFittedData</a></li>
 <li class="chapter" data-level="9.1.9" data-path="api.html"><a href="api.html#getchangemap"><i class="fa fa-check"></i><b>9.1.9</b> getChangeMap</a></li>
 <li class="chapter" data-level="9.1.10" data-path="api.html"><a href="api.html#getsegmentcount"><i class="fa fa-check"></i><b>9.1.10</b> getSegmentCount</a></li>
+<li class="chapter" data-level="9.1.11" data-path="api.html"><a href="api.html#getfittedrgbcol"><i class="fa fa-check"></i><b>9.1.11</b> getFittedRGBcol</a></li>
 </ul></li>
 <li class="chapter" data-level="9.2" data-path="api.html"><a href="api.html#spectral-index-codes"><i class="fa fa-check"></i><b>9.2</b> Spectral index codes</a></li>
 </ul></li>
@@ -174,15 +176,16 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="12" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i><b>12</b> References</a></li>
 <li class="chapter" data-level="13" data-path="citation.html"><a href="citation.html"><i class="fa fa-check"></i><b>13</b> Citation</a></li>
 <li class="chapter" data-level="14" data-path="updates.html"><a href="updates.html"><i class="fa fa-check"></i><b>14</b> Updates</a><ul>
-<li class="chapter" data-level="14.1" data-path="updates.html"><a href="updates.html#section"><i class="fa fa-check"></i><b>14.1</b> 2019-01-08</a></li>
-<li class="chapter" data-level="14.2" data-path="updates.html"><a href="updates.html#section-1"><i class="fa fa-check"></i><b>14.2</b> 2019-01-06</a></li>
-<li class="chapter" data-level="14.3" data-path="updates.html"><a href="updates.html#section-2"><i class="fa fa-check"></i><b>14.3</b> 2018-12-02</a></li>
-<li class="chapter" data-level="14.4" data-path="updates.html"><a href="updates.html#section-3"><i class="fa fa-check"></i><b>14.4</b> 2018-11-07</a></li>
-<li class="chapter" data-level="14.5" data-path="updates.html"><a href="updates.html#section-4"><i class="fa fa-check"></i><b>14.5</b> 2018-10-09</a></li>
-<li class="chapter" data-level="14.6" data-path="updates.html"><a href="updates.html#section-5"><i class="fa fa-check"></i><b>14.6</b> 2018-10-08</a></li>
-<li class="chapter" data-level="14.7" data-path="updates.html"><a href="updates.html#section-6"><i class="fa fa-check"></i><b>14.7</b> 2018-07-25</a></li>
-<li class="chapter" data-level="14.8" data-path="updates.html"><a href="updates.html#section-7"><i class="fa fa-check"></i><b>14.8</b> 2018-06-26</a></li>
-<li class="chapter" data-level="14.9" data-path="updates.html"><a href="updates.html#section-8"><i class="fa fa-check"></i><b>14.9</b> 2018-06-13</a></li>
+<li class="chapter" data-level="14.1" data-path="updates.html"><a href="updates.html#section"><i class="fa fa-check"></i><b>14.1</b> 2019-04-23</a></li>
+<li class="chapter" data-level="14.2" data-path="updates.html"><a href="updates.html#section-1"><i class="fa fa-check"></i><b>14.2</b> 2019-01-08</a></li>
+<li class="chapter" data-level="14.3" data-path="updates.html"><a href="updates.html#section-2"><i class="fa fa-check"></i><b>14.3</b> 2019-01-06</a></li>
+<li class="chapter" data-level="14.4" data-path="updates.html"><a href="updates.html#section-3"><i class="fa fa-check"></i><b>14.4</b> 2018-12-02</a></li>
+<li class="chapter" data-level="14.5" data-path="updates.html"><a href="updates.html#section-4"><i class="fa fa-check"></i><b>14.5</b> 2018-11-07</a></li>
+<li class="chapter" data-level="14.6" data-path="updates.html"><a href="updates.html#section-5"><i class="fa fa-check"></i><b>14.6</b> 2018-10-09</a></li>
+<li class="chapter" data-level="14.7" data-path="updates.html"><a href="updates.html#section-6"><i class="fa fa-check"></i><b>14.7</b> 2018-10-08</a></li>
+<li class="chapter" data-level="14.8" data-path="updates.html"><a href="updates.html#section-7"><i class="fa fa-check"></i><b>14.8</b> 2018-07-25</a></li>
+<li class="chapter" data-level="14.9" data-path="updates.html"><a href="updates.html#section-8"><i class="fa fa-check"></i><b>14.9</b> 2018-06-26</a></li>
+<li class="chapter" data-level="14.10" data-path="updates.html"><a href="updates.html#section-9"><i class="fa fa-check"></i><b>14.10</b> 2018-06-13</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -223,6 +226,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li><strong><a href="api.html#getfitteddata">getFittedData</a></strong> - Generates an annual band stack for a given index provided as <code>ftvList</code> indices to either <code>buildLTcollection</code> or <code>runLT</code>. It flattens the FTV array format to a band per year for a given FTV index.</li>
 <li><strong><a href="api.html#getchangemap">getChangeMap</a></strong> - Generates a set of map layers describing either vegetation loss or gain events with attributes including: year of change detection, spectral delta, duration of change event, pre-change event spectral value, and the rate of spectral change. Each attribute is a band of an ee.Image.</li>
 <li><strong><a href="api.html#getsegmentcount">getSegmentCount</a></strong> - Given a segment data array produced by the <code>getSegmentData</code> function, this function returns the number of segments identified by LandTrendr as an ee.Image.</li>
+<li><strong><a href="api.html#getfittedrgbcol">getFittedRGBcol</a></strong> - Creates a collection of RGB visualization images from three FTV bands resulting from a call to LandTrendr segmentation. This is useful for creating thumbnails, filmstrips, and GIFs.</li>
 <li><strong>disturbanceMap</strong> - Deprecated, use <code>getChangeMap</code></li>
 </ul>
 <div id="buildsrcollection" class="section level3">
@@ -759,7 +763,82 @@ var segData = ltgee.getSegmentData(lt, index, &#39;all&#39;, true);
 
 // get the segment count
 var segCount = ltgee.getSegmentCount(segData);
-Map.addLayer(segCount, {&quot;min&quot;:0, &quot;max&quot;:6});</code></pre>
+Map.addLayer(segCount, {&quot;min&quot;:0, &quot;max&quot;:runParams.maxSegments});</code></pre>
+</div>
+<div id="getfittedrgbcol" class="section level3">
+<h3><span class="header-section-number">9.1.11</span> getFittedRGBcol</h3>
+<p><em>Description:</em></p>
+<p>Creates a collection of RGB visualization images from three FTV bands resulting from a call to LandTrendr segmentation. This is useful for creating thumbnails, filmstrips, and GIFs.</p>
+<p><em>Usage:</em></p>
+<p><code>getFittedRGBcol(lt, startYear, endYear, bands, visParams)</code></p>
+<p><em>Parameters:</em></p>
+<ul>
+<li><strong>lt (Image Array)</strong>: The image array that is the result of running LandTrendr with either <code>runLT()</code> or <code>ee.Algorithms.TemporalSegmentation.LandTrendr()</code></li>
+<li><strong>startYear (Integer)</strong>: The minimum year in the desired range of annual collection</li>
+<li><strong>endYear (Integer)</strong>: The maximum year in the desired range of annual collection</li>
+<li><strong>bands (List of strings)</strong>: Three bands in order of Red, Green, Blue</li>
+<li><strong>visParams (dictionary)</strong>:
+<ul>
+<li><strong>min (List of numbers)</strong>: The minimum values for the three RGB bands that define low end of stretch range</li>
+<li><strong>max (List of numbers)</strong>: The maximum values for the three RGB bands that define high end of stretch range</li>
+<li><strong>max (List of numbers)</strong>: The gamma values for the three RGB bands</li>
+</ul></li>
+</ul>
+<p><em>Result:</em></p>
+<p>An image collection with an RGB image for each year between and including <code>startYear</code> and <code>endYear</code>.</p>
+<p><em>Note:</em></p>
+<p>This function is useful for generating high-quality time series frames for use in GIF movies. The following examples applies the output to the Earth Engine <code>getVideoThumbURL</code> function.</p>
+<p><em>Example:</em></p>
+<pre><code>// load the LandTrendr.js module
+var ltgee = require(&#39;users/emaprlab/public:Modules/LandTrendr.js&#39;);
+
+// define parameters
+var startYear = 1984;
+var endYear = 2018;
+var startDay = &#39;06-20&#39;;
+var endDay = &#39;09-20&#39;;
+var aoi = ee.Geometry.Point(-122.8848, 43.7929);
+var index = &#39;NBR&#39;;
+var ftvList = [&#39;TCB&#39;, &#39;TCG&#39;, &#39;TCW&#39;];
+var runParams = { 
+  maxSegments:            6,
+  spikeThreshold:         0.9,
+  vertexCountOvershoot:   3,
+  preventOneYearRecovery: true,
+  recoveryThreshold:      0.25,
+  pvalThreshold:          0.05,
+  bestModelProportion:    0.75,
+  minObservationsNeeded:  6
+};
+
+// define the RGB visualization parameters
+var visParams = {
+  min: [604, -49, -2245],
+  max: [5592, 3147, 843],
+  gamma: [1, 1, 1]
+};
+
+// define the GIF video parameters
+var vidParams = {
+  crs: &#39;EPSG:3857&#39;,
+  dimensions: 300,
+  region: aoi.buffer(10000).bounds(),
+  framesPerSecond: 8
+};
+
+// apply LandTrendr.js functions
+var lt = ltgee.runLT(startYear, endYear, startDay, endDay, aoi, index, ftvList, runParams);
+
+// get RGB collection
+var rgbCol = ltgee.getFittedRGBcol(lt, startYear, endYear, ftvList, visParams);
+
+// print the RGB GIF link
+print(rgbCol.getVideoThumbURL(vidParams));
+
+// show RGB image for year 2000 on map
+var rgb2000 = rgbCol.filterDate(&#39;2000-01-01&#39;, &#39;2000-12-31&#39;).first().clip(vidParams.region);
+Map.centerObject(rgb2000, 10);
+Map.addLayer(rgb2000, {}, &#39;TC/RGB&#39;);</code></pre>
 </div>
 </div>
 <div id="spectral-index-codes" class="section level2">
@@ -861,9 +940,10 @@ gitbook.start({
 "google": false,
 "linkedin": false,
 "weibo": false,
-"instapper": false,
+"instapaper": false,
 "vk": false,
-"all": false
+"all": false,
+"instapper": false
 },
 "fontsettings": {
 "theme": "white",
@@ -871,6 +951,10 @@ gitbook.start({
 "size": 2
 },
 "edit": {
+"link": null,
+"text": null
+},
+"history": {
 "link": null,
 "text": null
 },

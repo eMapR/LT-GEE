@@ -2,6 +2,11 @@
 
 If you have questions or find that updates introduce errors, please post an issue in the [LT-GEE GitHub repository](https://github.com/eMapR/LT-GEE/issues) - if you don't have a GitHub account, email Justin at: jstnbraaten@gmail.com
 
+## 2019-04-23
+
++ Added the [getFittedRGBcol](./api.html#getFittedRGBcol) function, which creates an RGB visualization image
+collection from LandTrendr segmentation FTV outputs useful for thumbnails, filmstrips, and GIF videos.
+
 ## 2019-01-08
 
 + Added the [getSegmentCount](./api.html#getSegmentCount) function, which returns an ee.Image of the number of segments identified by LandTrendr.
