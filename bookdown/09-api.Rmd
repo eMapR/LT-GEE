@@ -678,7 +678,7 @@ Creates a collection of RGB visualization images from three FTV bands resulting 
 + **visParams (dictionary)**:
     + **min (List of numbers)**: The minimum values for the three RGB bands that define low end of stretch range
     + **max (List of numbers)**: The maximum values for the three RGB bands that define high end of stretch range
-    + **max (List of numbers)**: The gamma values for the three RGB bands 
+    + **gamma (List of numbers)**: The gamma values for the three RGB bands 
 
 *Result:*
 
@@ -686,8 +686,8 @@ An image collection with an RGB image for each year between and including `start
 
 *Note:*
 
-This function is useful for generating high-quality time series frames for use in GIF movies. The following examples
-applies the output to the Earth Engine `getVideoThumbURL` function.
+This function is useful for generating high-quality time series frames for use in GIF movies. The following example
+applies the output to the Earth Engine `getVideoThumbURL` function to generate a GIF.
 
 *Example:*
 

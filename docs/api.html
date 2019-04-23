@@ -781,13 +781,13 @@ Map.addLayer(segCount, {&quot;min&quot;:0, &quot;max&quot;:runParams.maxSegments
 <ul>
 <li><strong>min (List of numbers)</strong>: The minimum values for the three RGB bands that define low end of stretch range</li>
 <li><strong>max (List of numbers)</strong>: The maximum values for the three RGB bands that define high end of stretch range</li>
-<li><strong>max (List of numbers)</strong>: The gamma values for the three RGB bands</li>
+<li><strong>gamma (List of numbers)</strong>: The gamma values for the three RGB bands</li>
 </ul></li>
 </ul>
 <p><em>Result:</em></p>
 <p>An image collection with an RGB image for each year between and including <code>startYear</code> and <code>endYear</code>.</p>
 <p><em>Note:</em></p>
-<p>This function is useful for generating high-quality time series frames for use in GIF movies. The following examples applies the output to the Earth Engine <code>getVideoThumbURL</code> function.</p>
+<p>This function is useful for generating high-quality time series frames for use in GIF movies. The following example applies the output to the Earth Engine <code>getVideoThumbURL</code> function to generate a GIF.</p>
 <p><em>Example:</em></p>
 <pre><code>// load the LandTrendr.js module
 var ltgee = require(&#39;users/emaprlab/public:Modules/LandTrendr.js&#39;);
