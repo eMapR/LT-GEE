@@ -2,6 +2,11 @@
 
 If you have questions or find that updates introduce errors, please post an issue in the [LT-GEE GitHub repository](https://github.com/eMapR/LT-GEE/issues) - if you don't have a GitHub account, email Justin at: jstnbraaten@gmail.com
 
+## 2019-04-26
+
++ Added the [UI LandTrendr Time Series Animator](./ui-applications.html#ui-landtrendr-time-series-animator)
+App. It makes an animated GIF from a Landsat time series that has been smoothed by LandTrendr spectral-temporal segmentation.
+
 ## 2019-04-23
 
 + Added the [getFittedRGBcol](./api.html#getFittedRGBcol) function, which creates an RGB visualization image

@@ -7,6 +7,8 @@ To access the applications, visit this URL: https://code.earthengine.google.com/
 + **[UI LandTrendr Pixel Time Series Plotter]** | [link](https://emaprlab.users.earthengine.app/view/lt-gee-pixel-time-series) | source and LandTrendr-fitted data for a pixel
 + **[UI LandTrendr Change Mapper]** | [link](https://emaprlab.users.earthengine.app/view/lt-gee-change-mapper) | map disturbances and view attributes
 + **[UI LandTrendr Fitted Index Delta RGB Mapper]** | [link](https://emaprlab.users.earthengine.app/view/lt-gee-fitted-index-delta-rgb-mapper) | visualize change and relative band/index information
++ **[UI LandTrendr Time Series Animator]** | [link](https://emaprlab.users.earthengine.app/view/lt-gee-time-series-animator) | make an animated GIF from a 
+LandTrendr FTV annual time series
 
 
 
@@ -135,7 +137,26 @@ The following figure is a guide to help interpret the colors.
 
 ### ToDo
 
-
 <br><br><br>
 
 
+## UI LandTrendr Time Series Animator
+
+[GEE App link](https://emaprlab.users.earthengine.app/view/lt-gee-time-series-animator)
+
+The *UI LandTrendr Time Series Animator*will make an animated GIF from a Landsat time series that has been smoothed by LandTrendr spectral-temporal segmentation.
+
+### Steps
+
+1. Set the range of years to animate over,
+2. Set the date range to composite over. Note that date range can cross the new year.
+3. Select an RGB/band display combination.
+4. Set the desired animation frame rate.
+5. Click 5 points to close a rectangle (go slow). Be patient after 5th click for feature to register.
+6. Processing begins, wait a few minutes.
+
++ Use the 'Clear' button to start over.
++ Change RGB combo and 'Rerun' on same region.
++ If a video does not render, try making a smaller region and/or zoom out a level.
+
+<br><br><br>
