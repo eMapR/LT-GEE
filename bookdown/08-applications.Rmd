@@ -144,7 +144,9 @@ The following figure is a guide to help interpret the colors.
 
 [GEE App link](https://emaprlab.users.earthengine.app/view/lt-gee-time-series-animator)
 
-The *UI LandTrendr Time Series Animator*will make an animated GIF from a Landsat time series that has been smoothed by LandTrendr spectral-temporal segmentation.
+The *UI LandTrendr Time Series Animator* will make an animated GIF from a Landsat time series that has been smoothed by LandTrendr spectral-temporal segmentation.
+
+<img src='imgs/gif_app.jpg'>
 
 ### Steps
 
