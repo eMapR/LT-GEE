@@ -161,4 +161,7 @@ The *UI LandTrendr Time Series Animator* will make an animated GIF from a Landsa
 + Change RGB combo and 'Rerun' on same region.
 + If a video does not render, try making a smaller region and/or zoom out a level.
 
+### Credit
+
+This application uses a modified version of a drawing tool originally developed by Gennadii Donchyts.
 <br><br><br>
