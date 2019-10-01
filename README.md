@@ -16,3 +16,5 @@
 <br><br>
 ![banner image](https://github.com/eMapR/LT-GEE/blob/master/docs/imgs/gee_windows_small.png)
 
+Except as otherwise noted, the content of this repository and accompanying description site (https://emapr.github.io/LT-GEE/) are licensed under the [Creative Commons Attribution 4.0 License](https://creativecommons.org/licenses/by/4.0/), and code samples are licensed under the [Apache 2.0 License](https://www.apache.org/licenses/LICENSE-2.0).
+
