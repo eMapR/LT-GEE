@@ -27,7 +27,7 @@
 // ### VERSION ###
 // #############################################################################
 
-exports.version = '0.1.0';
+exports.version = '0.1.1';
 
 //########################################################################################################
 //##### ANNUAL SR TIME SERIES COLLECTION BUILDING FUNCTIONS ##### 
@@ -1152,7 +1152,7 @@ var getSegmentData = function(lt, index, delta, options){
       }
     }
     // now just get out - return the result 
-    return ee.Image.cat([startYear.add(1), endYear, startVal, endVal, mag, dur, rate, dsnr])
+    return ee.Image.cat([startYear, endYear, startVal, endVal, mag, dur, rate, dsnr])
                    //.unmask(ee.Image(ee.Array([[-9999],[-9999],[-9999],[-9999],[-9999],[-9999],[-9999],[-9999]])))
                    .unmask(ee.Image(ee.Array([[-9999]])))
                    .toArray(0);
@@ -1166,7 +1166,7 @@ var getSegmentData = function(lt, index, delta, options){
   
     var flip = indexFlipper(index);  
     return ee.Image.cat([
-        startYear.add(1).arrayMask(changeTypeMask),//.unmask(ee.Image(ee.Array([[-9999]]))),
+        startYear.arrayMask(changeTypeMask),//.unmask(ee.Image(ee.Array([[-9999]]))),
         endYear.arrayMask(changeTypeMask),//.unmask(ee.Image(ee.Array([[-9999]]))),
         startVal.arrayMask(changeTypeMask).multiply(flip),//.unmask(ee.Image(ee.Array([[-9999]]))),
         endVal.arrayMask(changeTypeMask).multiply(flip),//.unmask(ee.Image(ee.Array([[-9999]]))),
@@ -1523,7 +1523,7 @@ exports.getChangeMap = function(lt, changeParams){
   var distArray = segInfoSorted.arraySlice(1, 0, 1); // get the first
   
   // make an image from the array of attributes for the greatest disturbance
-  var distImg = ee.Image.cat(distArray.arraySlice(0,0,1).arrayProject([1]).arrayFlatten([['yod']]).toShort(),
+  var distImg = ee.Image.cat(distArray.arraySlice(0,0,1).arrayProject([1]).arrayFlatten([['yod']]).add(1).toShort(),
                              distArray.arraySlice(0,4,5).arrayProject([1]).arrayFlatten([['mag']]),
                              distArray.arraySlice(0,5,6).arrayProject([1]).arrayFlatten([['dur']]),
                              distArray.arraySlice(0,2,3).arrayProject([1]).arrayFlatten([['preval']]),
