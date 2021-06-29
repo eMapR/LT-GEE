@@ -27,7 +27,7 @@
 // ### VERSION ###
 // #############################################################################
 
-exports.version = '0.1.1';
+exports.version = '0.1.2';
 
 //########################################################################################################
 //##### ANNUAL SR TIME SERIES COLLECTION BUILDING FUNCTIONS ##### 
@@ -1112,14 +1112,11 @@ exports.ltPixelTimeSeriesArray = function(lt, pixel, indexFlip){
 
 // get segment info array
 var getSegmentData = function(lt, index, delta, options){
-  /*
-  options = {
-    'right': false,
+  // Deal with options.
+  var _options = {right: false};  // Defaults
+  if (typeof options == 'boolean') {
+    _options.right = options;
   }
-  */
-  options = (typeof options !== 'undefined') ?  options : {
-    right: false
-  };
   
   var ltlt = lt.select('LandTrendr');            // select the LandTrendr band
   var rmse = lt.select('rmse');                  // select the rmse band
@@ -1136,14 +1133,10 @@ var getSegmentData = function(lt, index, delta, options){
   var rate = mag.divide(dur);                  // calculate the rate of spectral change    
   var dsnr = mag.divide(rmse);              // make mag relative to fit rmse
   
-
-
-  
-  
   // whether to return all segments or either dist or grow
   if(delta.toLowerCase() == 'all'){
     // if the data should be set to the correct orientation, adjust it - don't need to do this for either gain or loss mag/rate/dsnr because it is set to absolute
-    if(options.right === true){
+    if(_options.right === true){
       if(indexFlipper(index) == -1){
         startVal = startVal.multiply(-1);
         endVal = endVal.multiply(-1);
