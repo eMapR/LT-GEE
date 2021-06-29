@@ -27,7 +27,7 @@
 // ### VERSION ###
 // #############################################################################
 
-exports.version = '0.1.2';
+exports.version = '0.1.3';
 
 //########################################################################################################
 //##### ANNUAL SR TIME SERIES COLLECTION BUILDING FUNCTIONS ##### 
@@ -1142,6 +1142,7 @@ var getSegmentData = function(lt, index, delta, options){
         endVal = endVal.multiply(-1);
         mag = mag.multiply(-1);
         rate = rate.multiply(-1);
+        dsnr = dsnr.multiply(-1);
       }
     }
     // now just get out - return the result 
