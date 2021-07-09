@@ -27,7 +27,7 @@
 // ### VERSION ###
 // #############################################################################
 
-exports.version = '0.1.3';
+exports.version = '0.1.4';
 
 //########################################################################################################
 //##### ANNUAL SR TIME SERIES COLLECTION BUILDING FUNCTIONS ##### 
@@ -1209,11 +1209,28 @@ var stdDevStretch = function(img, aoi, nStdev){
 
 // INDEX FLIPPER
 var indexFlipper = function(index){
-  var indexObj = {'NBR':-1,'NDVI':-1,'NDSI':-1,'NDMI':-1,'EVI':-1,  //'NDSI': ???? this is a tricky one
-                  'TCB':1,'TCG':-1,'TCW':-1,'TCA':-1,
-                  'B1':1,'B2':1,'B3':1,'B4':-1,'B5':1,'B7':1,
-                  'ENC':1,'ENC1':1,'TCC':1,  
-                  'NBRz':1,'B5z':1};
+  var indexObj = {
+    'NBR': -1,
+    'NDVI': -1,
+    'NDSI': -1,  // ???? this is a tricky one
+    'NDMI': -1,
+    'EVI': -1,  
+    'TCB': 1,
+    'TCG': -1,
+    'TCW': -1,
+    'TCA': -1,
+    'B1': 1,
+    'B2': 1,
+    'B3': 1,
+    'B4': -1,
+    'B5': 1,
+    'B7': 1,
+    'ENC': 1,
+    'ENC1': 1,
+    'TCC': 1,  
+    'NBRz': 1,
+    'B5z': 1
+  };
   return indexObj[index];
 };
 exports.indexFlipper = indexFlipper;
