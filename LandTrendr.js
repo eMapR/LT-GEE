@@ -1502,7 +1502,7 @@ exports.getChangeMap = function(lt, changeParams){
   if(changeParams.mag.dsnr === undefined){changeParams.mag.dsnr = false}
   
   // get the segment info
-  var segInfo = ltgee.getSegmentData(lt, changeParams.index, changeParams.delta);
+  var segInfo = getSegmentData(lt, changeParams.index, changeParams.delta);
   Map.addLayer(segInfo, {}, 'All ' + changeParams.delta + ' segments', false);  // TODO: remove after testing
   
 
