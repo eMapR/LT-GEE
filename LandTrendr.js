@@ -1503,8 +1503,6 @@ exports.getChangeMap = function(lt, changeParams){
   
   // get the segment info
   var segInfo = getSegmentData(lt, changeParams.index, changeParams.delta);
-  Map.addLayer(segInfo, {}, 'All ' + changeParams.delta + ' segments', false);  // TODO: remove after testing
-  
 
   var changeMask = segInfo.arraySlice(0, 4, 5).gt(0);
   segInfo = segInfo.arrayMask(changeMask);
