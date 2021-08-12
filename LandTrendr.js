@@ -27,7 +27,7 @@
 // ### VERSION ###
 // #############################################################################
 
-exports.version = '0.1.4';
+exports.version = '0.1.5';
 
 //########################################################################################################
 //##### ANNUAL SR TIME SERIES COLLECTION BUILDING FUNCTIONS ##### 
@@ -1503,116 +1503,105 @@ exports.getChangeMap = function(lt, changeParams){
   
   // get the segment info
   var segInfo = getSegmentData(lt, changeParams.index, changeParams.delta);
-  changeParams.segInfo = segInfo;
 
+  var changeMask = segInfo.arraySlice(0, 4, 5).gt(0);
+  segInfo = segInfo.arrayMask(changeMask);
+  
+  // filter by year
+  if(makeBoolean(changeParams.year.checked) === true){
+    var yodArr = segInfo.arraySlice(0,0,1).add(1);
+    var yearMask = yodArr.gte(changeParams.year.start).and(yodArr.lte(changeParams.year.end));
+    segInfo = segInfo.arrayMask(yearMask);
+  }
+
+  // filter by mag
+  var magBand = {axis: 0, start: 4, end: 5};
+  var magMask;
+  if(makeBoolean(changeParams.mag.checked) === true){
+    if(makeBoolean(changeParams.mag.dsnr) === true){magBand = {axis: 0, start: 7, end: null}}
+    if(changeParams.mag.operator == '<'){
+      magMask = segInfo.arraySlice(magBand).lt(changeParams.mag.value);
+    } else if(changeParams.mag.operator == '>'){
+      magMask = segInfo.arraySlice(magBand).gt(changeParams.mag.value);    
+    } else {
+      print("Error: provided mag operator does match either '>' or '<'");
+    }
+    segInfo = segInfo.arrayMask(magMask);
+  }
+
+  // filter by dur
+  var durBand = {axis: 0, start: 5, end: 6};
+  var durMask;
+  if(makeBoolean(changeParams.dur.checked) === true){
+    if(changeParams.dur.operator == '<'){
+      durMask = segInfo.arraySlice(durBand).lt(changeParams.dur.value);
+    } else if(changeParams.mag.operator == '>'){
+      durMask = segInfo.arraySlice(durBand).gt(changeParams.dur.value);    
+    } else {
+      print("Error: provided dur operator does match either '>' or '<'");
+    }
+    segInfo = segInfo.arrayMask(durMask);
+  }
+
+  // filter by preval
+  var prevalBand = {axis: 0, start: 2, end: 3};
+  var prevalMask;
+  if(makeBoolean(changeParams.preval.checked) === true){
+    if(changeParams.preval.operator == '<'){
+      prevalMask = segInfo.arraySlice(prevalBand).lt(changeParams.preval.value);
+    } else if(changeParams.preval.operator == '>'){
+      prevalMask = segInfo.arraySlice(prevalBand).gt(changeParams.preval.value);
+    } else{
+      print("Error: provided preval operator does match either '>' or '<'");
+    }
+    segInfo = segInfo.arrayMask(prevalMask);
+  }
 
   // sort by dist type
   var sortByThis;
   switch (changeParams.sort.toLowerCase()){
     case 'greatest':
-      sortByThis = changeParams.segInfo.arraySlice(0,4,5).multiply(-1); // need to flip the delta here, since arraySort is working by ascending order
+      sortByThis = segInfo.arraySlice(0,4,5).multiply(-1); // need to flip the delta here, since arraySort is working by ascending order
       break;
     case 'least':
-      sortByThis = changeParams.segInfo.arraySlice(0,4,5);
+      sortByThis = segInfo.arraySlice(0,4,5);
       break;
     case 'newest':
-      sortByThis = changeParams.segInfo.arraySlice(0,0,1).multiply(-1); // need to flip the delta here, since arraySort is working by ascending order   
+      sortByThis = segInfo.arraySlice(0,0,1).multiply(-1); // need to flip the delta here, since arraySort is working by ascending order   
       break;
     case 'oldest':
-      sortByThis = changeParams.segInfo.arraySlice(0,0,1);
+      sortByThis = segInfo.arraySlice(0,0,1);
       break;
     case 'fastest':
-      sortByThis = changeParams.segInfo.arraySlice(0,5,6);
+      sortByThis = segInfo.arraySlice(0,5,6);
       break;
     case 'slowest':
-      sortByThis = changeParams.segInfo.arraySlice(0,5,6).multiply(-1); // need to flip the delta here, since arraySort is working by ascending order
+      sortByThis = segInfo.arraySlice(0,5,6).multiply(-1); // need to flip the delta here, since arraySort is working by ascending order
       break;
   }
   
-  var segInfoSorted = changeParams.segInfo.arraySort(sortByThis); // sort the array by magnitude
+  var segInfoSorted = segInfo.arraySort(sortByThis); // sort the array by magnitude
 
-  var distArray = segInfoSorted.arraySlice(1, 0, 1); // get the first
+  var chngArray = segInfoSorted.arraySlice(1, 0, 1); // get the first
   
-  // make an image from the array of attributes for the greatest disturbance
-  var distImg = ee.Image.cat(distArray.arraySlice(0,0,1).arrayProject([1]).arrayFlatten([['yod']]).add(1).toShort(),
-                             distArray.arraySlice(0,4,5).arrayProject([1]).arrayFlatten([['mag']]),
-                             distArray.arraySlice(0,5,6).arrayProject([1]).arrayFlatten([['dur']]),
-                             distArray.arraySlice(0,2,3).arrayProject([1]).arrayFlatten([['preval']]),
-                             distArray.arraySlice(0,6,7).arrayProject([1]).arrayFlatten([['rate']]),
-                             distArray.arraySlice(0,7,null).arrayProject([1]).arrayFlatten([['dsnr']]));
-                             //distArray.arraySlice(0,3,4).arrayProject([1]).arrayFlatten([['verts']])); /// added by peter 2/27/2020
-  
-  // start a mask based on magnitudes greater than 0 to get rid of the masked pixels from the orginal collection
-  var mask = distImg.select('mag').gt(0);
-  mask = ee.Image(1).mask(mask);
-  
-  // filter by year
-  var addMask;
-  if(makeBoolean(changeParams.year.checked) === true){
-    var yod = distImg.select('yod');
-    addMask = yod.gte(changeParams.year.start).and(yod.lte(changeParams.year.end));
-    mask = mask.updateMask(addMask);
-  }
-  
-  // filter by mag
-  var magBand = 'mag';
-  if(makeBoolean(changeParams.mag.checked) === true){
-    if(makeBoolean(changeParams.mag.dsnr) === true){magBand = 'dsnr'}
-    if(changeParams.mag.operator == '<'){
-      addMask = distImg.select(magBand).lt(changeParams.mag.value);
-    } else if(changeParams.mag.operator == '>'){
-      addMask = distImg.select(magBand).gt(changeParams.mag.value);    
-    } else {
-      print("Error: provided mag operator does match either '>' or '<'");
-    }
-    mask = mask.updateMask(addMask);
-  }
-  /*
-  if(makeBoolean(changeParams.mag.checked) === true){
-    addMask = distImg.select(['dur'])                        
-                     .multiply((changeParams.mag.year20 - changeParams.mag.year1) / 19.0)
-                     .add(changeParams.mag.year1)                                     
-                     .lte(distImg.select(['mag']));
-    mask = mask.updateMask(addMask);
-  }
-  */
-  
-  // filter by dur
-  if(makeBoolean(changeParams.dur.checked) === true){
-    if(changeParams.dur.operator == '<'){
-      addMask = distImg.select('dur').lt(changeParams.dur.value);
-    } else if(changeParams.mag.operator == '>'){
-      addMask = distImg.select('dur').gt(changeParams.dur.value);    
-    } else {
-      print("Error: provided dur operator does match either '>' or '<'");
-    }
-    mask = mask.updateMask(addMask);
-  }
-  
-  // filter by preval
-  if(makeBoolean(changeParams.preval.checked) === true){
-    if(changeParams.preval.operator == '<'){
-      addMask = distImg.select(['preval']).lt(changeParams.preval.value);
-    } else if(changeParams.preval.operator == '>'){
-      addMask = distImg.select(['preval']).gt(changeParams.preval.value);
-    } else{
-      print("Error: provided preval operator does match either '>' or '<'");
-    }
-    mask = mask.updateMask(addMask);
-  }
-  
-  // filter by mmu
+  // make an image from the array of attributes for the change of interest
+  var arrRowNames = [['startYear', 'endYear', 'preval', 'postval', 'mag', 'dur', 'rate', 'csnr']];
+  var chngImg = chngArray.arrayProject([0]).arrayFlatten(arrRowNames);
+  var yod = chngImg.select('startYear').add(1).toInt16().rename('yod');  // add one to get year of detection, first year we know a change took place
+  chngImg = chngImg.addBands(yod).select(['yod', 'mag', 'dur', 'preval', 'rate', 'csnr']);
+
+  // Mask for change/no change
+  chngImg = chngImg.updateMask(chngImg.select('mag').gt(0));
+
+  // Filter by MMU on year of change detection
   if(makeBoolean(changeParams.mmu.checked) === true){ 
     if(changeParams.mmu.value > 1){
-      addMask = distImg.select(['yod'])
-                       .mask(mask)
-                       .connectedPixelCount(changeParams.mmu.value, true)
-                       .gte(changeParams.mmu.value)
-                       .unmask(0);
-      mask = mask.updateMask(addMask);
+      var mmuMask = chngImg.select(['yod'])
+                      .connectedPixelCount(changeParams.mmu.value, true)
+                      .gte(changeParams.mmu.value);
+      chngImg = chngImg.updateMask(mmuMask);
     }
   }
-    
-  // apply the filter mask
-  return distImg.mask(mask);
+  
+  return chngImg;
 };
