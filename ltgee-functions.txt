@@ -1,0 +1,67 @@
+
+
+
+harmonizationRoy() -- This function takes a single input, an OLI (Landsat 8) GEE image with a subset of bands, and
+harmonizes the bands to ETM+ (Landsat 7). This is done using slope and intercept regression coefficients as per
+Roy, D.P. Characterization of Landsat-7 to Landsat-8 reflective wavelength and normalized difference vegetation 
+index continuity, Remote Sensing of Environment. The harmonization is done over OLI bands: 2, 3, 4, 5, 6, and 7, 
+which are renamed to ETM+ bands 1, 2, 3, 4, 5, and 7. The bands are then resample bicublicly then transformed with
+the regression coefficients in calculation: multiply the y-intercept bands by 10000 to match the scale of the L7 
+bands then apply the line equation - subtract the intercept and divide by the slope. Next the output 
+system:time_start is set to the input image time_start otherwise the time metadata is null. Lastly, the image is
+cast to a short data type to match format and returned from the function as a image.
+ 
+filterCollection() -- This function takes 5 parameters: year, startDay, endDay, sensor, aoi. The first four are 
+string and the last is a GEE geometry or GEE feature collection. The year , in a four digit format example '2001',
+pertains to the pyiscal year in which to gather imagery. The startDay and endDay with a format of month-day 
+('08-15') furthere filter the images in the spesified year. The sensor parameter pick with Landsat platform to pool
+images from. The format string for a sensor is as follows: Landsat5 - 'LT05' ,Landsat7 - 'LE07',Landsat8 - 'LC08'.
+Parameter 'aoi' refers to a geometryor feature collection which is the location on which to garther images.
+This function will return an image collection of images for a define sensor, time and location.
+
+removImages() -- 
+  
+buildSensorYearCollection() -- This function takes multipule inputs to return an image collection for a given date 
+in a single year. These inputs are (year, startDay, endDay, sensor, aoi, exclude) and they are all of what they 
+sound. The 'year' on which to garther images, along with the startDay and endDay dates in a format of "08-05" 
+for the 5th of Augest. The sensor parameter pick with Landsat platform to pool images from. The format string for 
+a sensor is as follows: Landsat5 - 'LT05' ,Landsat7 - 'LE07',Landsat8 - 'LC08'. Parameter 'aoi' refers to a geometry
+or feature collection which is the location on which to garther images. the last parameter 'exclude' is a list of 
+Landsat images that will be remove from the image collection. This function also accounts for date times that 
+incorpate a time frame from the end of one year and into a new. This function has two helper function: removeImages()
+and filterCollection()
+
+getSRcollection() -- This function gathers images for a time window less than or equal to a year. Then using 
+harmoniztionRoy() harmonizes any Landsat8 images to Landsat7, and then tries to mask out any of the following image
+contamiates (cloud, snow, shadow and water).Lastly returning a clearer more homogenuous image collection for a 
+sensor. The inputs are (year, startDay, endDay, sensor, aoi, maskThese, exclude) and they are all of what they sound.
+The 'year'on which to garther images, along with the startDay and endDay dates in a format of "08-05" for the 5th 
+of Augest. The sensor parameter pick with Landsat platform to pool images from. The format string for a sensor is as 
+follows: Landsat5 - 'LT05' ,Landsat7 - 'LE07',Landsat8 - 'LC08'. Parameter 'aoi' refers to a geometry or feature 
+collection which is the location on which to garther images. The input maskThese is a list of image masking options
+that are defined as ['cloud', 'shadow', 'snow', 'water']. The last parameter 'exclude' is a list of Landsat images 
+that will be remove from the image collection. This function in includes other function: harmonizationRoy(), 
+filterCollection(), and buildSensorYearCollection().
+
+getCombinedSRcollection() -- This function brings all the image collection together from different sensors for given
+date time with in a year and merges them together. It does this by running getSRcollection() for each sensor, thus 
+the parameter inputs for this fuction are the same as getSRcollection() EXCEPT for the input parameter sensor. Which
+is not a parameter for this functnion. The inputs are (year, startDay, endDay, aoi, maskThese, exclude) and they are all of what they sound.
+The 'year'on which to garther images, along with the startDay and endDay dates in a format of "08-05" for the 5th    
+of Augest. The sensor parameter pick with Landsat platform to pool images from. Parameter 'aoi' refers to a geometry or feature     
+collection which is the location on which to garther images. The input maskThese is a list of image masking options  
+that are defined as ['cloud', 'shadow', 'snow', 'water']. The last parameter 'exclude' is a list of Landsat images   
+that will be remove from the image collection. 
+
+medoidMosaic() -- This function generates a medoid composite from an image collection and a blank image collection 
+(the blank image collection is used to fill no data years). Medoids are representative objects of a data set or a 
+cluster with a data set whose average dissimilarity to all the objects in the cluster is minimal. Medoids are 
+similar in concept to means or centroids, but medoids are always members of the data set. This function takes two 
+input parameters a image collection and a dummy or blank image collection and returns a medoid composite image.
+
+buildMosaic() -- This function applies the medoid compositing meathod to an image collection. It does so by using 
+the getComninedSRcollection() and medoidMosaic(), and returns a medoid image composite for a single year. Since this
+functions uses two other functions the parameters include all the paramter from the other two functions. 
+
+
+buildSRcollection() -- This function brings all the above function together.
