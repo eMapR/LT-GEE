@@ -27,7 +27,7 @@
 // ### VERSION ###
 // #############################################################################
 
-exports.version = '0.1.5';
+exports.version = '0.1.6';
 
 //########################################################################################################
 //##### ANNUAL SR TIME SERIES COLLECTION BUILDING FUNCTIONS ##### 
@@ -912,7 +912,7 @@ var makeRGBcomposite = function(index, startYear, endYear, startDay, endDay, red
   runParams.timeSeries = annualLTcollection;
   var lt = ee.Algorithms.TemporalSegmentation.LandTrendr(runParams);
   var ftvStack = getFittedData(lt, startYear, endYear, index);
-  return ftvStack.select([redYear.toString(),greenYear.toString(),blueYear.toString()]); 
+  return ftvStack.select(["yr_"+redYear.toString(),"yr_"+greenYear.toString(),"yr_"+blueYear.toString()]); 
 };
 
 exports.makeRGBcomposite = makeRGBcomposite;
@@ -1185,7 +1185,7 @@ exports.getSegmentData = getSegmentData;
 // GET A SERIES OF BANDS NAMES AS YEARS
 var getYearBandNames = function(startYear, endYear){
   var years = [];                                                           // make an empty array to hold year band names
-  for (var i = startYear; i <= endYear; ++i) years.push(i.toString()); // fill the array with years from the startYear to the endYear and convert them to string
+  for (var i = startYear; i <= endYear; ++i) years.push("yr_"i.toString()); // fill the array with years from the startYear to the endYear and convert them to string
   return years;
 };
 exports.getYearBandNames = getYearBandNames;
@@ -1250,10 +1250,7 @@ var getFittedRGBcol = function(lt, startYear, endYear, bands, visParams){
   var r = getFittedData(lt, startYear, endYear, bands[0]);
   var g = getFittedData(lt, startYear, endYear, bands[1]);
   var b = getFittedData(lt, startYear, endYear, bands[2]);
-  var years = ee.List.sequence(startYear, endYear);
-  var yearsStr = years.map(function(year){
-    return ee.Algorithms.String(year).slice(0,4);
-  });
+  var yearsStr = ee.List(ltgee.getYearBandNames(startYear, endYear))
   var rgbList = yearsStr.map(function(year){
     return r.select([year]).addBands(g.select([year])).addBands(b.select([year])).rename(['R', 'G', 'B']);
   });
