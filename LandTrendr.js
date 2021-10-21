@@ -92,8 +92,8 @@ exports.buildSensorYearCollection = buildSensorYearCollection
 var getSRcollection = function(year, startDay, endDay, sensor, aoi, maskThese, exclude) {
   // make sure that mask labels are correct
   maskThese = (typeof maskThese !== 'undefined') ?  maskThese : ['cloud','shadow','snow'];
-  var maskOptions = ['cloud', 'shadow', 'snow', 'water'];
-  //var maskOptions = ['cloud', 'shadow', 'snow', 'water', 'waterplus','nonforest']; // add new water and forest mask here Peter Clary 5/20/2020
+  //var maskOptions = ['cloud', 'shadow', 'snow', 'water'];
+  var maskOptions = ['cloud', 'shadow', 'snow', 'water', 'waterplus','nonforest']; // add new water and forest mask here Peter Clary 5/20/2020
   for(var i in maskThese){
     maskThese[i] =  maskThese[i].toLowerCase();
     var test = maskOptions.indexOf(maskThese[i]);
@@ -120,23 +120,23 @@ var getSRcollection = function(year, startDay, endDay, sensor, aoi, maskThese, e
     );
     
     //// makes a global forest mask
-    // var forCol = ee.ImageCollection("COPERNICUS/Landcover/100m/Proba-V/Global"); //PETER ADD
-    // var imgFor = forCol.toBands(); //PETER ADD
-    // var forestimage = imgFor.select('2015_forest_type') //PETER ADD
+    var forCol = ee.ImageCollection("COPERNICUS/Landcover/100m/Proba-V/Global"); //PETER ADD
+    var imgFor = forCol.toBands(); //PETER ADD
+    var forestimage = imgFor.select('2015_forest_type') //PETER ADD
     
-    //// Computes the forest mask into a binary using an expression.
-    // var selectedForests = forestimage.expression( //PETER ADD
-    //     'Band >= 0 ? 1 : 0', { //PETER ADD
-    //       'Band': forestimage //PETER ADD
-    // }).clip(aoi); //PETER ADD
+    // Computes the forest mask into a binary using an expression.
+    var selectedForests = forestimage.expression( //PETER ADD
+         'Band >= 0 ? 1 : 0', { //PETER ADD
+           'Band': forestimage //PETER ADD
+    }).clip(aoi); //PETER ADD
     
     ////makes a global water mask
-    // var MappedWater = ee.Image("JRC/GSW1_1/GlobalSurfaceWater"); //PETER ADD
+     var MappedWater = ee.Image("JRC/GSW1_1/GlobalSurfaceWater"); //PETER ADD
     //// calculates water persistence 0 to 100 //PETER ADD
-    // var MappedWaterBinary = MappedWater.expression( //PETER ADD 
-    //   'band > 99 ? 0 :  1  ', { //PETER ADD
-    //     'band': MappedWater.select('recurrence') //PETER ADD
-    // }).clip(aoi); //PETER ADD
+    var MappedWaterBinary = MappedWater.expression( //PETER ADD 
+      'band > 99 ? 0 :  1  ', { //PETER ADD
+        'band': MappedWater.select('recurrence') //PETER ADD
+    }).clip(aoi); //PETER ADD
     
     
     var mask = ee.Image(1);
@@ -148,8 +148,8 @@ var getSRcollection = function(year, startDay, endDay, sensor, aoi, maskThese, e
         if(maskThese[i] == 'snow'){mask = qa.bitwiseAnd(16).eq(0).multiply(mask)}
         if(maskThese[i] == 'cloud'){mask = qa.bitwiseAnd(32).eq(0).multiply(mask)} 
         // added masked options for the UI
-        //if(maskThese[i] == 'waterplus'){mask = mask.mask(MappedWaterBinary)} //PETER ADD
-        //if(maskThese[i] == 'nonforest'){mask = mask.mask(selectedForests)} // PETER ADD
+        if(maskThese[i] == 'waterplus'){mask = mask.mask(MappedWaterBinary)} //PETER ADD
+        if(maskThese[i] == 'nonforest'){mask = mask.mask(selectedForests)} // PETER ADD
       }
       return dat.mask(mask); //apply the mask - 0's in mask will be excluded from computation and set to opacity=0 in display
     } else{
