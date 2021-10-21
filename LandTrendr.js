@@ -93,6 +93,7 @@ var getSRcollection = function(year, startDay, endDay, sensor, aoi, maskThese, e
   // make sure that mask labels are correct
   maskThese = (typeof maskThese !== 'undefined') ?  maskThese : ['cloud','shadow','snow'];
   var maskOptions = ['cloud', 'shadow', 'snow', 'water'];
+  //var maskOptions = ['cloud', 'shadow', 'snow', 'water', 'waterplus','nonforest']; // add new water and forest mask here Peter Clary 5/20/2020
   for(var i in maskThese){
     maskThese[i] =  maskThese[i].toLowerCase();
     var test = maskOptions.indexOf(maskThese[i]);
@@ -113,16 +114,30 @@ var getSRcollection = function(year, startDay, endDay, sensor, aoi, maskThese, e
         harmonizationRoy(img.unmask()),                                    // true - then apply the L8 TO L7 alignment function after unmasking pixels that were previosuly masked (why/when are pixels masked)
         img.select(['B1', 'B2', 'B3', 'B4', 'B5', 'B7'])                   // false - else select out the reflectance bands from the non-OLI image
            .unmask()                                                       // ...unmask any previously masked pixels 
-           .resample('bicubic')                                            // ...resample by bicubic 
+           //.resample('bicubic')                                            // ...resample by bicubic 
            .set('system:time_start', img.get('system:time_start'))         // ...set the output system:time_start metadata to the input image time_start otherwise it is null
       )
     );
     
-//    // make a cloud, cloud shadow, and snow mask from fmask band
-//    var qa = img.select('pixel_qa');                                       // select out the fmask band
-//    var mask = qa.bitwiseAnd(8).eq(0).and(                                 // include shadow
-//               qa.bitwiseAnd(16).eq(0)).and(                               // include snow
-//               qa.bitwiseAnd(32).eq(0));                                   // include clouds
+    //// makes a global forest mask
+    // var forCol = ee.ImageCollection("COPERNICUS/Landcover/100m/Proba-V/Global"); //PETER ADD
+    // var imgFor = forCol.toBands(); //PETER ADD
+    // var forestimage = imgFor.select('2015_forest_type') //PETER ADD
+    
+    //// Computes the forest mask into a binary using an expression.
+    // var selectedForests = forestimage.expression( //PETER ADD
+    //     'Band >= 0 ? 1 : 0', { //PETER ADD
+    //       'Band': forestimage //PETER ADD
+    // }).clip(aoi); //PETER ADD
+    
+    ////makes a global water mask
+    // var MappedWater = ee.Image("JRC/GSW1_1/GlobalSurfaceWater"); //PETER ADD
+    //// calculates water persistence 0 to 100 //PETER ADD
+    // var MappedWaterBinary = MappedWater.expression( //PETER ADD 
+    //   'band > 99 ? 0 :  1  ', { //PETER ADD
+    //     'band': MappedWater.select('recurrence') //PETER ADD
+    // }).clip(aoi); //PETER ADD
+    
     
     var mask = ee.Image(1);
     if(maskThese.length !== 0){
@@ -132,6 +147,9 @@ var getSRcollection = function(year, startDay, endDay, sensor, aoi, maskThese, e
         if(maskThese[i] == 'shadow'){mask = qa.bitwiseAnd(8).eq(0).multiply(mask)} 
         if(maskThese[i] == 'snow'){mask = qa.bitwiseAnd(16).eq(0).multiply(mask)}
         if(maskThese[i] == 'cloud'){mask = qa.bitwiseAnd(32).eq(0).multiply(mask)} 
+        // added masked options for the UI
+        //if(maskThese[i] == 'waterplus'){mask = mask.mask(MappedWaterBinary)} //PETER ADD
+        //if(maskThese[i] == 'nonforest'){mask = mask.mask(selectedForests)} // PETER ADD
       }
       return dat.mask(mask); //apply the mask - 0's in mask will be excluded from computation and set to opacity=0 in display
     } else{
