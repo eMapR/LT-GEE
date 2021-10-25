@@ -1,7 +1,7 @@
 # UI Applications
 
 We have developed a few UI applications for exploring LT-GEE time series data. They can be found in our public GEE repository.
-To access the applications, visit this URL: https://code.earthengine.google.com/?accept_repo=users/emaprlab/public). It will add the ***users/emaprlab/public*** repository to your GEE account. Once added, the repository can be found within the ***Reader*** permission group of your GEE scripts library. There you'll find the following user interface applications.
+To access the applications, visit this URL: https://code.earthengine.google.com/?accept_repo=users/emaprlab/public). It will add the ***users/emaprlab/public*** repository to your GEE account. Once added, the repository can be found within the ***Reader*** permission group of your GEE scripts library. There you'll find the following user interface applications that run as GEE Apps (i.e. do not require you load and run a script).
 
 
 
@@ -13,6 +13,10 @@ To access the applications, visit this URL: https://code.earthengine.google.com/
 + **[UI LandTrendr Time Series Animator]** | [link](https://emaprlab.users.earthengine.app/view/lt-gee-time-series-animator) | make an animated GIF from a 
 LandTrendr FTV annual time series
 
+Additionally, we have developed a script-based UI tool that combines many of the aforementioned functions, plus adds functionality to some of the components. 
++ **[LandTrendr Data Visualization and Download Tool]** | [link](https://code.earthengine.google.com/195862e57331e11566e8a0db7e28538c)
+
+*Note:  The link above is static.  To access the most up-to-date version of the script, from your GEE interface open the script **users/emaprlab/public:LT-data-download/LT-Data-Visualization-Download-App_v1.0*
 
 
 ## UI LandTrendr Pixel Time Series Plotter
@@ -142,7 +146,6 @@ The following figure is a guide to help interpret the colors.
 
 <br><br><br>
 
-
 ## UI LandTrendr Time Series Animator
 
 [GEE App link](https://emaprlab.users.earthengine.app/view/lt-gee-time-series-animator)
@@ -168,3 +171,22 @@ The *UI LandTrendr Time Series Animator* will make an animated GIF from a Landsa
 
 This application uses a modified version of a drawing tool originally developed by Gennadii Donchyts.
 <br><br><br>
+
+
+## UI LandTrendr Visualilzation and Download Tool
+
++ **[LandTrendr Data Visualization and Download Tool]** | [link](https://code.earthengine.google.com/195862e57331e11566e8a0db7e28538c)
+
+*Note:  The link above is static.  To access the most up-to-date version of the script, from your GEE interface open the script **users/emaprlab/public:LT-data-download/LT-Data-Visualization-Download-App_v1.0*
+
+
+
+### Steps
+
+1. In your own GEE session, navigate to the "Reader" section of your scripts and open the file "users/emaprlab/public:LT-data-download/LT-Data-Visualization-Download-App_v1.0"
+2. Run the app (click the "Run" button)
+3. There are components to this UI for pixel time-series, RGB image generation, and change mapping. Expand the section you want, set parameters using steps similar to those listed above, and submit them.  
+4. If you generate a map or image, you can subsequently switch back to the pixel-mode and query the time-series of individual pixels.  This is useful for evaluating if you've chosen parameters for the mapping well. 
+5. You can also download outputs from the maps, and point to your own vector-based assets to constrain analysis. 
+
+
