@@ -1,13 +1,12 @@
 <!DOCTYPE html>
-<html >
-
+<html lang="" xml:lang="">
 <head>
 
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>3 LT-GEE Requirements | LT-GEE Guide</title>
-  <meta name="description" content="3 LT-GEE Requirements | LT-GEE Guide">
-  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+  <meta name="description" content="3 LT-GEE Requirements | LT-GEE Guide" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
   <meta property="og:title" content="3 LT-GEE Requirements | LT-GEE Guide" />
   <meta property="og:type" content="book" />
@@ -25,21 +24,22 @@
 
 
 
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
-  <link rel="shortcut icon" href="imgs/favicon.ico" type="image/x-icon">
-<link rel="prev" href="landtrendr.html">
-<link rel="next" href="running-lt-gee.html">
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+  <link rel="shortcut icon" href="imgs/favicon.ico" type="image/x-icon" />
+<link rel="prev" href="landtrendr.html"/>
+<link rel="next" href="running-lt-gee.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
-
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
 
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-120674089-1"></script>
@@ -56,43 +56,73 @@ gtag('config', 'UA-120674089-1');
 
 
 
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+
+
 <style type="text/css">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code > span.dt { color: #902000; } /* DataType */
-code > span.dv { color: #40a070; } /* DecVal */
-code > span.bn { color: #40a070; } /* BaseN */
-code > span.fl { color: #40a070; } /* Float */
-code > span.ch { color: #4070a0; } /* Char */
-code > span.st { color: #4070a0; } /* String */
-code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code > span.ot { color: #007020; } /* Other */
-code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code > span.fu { color: #06287e; } /* Function */
-code > span.er { color: #ff0000; font-weight: bold; } /* Error */
-code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-code > span.cn { color: #880000; } /* Constant */
-code > span.sc { color: #4070a0; } /* SpecialChar */
-code > span.vs { color: #4070a0; } /* VerbatimString */
-code > span.ss { color: #bb6688; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { color: #19177c; } /* Variable */
-code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code > span.op { color: #666666; } /* Operator */
-code > span.bu { } /* BuiltIn */
-code > span.ex { } /* Extension */
-code > span.pp { color: #bc7a00; } /* Preprocessor */
-code > span.at { color: #7d9029; } /* Attribute */
-code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
+
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -158,6 +188,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="8.4.1" data-path="ui-applications.html"><a href="ui-applications.html#steps-3"><i class="fa fa-check"></i><b>8.4.1</b> Steps</a></li>
 <li class="chapter" data-level="8.4.2" data-path="ui-applications.html"><a href="ui-applications.html#credit"><i class="fa fa-check"></i><b>8.4.2</b> Credit</a></li>
 </ul></li>
+<li class="chapter" data-level="8.5" data-path="ui-applications.html"><a href="ui-applications.html#ui-landtrendr-visualilzation-and-download-tool"><i class="fa fa-check"></i><b>8.5</b> UI LandTrendr Visualilzation and Download Tool</a><ul>
+<li class="chapter" data-level="8.5.1" data-path="ui-applications.html"><a href="ui-applications.html#steps-4"><i class="fa fa-check"></i><b>8.5.1</b> Steps</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="9" data-path="api.html"><a href="api.html"><i class="fa fa-check"></i><b>9</b> API</a><ul>
 <li class="chapter" data-level="9.1" data-path="api.html"><a href="api.html#functions"><i class="fa fa-check"></i><b>9.1</b> Functions</a><ul>
@@ -221,7 +254,11 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </ol>
 <div id="image-collection" class="section level2">
 <h2><span class="header-section-number">3.1</span> Image Collection</h2>
-<p>The image data composing a collection needs to represent an observation that is consistent through time. It should not include noise from atmosphere, clouds and shadows, sensor differences, or other anomalies. The annual changes in a time series should be the result of changes in the physical features of a landscape. The examples, GUIs, and API functions in this guide use the <em>USGS Landsat Surface Reflectance Tier 1</em> data sets. These data have been atmospherically corrected, and include a cloud, shadow, water and snow mask produced using <a href="https://www.sciencedirect.com/science/article/pii/S0034425714005069">CFMASK</a>.</p>
+<p>The image data composing a collection needs to represent an observation that is consistent through time. It should not include noise from
+atmosphere, clouds and shadows, sensor differences, or other anomalies. The annual changes in a time series should be the result of
+changes in the physical features of a landscape. The examples, GUIs, and API functions in this guide use the <em>USGS Landsat Surface Reflectance Tier 1</em> data sets.
+These data have been atmospherically corrected, and include a cloud, shadow, water and snow mask produced
+using <a href="https://www.sciencedirect.com/science/article/pii/S0034425714005069">CFMASK</a>.</p>
 <p>GEE ImageCollection IDs for USGS Landsat Surface Reflectance</p>
 <ul>
 <li>Landsat 5: LANDSAT/LT05/C01/T1_SR</li>
@@ -229,16 +266,32 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li>Landsat 8: LANDSAT/LC08/C01/T1_SR</li>
 </ul>
 <p>Although we use Landsat surface reflectance bands and spectral indices, be creative and try other data such as probability of a certain cover type, predicted percent cover of some cover type, other earth observation sources, etc. LandTrendr does not care what the data are, it will simply reduce the provided time series to a small number of segments and record information about when the signal changes.</p>
-<p>The collection must include only one observation per year. However, because clouds are often present in any given image, it is best to retrieve multiple images for a season, mask out clouds and cloud shadows from each, and then create a composite of those images so that you have reasonable annual spatial coverage of clear-view pixels. The best-pixel-compositing method you apply is up to you. We have used nearness to a target day-of-year and also medoid compositing, we prefer the later and include it in the provided <a href="https://emapr.github.io/LT-GEE/example-scripts.html">examples</a>. LandTrendr will segment the first band in the image collection and generate annual fitted-to-vertex (FTV) data for each subsequent band. Consequently, you need to manipulate your collection so that the band or spectral index you want segmented is the first band, and any additional bands you want fitted to vertices should follow. The band or index you select for segmentation should be based on an informed decision weighted by the sensitivity of it to change in the conditions of the landscape you are working with. The best spectral representation of change can be different for shrubs vs trees vs conifers vs deciduous etc. We have found SWIR bands, and indices leveraging them, to be generally quite sensitive to change, but we also know that it is highly variable. You should try segmenting on several bands or indices to see what works best. We also recommend trying a few different date windows and widths for generating annual composites.</p>
+<p>The collection must include only one observation per year. However, because clouds are often present in any given image, it
+is best to retrieve multiple images for a season, mask out clouds and cloud shadows from each, and then create a composite of
+those images so that you have reasonable annual spatial coverage of clear-view pixels. The best-pixel-compositing method you
+apply is up to you. We have used nearness to a target day-of-year and also medoid compositing, we prefer the later and include
+it in the provided <a href="https://emapr.github.io/LT-GEE/example-scripts.html">examples</a>. LandTrendr will segment the first band in the image collection and generate annual fitted-to-vertex (FTV) data for each subsequent band. Consequently, you need to manipulate your collection so that the band or spectral index you
+want segmented is the first band, and any additional bands you want fitted to vertices should follow. The band or index you select for segmentation should
+be based on an informed decision weighted by the sensitivity of it to change in the conditions of the landscape you are working with. The best spectral representation of change can be different for
+shrubs vs trees vs conifers vs deciduous etc. We have found SWIR bands, and indices leveraging them, to be generally quite sensitive to change, but we also
+know that it is highly variable. You should try segmenting on several bands or indices to see what works best. We also recommend trying a few different date windows and widths for generating annual composites.</p>
 <p>In the <a href="https://emapr.github.io/LT-GEE/example-scripts.html">example scripts</a> provided, we composite image dates for the northern hemisphere growing season (mid-June through mid-September), which seems to work pretty well for 25-50 degrees latitude. Folks working in the southern hemisphere will need to modify the example scripts if you are to include images from your growing season, since it crosses the new year: December 2016 through February 2017, for example. You’ll also have to deal with how to label the year of the annual image composite - should it be the former or later year of the growing season composite?</p>
-<p><a id='importantsteps'></a><strong>Two really important steps</strong> in image collection building include 1) masking cloud and cloud shadow pixels during annual image compositing and to 2) ensure that the spectral band or index that is to be segmented is oriented so that vegetation loss is represented by a positive delta. For instance, NBR in its native orientation results in a negative delta when vegetation is lost from one observation to the next. In this case, NBR must be multiplied by -1 before being segmented. Conversely, if Landsat TM band 5 (SWIR) is selected for segmentation, inversion of the spectral values is not required, since natively, vegetation loss is represented by a positive delta.</p>
+<p><a id='importantsteps'></a><strong>Two really important steps</strong> in image collection building include 1) masking cloud and cloud shadow pixels during annual image compositing and to 2) ensure that the spectral band or index that is
+to be segmented is oriented so that vegetation loss is represented by a positive delta. For instance, NBR in its native orientation results in a negative delta when vegetation is lost from one observation to the next. In this case, NBR must be multiplied by -1 before being segmented. Conversely, if Landsat TM band 5 (SWIR) is selected for segmentation, inversion of the spectral values is not required, since natively, vegetation loss is represented by a positive delta.</p>
 <p>Note that within the API we provide functions to build annual Landsat surface reflectance collections and convert them to collections formatted for use by LandTrendr. See the <code>buildSRcollection</code> and <code>buildLTcollection</code> functions in the <a href="./api.html#functions">API Functions</a> section.</p>
 </div>
 <div id="lt-parameters" class="section level2">
 <h2><span class="header-section-number">3.2</span> LT parameters</h2>
-<p>The LT-GEE function takes 9 arguments: 8 control parameters that adjust how spectral-temporal segmentation is done, and the annual image collection. The original LandTrendr <a href="https://larse.forestry.oregonstate.edu/sites/larse/files/pub_pdfs/Cohen_etal_2010.pdf">paper</a> describes the effect and sensitivity of changing some of these argument values. We recommend trying variations in settings to see what works best for the environment you are working in. One of the great things about having LT in GEE is that parameter settings are easy and fast to iterate through to find a best set. <br><br></p>
+<p>The LT-GEE function takes 9 arguments: 8 control parameters that adjust how spectral-temporal segmentation is done, and the annual image collection. The original LandTrendr <a href="https://larse.forestry.oregonstate.edu/sites/larse/files/pub_pdfs/Cohen_etal_2010.pdf">paper</a> describes the effect and sensitivity of changing some of these argument values. We recommend trying variations in settings to see what works best for the environment you are working in. One of the great things about having LT in GEE is that parameter settings are easy and fast to iterate through to find a best set.
+<br><br></p>
 <table>
 <caption><span id="tab:nice-tab">Table 3.1: </span>LandTrendr parameters</caption>
+<colgroup>
+<col width="8%" />
+<col width="6%" />
+<col width="3%" />
+<col width="81%" />
+</colgroup>
 <thead>
 <tr class="header">
 <th align="left">Parameter</th>
@@ -317,12 +370,13 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
 <script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
@@ -330,12 +384,13 @@ gitbook.start({
 "github": true,
 "facebook": false,
 "twitter": false,
-"google": false,
 "linkedin": false,
 "weibo": false,
 "instapaper": false,
 "vk": false,
+"whatsapp": false,
 "all": false,
+"google": false,
 "instapper": false
 },
 "fontsettings": {
@@ -351,7 +406,15 @@ gitbook.start({
 "link": null,
 "text": null
 },
+"view": {
+"link": null,
+"text": null
+},
 "download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
 "toc": {
 "collapse": "section"
 }

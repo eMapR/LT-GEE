@@ -1,13 +1,12 @@
 <!DOCTYPE html>
-<html >
-
+<html lang="" xml:lang="">
 <head>
 
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>5 LT-GEE Outputs | LT-GEE Guide</title>
-  <meta name="description" content="5 LT-GEE Outputs | LT-GEE Guide">
-  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+  <meta name="description" content="5 LT-GEE Outputs | LT-GEE Guide" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
   <meta property="og:title" content="5 LT-GEE Outputs | LT-GEE Guide" />
   <meta property="og:type" content="book" />
@@ -25,21 +24,22 @@
 
 
 
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
-  <link rel="shortcut icon" href="imgs/favicon.ico" type="image/x-icon">
-<link rel="prev" href="running-lt-gee.html">
-<link rel="next" href="working-with-outputs.html">
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+  <link rel="shortcut icon" href="imgs/favicon.ico" type="image/x-icon" />
+<link rel="prev" href="running-lt-gee.html"/>
+<link rel="next" href="working-with-outputs.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
-
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
 
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-120674089-1"></script>
@@ -56,43 +56,73 @@ gtag('config', 'UA-120674089-1');
 
 
 
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+
+
 <style type="text/css">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code > span.dt { color: #902000; } /* DataType */
-code > span.dv { color: #40a070; } /* DecVal */
-code > span.bn { color: #40a070; } /* BaseN */
-code > span.fl { color: #40a070; } /* Float */
-code > span.ch { color: #4070a0; } /* Char */
-code > span.st { color: #4070a0; } /* String */
-code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code > span.ot { color: #007020; } /* Other */
-code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code > span.fu { color: #06287e; } /* Function */
-code > span.er { color: #ff0000; font-weight: bold; } /* Error */
-code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-code > span.cn { color: #880000; } /* Constant */
-code > span.sc { color: #4070a0; } /* SpecialChar */
-code > span.vs { color: #4070a0; } /* VerbatimString */
-code > span.ss { color: #bb6688; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { color: #19177c; } /* Variable */
-code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code > span.op { color: #666666; } /* Operator */
-code > span.bu { } /* BuiltIn */
-code > span.ex { } /* Extension */
-code > span.pp { color: #bc7a00; } /* Preprocessor */
-code > span.at { color: #7d9029; } /* Attribute */
-code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
+
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -157,6 +187,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="8.4" data-path="ui-applications.html"><a href="ui-applications.html#ui-landtrendr-time-series-animator"><i class="fa fa-check"></i><b>8.4</b> UI LandTrendr Time Series Animator</a><ul>
 <li class="chapter" data-level="8.4.1" data-path="ui-applications.html"><a href="ui-applications.html#steps-3"><i class="fa fa-check"></i><b>8.4.1</b> Steps</a></li>
 <li class="chapter" data-level="8.4.2" data-path="ui-applications.html"><a href="ui-applications.html#credit"><i class="fa fa-check"></i><b>8.4.2</b> Credit</a></li>
+</ul></li>
+<li class="chapter" data-level="8.5" data-path="ui-applications.html"><a href="ui-applications.html#ui-landtrendr-visualilzation-and-download-tool"><i class="fa fa-check"></i><b>8.5</b> UI LandTrendr Visualilzation and Download Tool</a><ul>
+<li class="chapter" data-level="8.5.1" data-path="ui-applications.html"><a href="ui-applications.html#steps-4"><i class="fa fa-check"></i><b>8.5.1</b> Steps</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="9" data-path="api.html"><a href="api.html"><i class="fa fa-check"></i><b>9</b> API</a><ul>
@@ -223,24 +256,29 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li>Complete time series FTV values for additional bands in the collection greater than band 1; y-axis values in 2-D spectral-temporal space; (optional)</li>
 </ul>
 <p><img src='imgs/outputs_series.png'></p>
-<p><em>Fig 5.1. A visual diagram of what data are returned from LT-GEE. Every legend item is returned as an output.</em> <br><br><br></p>
+<p><em>Fig 5.1. A visual diagram of what data are returned from LT-GEE. Every legend item is returned as an output.</em>
+<br><br><br></p>
 <p>The results of LT-GEE are not immediately ready for analysis, display, or export as maps of change or fitted time series data. Think of each pixel as a bundle of data that needs to be unpacked. The packaging of the data per pixel is similar to a nested list in Python or R. The primary list looks something like this:</p>
 <pre><code>[[Annual Segmentation Info], Fitting RMSE, [Fitted Time Series n]]</code></pre>
 <p>In the GEE construct, this primary list is an image with at least 2 bands, one that contains annual segmentation information and one that contains the RMSE of the segmentation fit. Additionally, if the input image collection to LT-GEE contained more than one band, then each band following the first will be represented as a spectrally fitted annual series (Fig 5.2 and Fig 5.3).</p>
-<p><img src='imgs/lt_outputs.png'><br> <em>Fig 5.2. The results of LT-GEE are essentially a list of lists per pixel that describe segmentation and optionally provide fitted annual spectral data (FTV). The output is delivered as a GEE image with at least 2 bands, one that contains annual segmentation information and one that contains the RMSE of the segmentation fit. Additionally, if the input image collection to LT-GEE contained more than one band, then each band following the first will be represented as a spectrally fitted annual series (FTV).</em> <br><br></p>
-<p><img src='imgs/print_results.png'><br> <em>Fig 5.3. The results of LT-GEE printed to the GEE console. The ‘LandTrendr’ and ‘rmse’ are included by default, ‘B4_fit’ is included because Landsat TM/+ETM band 4 (B4) was included as the second band in the input collection.</em> <br><br><br></p>
+<p><img src='imgs/lt_outputs.png'><br>
+<em>Fig 5.2. The results of LT-GEE are essentially a list of lists per pixel that describe segmentation and optionally provide fitted annual spectral data (FTV). The output is delivered as a GEE image with at least 2 bands, one that contains annual segmentation information and one that contains the RMSE of the segmentation fit. Additionally, if the input image collection to LT-GEE contained more than one band, then each band following the first will be represented as a spectrally fitted annual series (FTV).</em>
+<br><br></p>
+<p><img src='imgs/print_results.png'><br>
+<em>Fig 5.3. The results of LT-GEE printed to the GEE console. The ‘LandTrendr’ and ‘rmse’ are included by default, ‘B4_fit’ is included because Landsat TM/+ETM band 4 (B4) was included as the second band in the input collection.</em>
+<br><br><br></p>
 <div id="landtrendr-band" class="section level2">
 <h2><span class="header-section-number">5.1</span> LandTrendr Band</h2>
 <p>The ‘LandTrendr’ band is a 4 x nYears dimension array. You can subset it like this:</p>
-<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> LTresult <span class="op">=</span> <span class="va">ee</span>.<span class="va">Algorithms</span>.<span class="va">TemporalSegmentation</span>.<span class="at">LandTrendr</span>(run_params)<span class="op">;</span> <span class="co">// run LT-GEE</span>
-<span class="kw">var</span> segmentationInfo <span class="op">=</span> <span class="va">LTresult</span>.<span class="at">select</span>([<span class="st">&#39;LandTrendr&#39;</span>])<span class="op">;</span> <span class="co">// subset the LandTrendr segmentation info</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw">var</span> LTresult <span class="op">=</span> <span class="va">ee</span>.<span class="va">Algorithms</span>.<span class="va">TemporalSegmentation</span>.<span class="at">LandTrendr</span>(run_params)<span class="op">;</span> <span class="co">// run LT-GEE</span></a>
+<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="kw">var</span> segmentationInfo <span class="op">=</span> <span class="va">LTresult</span>.<span class="at">select</span>([<span class="st">&#39;LandTrendr&#39;</span>])<span class="op">;</span> <span class="co">// subset the LandTrendr segmentation info</span></a></code></pre></div>
 <p>It contains 4 rows and as many columns as there are annual observations for a given pixel through the time series. The 2-D ‘LandTrendr’ annual segmentation array looks like this:</p>
-<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript">[
-  [<span class="dv">1985</span><span class="op">,</span> <span class="dv">1986</span><span class="op">,</span> <span class="dv">1987</span><span class="op">,</span> <span class="dv">1988</span><span class="op">,</span> <span class="dv">1989</span><span class="op">,</span> <span class="dv">1990</span><span class="op">,</span> <span class="dv">1991</span><span class="op">,</span> <span class="dv">1992</span><span class="op">,</span> <span class="dv">1993</span><span class="op">,</span> <span class="dv">1994</span><span class="op">,</span> <span class="dv">1995</span><span class="op">,</span> <span class="dv">1996</span><span class="op">,</span> <span class="dv">1997</span><span class="op">,</span> ...] <span class="co">// Year list </span>
-  [ <span class="dv">811</span><span class="op">,</span>  <span class="dv">809</span><span class="op">,</span>  <span class="dv">821</span><span class="op">,</span>  <span class="dv">813</span><span class="op">,</span>  <span class="dv">836</span><span class="op">,</span>  <span class="dv">834</span><span class="op">,</span>  <span class="dv">833</span><span class="op">,</span>  <span class="dv">818</span><span class="op">,</span>  <span class="dv">826</span><span class="op">,</span>  <span class="dv">820</span><span class="op">,</span>  <span class="dv">765</span><span class="op">,</span>  <span class="dv">827</span><span class="op">,</span>  <span class="dv">775</span><span class="op">,</span> ...] <span class="co">// Source list</span>
-  [ <span class="dv">827</span><span class="op">,</span>  <span class="dv">825</span><span class="op">,</span>  <span class="dv">823</span><span class="op">,</span>  <span class="dv">821</span><span class="op">,</span>  <span class="dv">819</span><span class="op">,</span>  <span class="dv">817</span><span class="op">,</span>  <span class="dv">814</span><span class="op">,</span>  <span class="dv">812</span><span class="op">,</span>  <span class="dv">810</span><span class="op">,</span>  <span class="dv">808</span><span class="op">,</span>  <span class="dv">806</span><span class="op">,</span>  <span class="dv">804</span><span class="op">,</span>  <span class="dv">802</span><span class="op">,</span> ...] <span class="co">// Fitted list</span>
-  [   <span class="dv">1</span><span class="op">,</span>    <span class="dv">0</span><span class="op">,</span>    <span class="dv">0</span><span class="op">,</span>    <span class="dv">0</span><span class="op">,</span>    <span class="dv">0</span><span class="op">,</span>    <span class="dv">0</span><span class="op">,</span>    <span class="dv">0</span><span class="op">,</span>    <span class="dv">0</span><span class="op">,</span>    <span class="dv">0</span><span class="op">,</span>    <span class="dv">0</span><span class="op">,</span>    <span class="dv">0</span><span class="op">,</span>    <span class="dv">0</span><span class="op">,</span>    <span class="dv">1</span><span class="op">,</span> ...] <span class="co">// Is Vertex list</span>
-]</code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb9-1" data-line-number="1">[</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2">  [<span class="dv">1985</span><span class="op">,</span> <span class="dv">1986</span><span class="op">,</span> <span class="dv">1987</span><span class="op">,</span> <span class="dv">1988</span><span class="op">,</span> <span class="dv">1989</span><span class="op">,</span> <span class="dv">1990</span><span class="op">,</span> <span class="dv">1991</span><span class="op">,</span> <span class="dv">1992</span><span class="op">,</span> <span class="dv">1993</span><span class="op">,</span> <span class="dv">1994</span><span class="op">,</span> <span class="dv">1995</span><span class="op">,</span> <span class="dv">1996</span><span class="op">,</span> <span class="dv">1997</span><span class="op">,</span> ...] <span class="co">// Year list </span></a>
+<a class="sourceLine" id="cb9-3" data-line-number="3">  [ <span class="dv">811</span><span class="op">,</span>  <span class="dv">809</span><span class="op">,</span>  <span class="dv">821</span><span class="op">,</span>  <span class="dv">813</span><span class="op">,</span>  <span class="dv">836</span><span class="op">,</span>  <span class="dv">834</span><span class="op">,</span>  <span class="dv">833</span><span class="op">,</span>  <span class="dv">818</span><span class="op">,</span>  <span class="dv">826</span><span class="op">,</span>  <span class="dv">820</span><span class="op">,</span>  <span class="dv">765</span><span class="op">,</span>  <span class="dv">827</span><span class="op">,</span>  <span class="dv">775</span><span class="op">,</span> ...] <span class="co">// Source list</span></a>
+<a class="sourceLine" id="cb9-4" data-line-number="4">  [ <span class="dv">827</span><span class="op">,</span>  <span class="dv">825</span><span class="op">,</span>  <span class="dv">823</span><span class="op">,</span>  <span class="dv">821</span><span class="op">,</span>  <span class="dv">819</span><span class="op">,</span>  <span class="dv">817</span><span class="op">,</span>  <span class="dv">814</span><span class="op">,</span>  <span class="dv">812</span><span class="op">,</span>  <span class="dv">810</span><span class="op">,</span>  <span class="dv">808</span><span class="op">,</span>  <span class="dv">806</span><span class="op">,</span>  <span class="dv">804</span><span class="op">,</span>  <span class="dv">802</span><span class="op">,</span> ...] <span class="co">// Fitted list</span></a>
+<a class="sourceLine" id="cb9-5" data-line-number="5">  [   <span class="dv">1</span><span class="op">,</span>    <span class="dv">0</span><span class="op">,</span>    <span class="dv">0</span><span class="op">,</span>    <span class="dv">0</span><span class="op">,</span>    <span class="dv">0</span><span class="op">,</span>    <span class="dv">0</span><span class="op">,</span>    <span class="dv">0</span><span class="op">,</span>    <span class="dv">0</span><span class="op">,</span>    <span class="dv">0</span><span class="op">,</span>    <span class="dv">0</span><span class="op">,</span>    <span class="dv">0</span><span class="op">,</span>    <span class="dv">0</span><span class="op">,</span>    <span class="dv">1</span><span class="op">,</span> ...] <span class="co">// Is Vertex list</span></a>
+<a class="sourceLine" id="cb9-6" data-line-number="6">]</a></code></pre></div>
 <ul>
 <li>Row 1 is the observation year.<br></li>
 <li>Row 2 is the observation value corresponding to the year in row 1, it is equal to the first band in the input collection.<br></li>
@@ -248,28 +286,28 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li>Row 4 is a Boolean value indicating whether an observation was identified as a vertex.</li>
 </ul>
 <p>You can extract a row using the GEE <code>arraySlice</code> function. Here is an example of extracting the year and fitted value rows as separate lists:</p>
-<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> LTresult <span class="op">=</span> <span class="va">ee</span>.<span class="va">Algorithms</span>.<span class="va">TemporalSegmentation</span>.<span class="at">LandTrendr</span>(run_params)<span class="op">;</span> <span class="co">// run LT-GEE</span>
-<span class="kw">var</span> LTarray <span class="op">=</span> <span class="va">LTresult</span>.<span class="at">select</span>([<span class="st">&#39;LandTrendr&#39;</span>])<span class="op">;</span> <span class="co">// subset the LandTrendr segmentation info</span>
-<span class="kw">var</span> year <span class="op">=</span> <span class="va">LTarray</span>.<span class="at">arraySlice</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">1</span>)<span class="op">;</span> <span class="co">// slice out the year row</span>
-<span class="kw">var</span> fitted <span class="op">=</span> <span class="va">LTarray</span>.<span class="at">arraySlice</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span>)<span class="op">;</span> <span class="co">// slice out the fitted values row</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw">var</span> LTresult <span class="op">=</span> <span class="va">ee</span>.<span class="va">Algorithms</span>.<span class="va">TemporalSegmentation</span>.<span class="at">LandTrendr</span>(run_params)<span class="op">;</span> <span class="co">// run LT-GEE</span></a>
+<a class="sourceLine" id="cb10-2" data-line-number="2"><span class="kw">var</span> LTarray <span class="op">=</span> <span class="va">LTresult</span>.<span class="at">select</span>([<span class="st">&#39;LandTrendr&#39;</span>])<span class="op">;</span> <span class="co">// subset the LandTrendr segmentation info</span></a>
+<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="kw">var</span> year <span class="op">=</span> <span class="va">LTarray</span>.<span class="at">arraySlice</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">1</span>)<span class="op">;</span> <span class="co">// slice out the year row</span></a>
+<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="kw">var</span> fitted <span class="op">=</span> <span class="va">LTarray</span>.<span class="at">arraySlice</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span>)<span class="op">;</span> <span class="co">// slice out the fitted values row</span></a></code></pre></div>
 <p>The GEE <code>arraySlice</code> function takes the dimension you want to subset and the start and end points along the dimension to extract as inputs.</p>
 </div>
 <div id="rmse" class="section level2">
 <h2><span class="header-section-number">5.2</span> RMSE</h2>
 <p>The ‘rmse’ band is a scalar value that is the root mean square error between the original values and the segmentation-fitted values.</p>
 <p>It can be subset like this:</p>
-<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> LTresult <span class="op">=</span> <span class="va">ee</span>.<span class="va">Algorithms</span>.<span class="va">TemporalSegmentation</span>.<span class="at">LandTrendr</span>(run_params)<span class="op">;</span> <span class="co">// run LT-GEE</span>
-<span class="kw">var</span> segmentationInfo <span class="op">=</span> <span class="va">LTresult</span>.<span class="at">select</span>([<span class="st">&#39;rmse&#39;</span>])<span class="op">;</span> <span class="co">// subset the rmse band</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw">var</span> LTresult <span class="op">=</span> <span class="va">ee</span>.<span class="va">Algorithms</span>.<span class="va">TemporalSegmentation</span>.<span class="at">LandTrendr</span>(run_params)<span class="op">;</span> <span class="co">// run LT-GEE</span></a>
+<a class="sourceLine" id="cb11-2" data-line-number="2"><span class="kw">var</span> segmentationInfo <span class="op">=</span> <span class="va">LTresult</span>.<span class="at">select</span>([<span class="st">&#39;rmse&#39;</span>])<span class="op">;</span> <span class="co">// subset the rmse band</span></a></code></pre></div>
 </div>
 <div id="ftv" class="section level2">
 <h2><span class="header-section-number">5.3</span> FTV</h2>
 <p>If the the input image collection included more than one band, the proceeding bands will be included in the output image as FTV or fit-to-vertice data bands. The segmentation, defined by year of observation, of the first band in the image collection is imparted on these bands. If there were missing years in the input image collection, they will be interpolated in the FTV bands. If years at the beginning or end of the series are present, the value will be set as the first/last known value.</p>
 <p>It can be subset from the primary output image by selection of the band name, which will be the the concatenation of the band name from the input image collection and ’_fit’, as in ‘B4_fit’. Here is an example of subsetting an FTV ‘fit’ band:</p>
-<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> LTresult <span class="op">=</span> <span class="va">ee</span>.<span class="va">Algorithms</span>.<span class="va">TemporalSegmentation</span>.<span class="at">LandTrendr</span>(run_params)<span class="op">;</span> <span class="co">// run LT-GEE</span>
-<span class="kw">var</span> B4ftv <span class="op">=</span> <span class="va">LTresult</span>.<span class="at">select</span>([<span class="st">&#39;B4_fit&#39;</span>])<span class="op">;</span> <span class="co">// subset the B4_fit band</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw">var</span> LTresult <span class="op">=</span> <span class="va">ee</span>.<span class="va">Algorithms</span>.<span class="va">TemporalSegmentation</span>.<span class="at">LandTrendr</span>(run_params)<span class="op">;</span> <span class="co">// run LT-GEE</span></a>
+<a class="sourceLine" id="cb12-2" data-line-number="2"><span class="kw">var</span> B4ftv <span class="op">=</span> <span class="va">LTresult</span>.<span class="at">select</span>([<span class="st">&#39;B4_fit&#39;</span>])<span class="op">;</span> <span class="co">// subset the B4_fit band</span></a></code></pre></div>
 <p>If you’re unsure of the band names, you can view the band names by printing the results to the GEE console.</p>
-<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> LTresult <span class="op">=</span> <span class="va">ee</span>.<span class="va">Algorithms</span>.<span class="va">TemporalSegmentation</span>.<span class="at">LandTrendr</span>(run_params)<span class="op">;</span> <span class="co">// run LT-GEE</span>
-<span class="at">print</span>(LTresult)</code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode javascript"><code class="sourceCode javascript"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw">var</span> LTresult <span class="op">=</span> <span class="va">ee</span>.<span class="va">Algorithms</span>.<span class="va">TemporalSegmentation</span>.<span class="at">LandTrendr</span>(run_params)<span class="op">;</span> <span class="co">// run LT-GEE</span></a>
+<a class="sourceLine" id="cb13-2" data-line-number="2"><span class="at">print</span>(LTresult)</a></code></pre></div>
 <p>Then expand in the ‘Image’ and ‘Band’ objects in the console.</p>
 
 </div>
@@ -284,12 +322,13 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
 <script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
@@ -297,12 +336,13 @@ gitbook.start({
 "github": true,
 "facebook": false,
 "twitter": false,
-"google": false,
 "linkedin": false,
 "weibo": false,
 "instapaper": false,
 "vk": false,
+"whatsapp": false,
 "all": false,
+"google": false,
 "instapper": false
 },
 "fontsettings": {
@@ -318,7 +358,15 @@ gitbook.start({
 "link": null,
 "text": null
 },
+"view": {
+"link": null,
+"text": null
+},
 "download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
 "toc": {
 "collapse": "section"
 }

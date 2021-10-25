@@ -1,13 +1,12 @@
 <!DOCTYPE html>
-<html >
-
+<html lang="" xml:lang="">
 <head>
 
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>8 UI Applications | LT-GEE Guide</title>
-  <meta name="description" content="8 UI Applications | LT-GEE Guide">
-  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+  <meta name="description" content="8 UI Applications | LT-GEE Guide" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
   <meta property="og:title" content="8 UI Applications | LT-GEE Guide" />
   <meta property="og:type" content="book" />
@@ -25,21 +24,22 @@
 
 
 
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
-  <link rel="shortcut icon" href="imgs/favicon.ico" type="image/x-icon">
-<link rel="prev" href="example-scripts.html">
-<link rel="next" href="api.html">
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+  <link rel="shortcut icon" href="imgs/favicon.ico" type="image/x-icon" />
+<link rel="prev" href="example-scripts.html"/>
+<link rel="next" href="api.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
-
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
 
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-120674089-1"></script>
@@ -56,43 +56,73 @@ gtag('config', 'UA-120674089-1');
 
 
 
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+
+
 <style type="text/css">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code > span.dt { color: #902000; } /* DataType */
-code > span.dv { color: #40a070; } /* DecVal */
-code > span.bn { color: #40a070; } /* BaseN */
-code > span.fl { color: #40a070; } /* Float */
-code > span.ch { color: #4070a0; } /* Char */
-code > span.st { color: #4070a0; } /* String */
-code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code > span.ot { color: #007020; } /* Other */
-code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code > span.fu { color: #06287e; } /* Function */
-code > span.er { color: #ff0000; font-weight: bold; } /* Error */
-code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-code > span.cn { color: #880000; } /* Constant */
-code > span.sc { color: #4070a0; } /* SpecialChar */
-code > span.vs { color: #4070a0; } /* VerbatimString */
-code > span.ss { color: #bb6688; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { color: #19177c; } /* Variable */
-code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code > span.op { color: #666666; } /* Operator */
-code > span.bu { } /* BuiltIn */
-code > span.ex { } /* Extension */
-code > span.pp { color: #bc7a00; } /* Preprocessor */
-code > span.at { color: #7d9029; } /* Attribute */
-code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
+
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -158,6 +188,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="8.4.1" data-path="ui-applications.html"><a href="ui-applications.html#steps-3"><i class="fa fa-check"></i><b>8.4.1</b> Steps</a></li>
 <li class="chapter" data-level="8.4.2" data-path="ui-applications.html"><a href="ui-applications.html#credit"><i class="fa fa-check"></i><b>8.4.2</b> Credit</a></li>
 </ul></li>
+<li class="chapter" data-level="8.5" data-path="ui-applications.html"><a href="ui-applications.html#ui-landtrendr-visualilzation-and-download-tool"><i class="fa fa-check"></i><b>8.5</b> UI LandTrendr Visualilzation and Download Tool</a><ul>
+<li class="chapter" data-level="8.5.1" data-path="ui-applications.html"><a href="ui-applications.html#steps-4"><i class="fa fa-check"></i><b>8.5.1</b> Steps</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="9" data-path="api.html"><a href="api.html"><i class="fa fa-check"></i><b>9</b> API</a><ul>
 <li class="chapter" data-level="9.1" data-path="api.html"><a href="api.html#functions"><i class="fa fa-check"></i><b>9.1</b> Functions</a><ul>
@@ -214,17 +247,27 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
             <section class="normal" id="section-">
 <div id="ui-applications" class="section level1">
 <h1><span class="header-section-number">8</span> UI Applications</h1>
-<p>We have developed a few UI applications for exploring LT-GEE time series data. They can be found in our public GEE repository. To access the applications, visit this URL: <a href="https://code.earthengine.google.com/?accept_repo=users/emaprlab/public" class="uri">https://code.earthengine.google.com/?accept_repo=users/emaprlab/public</a>). It will add the <strong><em>users/emaprlab/public</em></strong> repository to your GEE account. Once added, the repository can be found within the <strong><em>Reader</em></strong> permission group of your GEE scripts library. There you’ll find the following user interface applications.</p>
+<p>We have developed a few UI applications for exploring LT-GEE time series data. They can be found in our public GEE repository.
+To access the applications, visit this URL: <a href="https://code.earthengine.google.com/?accept_repo=users/emaprlab/public" class="uri">https://code.earthengine.google.com/?accept_repo=users/emaprlab/public</a>). It will add the <strong><em>users/emaprlab/public</em></strong> repository to your GEE account. Once added, the repository can be found within the <strong><em>Reader</em></strong> permission group of your GEE scripts library. There you’ll find the following user interface applications that run as GEE Apps (i.e. do not require you load and run a script).</p>
 <ul>
+<li><strong>[UI LandTrendr Download MultiTool]</strong> | <a href="">link</a> |</li>
+<li>LandTrendr Download MultiTool (Coming soon!)</li>
 <li><strong><a href="ui-applications.html#ui-landtrendr-pixel-time-series-plotter">UI LandTrendr Pixel Time Series Plotter</a></strong> | <a href="https://emaprlab.users.earthengine.app/view/lt-gee-pixel-time-series">link</a> | source and LandTrendr-fitted data for a pixel</li>
 <li><strong><a href="ui-applications.html#ui-landtrendr-change-mapper">UI LandTrendr Change Mapper</a></strong> | <a href="https://emaprlab.users.earthengine.app/view/lt-gee-change-mapper">link</a> | map disturbances and view attributes</li>
 <li><strong><a href="ui-applications.html#ui-landtrendr-fitted-index-delta-rgb-mapper">UI LandTrendr Fitted Index Delta RGB Mapper</a></strong> | <a href="https://emaprlab.users.earthengine.app/view/lt-gee-fitted-index-delta-rgb-mapper">link</a> | visualize change and relative band/index information</li>
-<li><strong><a href="ui-applications.html#ui-landtrendr-time-series-animator">UI LandTrendr Time Series Animator</a></strong> | <a href="https://emaprlab.users.earthengine.app/view/lt-gee-time-series-animator">link</a> | make an animated GIF from a LandTrendr FTV annual time series</li>
+<li><strong><a href="ui-applications.html#ui-landtrendr-time-series-animator">UI LandTrendr Time Series Animator</a></strong> | <a href="https://emaprlab.users.earthengine.app/view/lt-gee-time-series-animator">link</a> | make an animated GIF from a
+LandTrendr FTV annual time series</li>
 </ul>
+<p>Additionally, we have developed a script-based UI tool that combines many of the aforementioned functions, plus adds functionality to some of the components.
++ <strong>[LandTrendr Data Visualization and Download Tool]</strong> | <a href="https://code.earthengine.google.com/195862e57331e11566e8a0db7e28538c">link</a></p>
+<p>*Note: The link above is static. To access the most up-to-date version of the script, from your GEE interface open the script **users/emaprlab/public:LT-data-download/LT-Data-Visualization-Download-App_v1.0*</p>
 <div id="ui-landtrendr-pixel-time-series-plotter" class="section level2">
 <h2><span class="header-section-number">8.1</span> UI LandTrendr Pixel Time Series Plotter</h2>
 <p><a href="https://emaprlab.users.earthengine.app/view/lt-gee-pixel-time-series">GEE App link</a></p>
-<p>The <em>UI LandTrendr Pixel Time Series Plotter</em> will plot the Landsat surface reflectance source and LandTrendr-fitted index for a selected location. The script is useful for simply exploring and visualizing the spectral-temporal space of a pixel, for comparing the effectiveness of a series of indices for identifying landscape change, and for parameterizing LandTrendr to work best for your study region.</p>
+<p>The <em>UI LandTrendr Pixel Time Series Plotter</em> will plot the Landsat surface reflectance source and LandTrendr-fitted index for
+a selected location. The script is useful for simply exploring and visualizing the spectral-temporal space of a pixel, for comparing
+the effectiveness of a series of indices for identifying landscape change, and for parameterizing LandTrendr to work best for your
+study region.</p>
 <p><img src='imgs/time_series_app.jpg'></p>
 <div id="steps" class="section level3">
 <h3><span class="header-section-number">8.1.1</span> Steps</h3>
@@ -245,7 +288,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <ul>
 <li>Landsat 8 is transformed to the properties of Landsat 7 using slopes and intercepts from reduced major axis regressions reported in Roy et al 2016 Table 2</li>
 <li>Masking out clouds, cloud shadows, and snow using CFMASK product from USGS</li>
-<li>Medoid annual compositing <br><br><br></li>
+<li>Medoid annual compositing
+<br><br><br></li>
 </ul>
 </div>
 </div>
@@ -290,7 +334,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li>Allow input of a user drawn area or import of a feature asset or fusion table</li>
 <li>auto stretch to different indices - right now it is defaulting stretch for NBR</li>
 <li>Force absolute value for magnitude filter inputs</li>
-<li>Handle input of unscaled decimal values for the pre-dist and magnitude filter parameters <br><br><br></li>
+<li>Handle input of unscaled decimal values for the pre-dist and magnitude filter parameters
+<br><br><br></li>
 </ul>
 </div>
 </div>
@@ -353,7 +398,26 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </div>
 <div id="credit" class="section level3">
 <h3><span class="header-section-number">8.4.2</span> Credit</h3>
-<p>This application uses a modified version of a drawing tool originally developed by Gennadii Donchyts. <br><br><br></p>
+<p>This application uses a modified version of a drawing tool originally developed by Gennadii Donchyts.
+<br><br><br></p>
+</div>
+</div>
+<div id="ui-landtrendr-visualilzation-and-download-tool" class="section level2">
+<h2><span class="header-section-number">8.5</span> UI LandTrendr Visualilzation and Download Tool</h2>
+<ul>
+<li><strong>[LandTrendr Data Visualization and Download Tool]</strong> | <a href="https://code.earthengine.google.com/195862e57331e11566e8a0db7e28538c">link</a></li>
+</ul>
+<p>*Note: The link above is static. To access the most up-to-date version of the script, from your GEE interface open the script **users/emaprlab/public:LT-data-download/LT-Data-Visualization-Download-App_v1.0*</p>
+<div id="steps-4" class="section level3">
+<h3><span class="header-section-number">8.5.1</span> Steps</h3>
+<ol style="list-style-type: decimal">
+<li>In your own GEE session, navigate to the “Reader” section of your scripts and open the file “users/emaprlab/public:LT-data-download/LT-Data-Visualization-Download-App_v1.0”</li>
+<li>Run the app (click the “Run” button)</li>
+<li>There are components to this UI for pixel time-series, RGB image generation, and change mapping. Expand the section you want, set parameters using steps similar to those listed above, and submit them.<br />
+</li>
+<li>If you generate a map or image, you can subsequently switch back to the pixel-mode and query the time-series of individual pixels. This is useful for evaluating if you’ve chosen parameters for the mapping well.</li>
+<li>You can also download outputs from the maps, and point to your own vector-based assets to constrain analysis.</li>
+</ol>
 
 </div>
 </div>
@@ -368,12 +432,13 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
 <script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
@@ -381,12 +446,13 @@ gitbook.start({
 "github": true,
 "facebook": false,
 "twitter": false,
-"google": false,
 "linkedin": false,
 "weibo": false,
 "instapaper": false,
 "vk": false,
+"whatsapp": false,
 "all": false,
+"google": false,
 "instapper": false
 },
 "fontsettings": {
@@ -402,7 +468,15 @@ gitbook.start({
 "link": null,
 "text": null
 },
+"view": {
+"link": null,
+"text": null
+},
 "download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
 "toc": {
 "collapse": "section"
 }

@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>14 Updates | LT-GEE Guide</title>
-  <meta name="description" content="14 Updates | LT-GEE Guide" />
+  <title>Page not found | LT-GEE Guide</title>
+  <meta name="description" content="Page not found | LT-GEE Guide" />
   <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="14 Updates | LT-GEE Guide" />
+  <meta property="og:title" content="Page not found | LT-GEE Guide" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="eMapR/LT-GEE" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="14 Updates | LT-GEE Guide" />
+  <meta name="twitter:title" content="Page not found | LT-GEE Guide" />
   
   
   
@@ -29,7 +29,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="imgs/favicon.ico" type="image/x-icon" />
-<link rel="prev" href="citation.html"/>
+
 
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
@@ -245,107 +245,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="updates" class="section level1">
-<h1><span class="header-section-number">14</span> Updates</h1>
-<p>If you have questions or find that updates introduce errors, please post an issue in the <a href="https://github.com/eMapR/LT-GEE/issues">LT-GEE GitHub repository</a> - if you don’t have a GitHub account, email Justin at: <a href="mailto:jstnbraaten@gmail.com">jstnbraaten@gmail.com</a></p>
-<div id="section" class="section level2">
-<h2><span class="header-section-number">14.1</span> 2019-04-26</h2>
-<ul>
-<li>Added the <a href="./ui-applications.html#ui-landtrendr-time-series-animator">UI LandTrendr Time Series Animator</a>
-App. It makes an animated GIF from a Landsat time series that has been smoothed by LandTrendr spectral-temporal segmentation.</li>
-</ul>
-</div>
-<div id="section-1" class="section level2">
-<h2><span class="header-section-number">14.2</span> 2019-04-23</h2>
-<ul>
-<li>Added the <a href="./api.html#getFittedRGBcol">getFittedRGBcol</a> function, which creates an RGB visualization image
-collection from LandTrendr segmentation FTV outputs useful for thumbnails, filmstrips, and GIF videos.</li>
-</ul>
-</div>
-<div id="section-2" class="section level2">
-<h2><span class="header-section-number">14.3</span> 2019-01-08</h2>
-<ul>
-<li>Added the <a href="./api.html#getSegmentCount">getSegmentCount</a> function, which returns an ee.Image of the number of segments identified by LandTrendr.</li>
-</ul>
-</div>
-<div id="section-3" class="section level2">
-<h2><span class="header-section-number">14.4</span> 2019-01-06</h2>
-<ul>
-<li>Added description of missing DSNR output row and corrected an example for the <a href="./api.html#getSegmentData">getSegmentData</a> function. Also added a function description to each API function section.</li>
-</ul>
-</div>
-<div id="section-4" class="section level2">
-<h2><span class="header-section-number">14.5</span> 2018-12-02</h2>
-<ul>
-<li>Added the option to filter change maps by change magnitude standardized by the LandTrendr fit RMSE. This metric is referred to as DSNR. Please see the <a href="./api.html#getChangeMap">getChangeMap</a> function for more details on using this option and for the metric reference. The change also included exporting the DSNR metric as an additional band to the change map attribute image stack.</li>
-</ul>
-</div>
-<div id="section-5" class="section level2">
-<h2><span class="header-section-number">14.6</span> 2018-11-07</h2>
-<ul>
-<li>Replaced the <code>disturbanceMap</code> API function with <a href="./api.html#getChangeMap">getChangeMap</a>, which fixes many logic problems and adds
-the ability to map vegetation gain as well as loss.</li>
-<li>Updated the <a href="https://emapr.github.io/LT-GEE/ui-applications.html">UI Change Mapping app</a> to use the <code>disturbanceMap</code> function.</li>
-<li>Updated <a href="./example-scripts.html">example scripts</a> to include an example of mapping vegetation loss and gain using the new
-<code>disturbanceMap</code> function.</li>
-</ul>
-</div>
-<div id="section-6" class="section level2">
-<h2><span class="header-section-number">14.7</span> 2018-10-09</h2>
-<ul>
-<li>Added the option to define the CFMASK classes to include in the image mask to functions <a href="./api.html#buildsrcollection">buildSRcollection</a> and <a href="./api.html#runlt">runLT</a>. The default is [‘cloud’, ‘shadow’, ‘snow’]. Also added the function <a href="./api.html#buildclearpixelcountcollection">buildClearPixelCountCollection</a>, which returns the count of unmasked pixels per year that are available for compositing for the provided years and date ranges.</li>
-</ul>
-</div>
-<div id="section-7" class="section level2">
-<h2><span class="header-section-number">14.8</span> 2018-10-08</h2>
-<ul>
-<li>Added <a href="./api.html#collectionToBandStack">collectionToBandStack</a> function to the API. Transforms an image collection into an image stack where each band of each image in the collection is concatenated as a band into a single image. Useful for mapping a function over a collection, like transforming surface reflectance to NDVI, and then transforming the resulting collection into a band sequential time series image stack.</li>
-</ul>
-</div>
-<div id="section-8" class="section level2">
-<h2><span class="header-section-number">14.9</span> 2018-07-25</h2>
-<ul>
-<li>Added the <a href="./api.html#disturbanceMap">disturbanceMap</a> function to the API. It generates a disturbance map with attributes for: year of disturbance detection, magnitude, duration, -disturbance spectral value, and the rate of spectral change. Each attribute is a band of an ee.Image for easy display and export. Note that at this time it is still being tested. So please do not trust results - let me know if you suspect errors.</li>
-</ul>
-</div>
-<div id="section-9" class="section level2">
-<h2><span class="header-section-number">14.10</span> 2018-06-26</h2>
-<ul>
-<li>Clarification was made regarding the <code>distDir</code> variable being used in the section <a href="./working-with-outputs.html#filter-an-isolated-segment-by-an-attribute">6.3 Working with Outputs</a>. This section now includes information about it.</li>
-</ul>
-</div>
-<div id="section-10" class="section level2">
-<h2><span class="header-section-number">14.11</span> 2018-06-13</h2>
-<ul>
-<li><p>Added the <a href="./api.html#transformsrcollection">transformSRcollection</a> function to the API. It transforms the images within an annual surface reflectance collection built by <code>buildSRcollection</code> to a list of provided indices or bands. If you just want NDVI (or other index/band) derived from an annual cloud-free surface reflectance medoid composite, this function will do it.</p></li>
-<li><p>The <a href="./api.html#buildsrcollection">buildSRcollection</a> function will now generate composites that cross the new year. For instance, if your study area is in mid- to high-latitudes of the southern hemisphere, your peak leaf-on season is maybe December 20 - February 20, which crosses the new year. Previously, the <code>buildSRcollection</code> function did not composite across the new year. This change affects the <a href="./LT-GEE/ui-applications.html">UIs</a> and the <code>buildSRcollection</code>. To apply this functionality, set annual composite start day to something like ‘12-20’ and the end day to ‘02-20’, where the format is mm-dd. If the start day month is greater than the end day month, then the function will composite across the new year, and assign the year of the composite as the new year. So if we built a collection that included images from 2000 (Dec.) and 2001 (Jan-Feb), the composite will be assigned the year 2001. Here is an example of building a surface reflectance collection across the new year (note the <code>startDay</code> and <code>endDay</code> parameters):</p></li>
-</ul>
-<pre><code>// load the LandTrendr.js module
-var ltgee = require(&#39;users/emaprlab/public:Modules/LandTrendr.js&#39;);
-
-// define parameters
-var startYear = 1985;
-var endYear = 2017;
-var startDay = &#39;12-20&#39;;
-var endDay = &#39;02-20&#39;;
-var aoi = ee.Geometry.Point(-122.8848, 43.7929);
-
-// center and zoom the display in case outputs are to be mapped 
-Map.centerObject(aoi,10);
-Map.addLayer(aoi);
-
-// apply LandTrendr.js functions
-var annualSRcollection = ltgee.buildSRcollection(startYear, endYear, startDay, endDay, aoi);
-print(annualSRcollection);</code></pre>
-
-</div>
+<div id="page-not-found" class="section level1">
+<h1>Page not found</h1>
+<p>The page you requested cannot be found (perhaps it was moved or renamed).</p>
+<p>You may want to try searching to find the page's new location, or use
+the table of contents to find the page you are looking for.</p>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="citation.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
 
     </div>
   </div>

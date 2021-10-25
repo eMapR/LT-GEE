@@ -1,13 +1,12 @@
 <!DOCTYPE html>
-<html >
-
+<html lang="" xml:lang="">
 <head>
 
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>2 LandTrendr | LT-GEE Guide</title>
-  <meta name="description" content="2 LandTrendr | LT-GEE Guide">
-  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+  <meta name="description" content="2 LandTrendr | LT-GEE Guide" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
   <meta property="og:title" content="2 LandTrendr | LT-GEE Guide" />
   <meta property="og:type" content="book" />
@@ -25,21 +24,22 @@
 
 
 
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
-  <link rel="shortcut icon" href="imgs/favicon.ico" type="image/x-icon">
-<link rel="prev" href="introduction.html">
-<link rel="next" href="lt-gee-requirements.html">
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+  <link rel="shortcut icon" href="imgs/favicon.ico" type="image/x-icon" />
+<link rel="prev" href="introduction.html"/>
+<link rel="next" href="lt-gee-requirements.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
-
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
 
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-120674089-1"></script>
@@ -56,43 +56,73 @@ gtag('config', 'UA-120674089-1');
 
 
 
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+
+
 <style type="text/css">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code > span.dt { color: #902000; } /* DataType */
-code > span.dv { color: #40a070; } /* DecVal */
-code > span.bn { color: #40a070; } /* BaseN */
-code > span.fl { color: #40a070; } /* Float */
-code > span.ch { color: #4070a0; } /* Char */
-code > span.st { color: #4070a0; } /* String */
-code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code > span.ot { color: #007020; } /* Other */
-code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code > span.fu { color: #06287e; } /* Function */
-code > span.er { color: #ff0000; font-weight: bold; } /* Error */
-code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-code > span.cn { color: #880000; } /* Constant */
-code > span.sc { color: #4070a0; } /* SpecialChar */
-code > span.vs { color: #4070a0; } /* VerbatimString */
-code > span.ss { color: #bb6688; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { color: #19177c; } /* Variable */
-code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code > span.op { color: #666666; } /* Operator */
-code > span.bu { } /* BuiltIn */
-code > span.ex { } /* Extension */
-code > span.pp { color: #bc7a00; } /* Preprocessor */
-code > span.at { color: #7d9029; } /* Attribute */
-code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
+
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -158,6 +188,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="8.4.1" data-path="ui-applications.html"><a href="ui-applications.html#steps-3"><i class="fa fa-check"></i><b>8.4.1</b> Steps</a></li>
 <li class="chapter" data-level="8.4.2" data-path="ui-applications.html"><a href="ui-applications.html#credit"><i class="fa fa-check"></i><b>8.4.2</b> Credit</a></li>
 </ul></li>
+<li class="chapter" data-level="8.5" data-path="ui-applications.html"><a href="ui-applications.html#ui-landtrendr-visualilzation-and-download-tool"><i class="fa fa-check"></i><b>8.5</b> UI LandTrendr Visualilzation and Download Tool</a><ul>
+<li class="chapter" data-level="8.5.1" data-path="ui-applications.html"><a href="ui-applications.html#steps-4"><i class="fa fa-check"></i><b>8.5.1</b> Steps</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="9" data-path="api.html"><a href="api.html"><i class="fa fa-check"></i><b>9</b> API</a><ul>
 <li class="chapter" data-level="9.1" data-path="api.html"><a href="api.html#functions"><i class="fa fa-check"></i><b>9.1</b> Functions</a><ul>
@@ -214,13 +247,31 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
             <section class="normal" id="section-">
 <div id="landtrendr" class="section level1">
 <h1><span class="header-section-number">2</span> LandTrendr</h1>
-<p>Each pixel in an image time series has a story to tell, LandTrendr aims to tell them succinctly. Let’s look at an example; here we have a pixel intersecting Lon: -123.845, Lat: 45.889 (Fig 2.1) from a conifer-dominated, industrial forest region of the Pacific Northwest, USA. At the beginning of its record, it was a mature, second-growth conifer stand, and for 17 years, little changed. Then, between the summers of 2000 and 2001 a service road was built through it, removing some of its vegetation. Over the next year it experienced a clearcut harvest, removing all of its remaining vegetation. For the last 14 years it has been regenerating. Most recently it was a closed canopy, maturing, conifer stand.</p>
+<p>Each pixel in an image time series has a story to tell, LandTrendr aims to tell them succinctly. Let’s look at an example; here we have a pixel intersecting Lon: -123.845, Lat: 45.889 (Fig 2.1) from a conifer-dominated,
+industrial forest region of the Pacific Northwest, USA. At the
+beginning of its record, it was a mature, second-growth conifer stand, and for 17 years, little changed.
+Then, between the summers of 2000 and 2001 a service road was built through it, removing some of its vegetation.
+Over the next year it experienced a clearcut harvest, removing all of its remaining
+vegetation. For the last 14 years it has been regenerating. Most
+recently it was a closed canopy, maturing, conifer stand.</p>
 <p><img src='imgs/pixel_story.jpg'></p>
-<p><em>Fig 2.1. Every pixel tells a story. Landsat provides a historical record of the character of landscapes. By extracting a single pixel from a time series of Landsat imagery, it is possible to recount the state and change of the features composing the 1-hectare area of a pixel through time. In this example, we analyze the history of a conifer forest pixel from an industrial forest region of the Pacific Northwest (USA) that experiences a period of relative stability, a dramatic, rapid loss of vegetation, and subsequent regeneration.</em> <br><br></p>
-<p>The description of this example pixel’s history is of course abridged, and only conveys a moderate resolution perspective of state and change in forest character. The unabridged version of this pixel’s story includes many other small changes in the forest stand it represents, but given the precision of the satellite sensor and methods in processing, the provided description is the type of pixel history interpretation we are confident are represented well in the image time series. LandTrendr is a brevity algorithm that listens to the annual, verbose, noisy detail of a pixel’s story and writes an abridged version.</p>
-<p>In practice, LandTrendr takes a single point-of-view from a pixel’s spectral history, like a band or an index, and goes through a process to identify breakpoints separating periods of durable change or stability in spectral trajectory, and records the year that changes occurred. These breakpoints, defined by year and spectral index value, allow us to represent the spectral history of a pixel as a series of vertices bounding line segments (Fig 2.2).</p>
+<p><em>Fig 2.1. Every pixel tells a story. Landsat provides a historical record of the character of landscapes. By
+extracting a single pixel from a time series of Landsat imagery, it is possible to recount the state and change of
+the features composing the 1-hectare area of a pixel through time. In this example, we analyze the history of a conifer
+forest pixel from an industrial forest region of the Pacific Northwest (USA) that experiences a period of relative stability,
+a dramatic, rapid loss of vegetation, and subsequent regeneration.</em>
+<br><br></p>
+<p>The description of this example pixel’s history is of course abridged, and only conveys a moderate resolution perspective of state and change in forest character. The unabridged version of this pixel’s story includes many other small changes in the forest stand it represents, but given
+the precision of the satellite sensor and methods in processing, the provided description is the type of pixel history interpretation we are
+confident are represented well in the image time series. LandTrendr is a brevity algorithm that listens to the annual, verbose, noisy detail of a pixel’s story and writes an abridged version.</p>
+<p>In practice, LandTrendr takes a single point-of-view from a pixel’s spectral history, like a band or an index, and goes
+through a process to identify breakpoints separating periods of durable change or stability in spectral trajectory, and records the year that changes
+occurred. These breakpoints, defined by year and spectral index value, allow us to represent the spectral history of a
+pixel as a series of vertices bounding line segments (Fig 2.2).</p>
 <p><img src='imgs/segmentation.png'></p>
-<p><em>Fig 2.2. LandTrendr pixel time series segmentation. Image data is reduced to a single band or spectral index and then divided into a series of straight line segments by breakpoint (vertex) identification.</em> <br><br></p>
+<p><em>Fig 2.2. LandTrendr pixel time series segmentation. Image data is reduced to a single band or spectral index and then
+divided into a series of straight line segments by breakpoint (vertex) identification.</em>
+<br><br></p>
 <p>There are two neat features that result from this segmented view of spectral history.</p>
 <ol style="list-style-type: decimal">
 <li>The ability to interpolate new values for years between vertices.</li>
@@ -228,21 +279,47 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </ol>
 <div id="fit-to-vertex-image-data" class="section level2">
 <h2><span class="header-section-number">2.1</span> Fit-to-Vertex Image Data</h2>
-<p>The ability to interpolate new values for years between vertices is very useful. It ensures that each observation is aligned to a trajectory consistent with where the pixel has been and where it is going. We can think of this as hindsight-enhanced image time series data. It has two practical utilities. It can fill in data from missing observations in the time series (masked because of cloud or shadow) and it maintains consistency in predictive mapping through time; e.g. an annual forest classification is not likely to bounce between mature and old-growth conifer because of minor differences in spectral reflectance from atmosphere or shadow difference (Fig 2.3).</p>
+<p>The ability to interpolate new values for years between vertices is very useful. It ensures that each observation is aligned
+to a trajectory consistent with where the pixel has been and where it is going. We can think of this as hindsight-enhanced image
+time series data. It has two practical utilities. It can fill in data from missing observations in the time series (masked because
+of cloud or shadow) and it maintains consistency in predictive mapping through time; e.g. an annual forest classification is not
+likely to bounce between mature and old-growth conifer because of minor differences in spectral reflectance from atmosphere or
+shadow difference (Fig 2.3).</p>
 <p><img src='imgs/seg_index_ftv.png'></p>
-<p><em>Fig 2.3. Hindsight-enhanced image time series data. Identification of time series breakpoints or vertices, allows the observations between vertices to be interpolated, removing extraneous information and placing each observation in the context of the trajectory it is part of. This is useful in filling missing observations because of cloud and shadow, and makes for more consistent annual map prediction.</em> <br><br></p>
-<p>Since breakpoints or vertices are defined by a year we also have the ability to impose breakpoints identified in one spectral band or index on any other. For instance, we can segment a pixel time series cast as Normalized Burn Ratio (NBR: [NIR-SWIR]/[NIR+SWIR]) to identify vertices, and then segment a short-wave infrared (SWIR) band based on the NBR-identified vertices (Fig 2.4).</p>
+<p><em>Fig 2.3. Hindsight-enhanced image time series data. Identification of time series breakpoints or vertices, allows the observations
+between vertices to be interpolated, removing extraneous information and placing each observation in the context of the trajectory
+it is part of. This is useful in filling missing observations because of cloud and shadow, and makes for more consistent annual
+map prediction.</em>
+<br><br></p>
+<p>Since breakpoints or vertices are defined by a year we also have the ability to impose breakpoints identified in one spectral band
+or index on any other. For instance, we can segment a pixel time series cast as Normalized Burn Ratio (NBR: [NIR-SWIR]/[NIR+SWIR])
+to identify vertices, and then segment a short-wave infrared (SWIR) band based on the NBR-identified vertices (Fig 2.4).</p>
 <p><img src='imgs/other_index_ftv.png'></p>
-<p><em>Fig 2.4. Impose the segmentation structure of one spectral representation on another. Here we have identified four breakpoints or vertices for a pixel time series using NBR, and then used the year of those vertices to segment and interpolate the values of a SWIR band time series for the same pixel.</em> <br><br></p>
-<p>This is useful because we can make the whole data space for a pixel’s time series consistent relative to a single perspective (Fig 2.5) and summarize starting, ending, and delta values for all spectral representations for the same temporal segments, which can be powerful predictors of land cover, agent of change, and state transitions.</p>
+<p><em>Fig 2.4. Impose the segmentation structure of one spectral representation on another. Here we have identified four breakpoints or
+vertices for a pixel time series using NBR, and then used the year of those vertices to segment and interpolate the values of a
+SWIR band time series for the same pixel.</em>
+<br><br></p>
+<p>This is useful because we can make the whole data space for a pixel’s time series consistent relative to a single perspective (Fig 2.5) and
+summarize starting, ending, and delta values for all spectral representations for the same temporal segments,
+which can be powerful predictors of land cover, agent of change, and state transitions.</p>
 <p><img src='imgs/all_index_ftv.png'></p>
-<p><em>Fig 2.5. A stack of spectral representations can be standardized to the segmentation structure of a single spectral band or index. Here we are demonstrating the standardization of tasseled cap brightness, greenness, and wetness to the segmentation structure of NBR. This allows us to take advantage of multi-dimensional spectral space to describe the properties of spectral epochs and breakpoints to predict land cover, change process, and transitions from a consistent perspective (NBR).</em> <br><br></p>
+<p><em>Fig 2.5. A stack of spectral representations can be standardized to the segmentation structure of a single spectral band or index. Here
+we are demonstrating the standardization of tasseled cap brightness, greenness, and wetness to the segmentation structure of NBR.
+This allows us to take advantage of multi-dimensional spectral space to describe the properties of spectral epochs and breakpoints
+to predict land cover, change process, and transitions from a consistent perspective (NBR).</em>
+<br><br></p>
 </div>
 <div id="epoch-information" class="section level2">
 <h2><span class="header-section-number">2.2</span> Epoch Information</h2>
-<p>The second neat feature of a segmented world view of spectral history is that simple geometry calculations can summarize attributes of spectral epochs (Fig 2.6). Temporal duration and spectral magnitude can be calculated for each segment based on the vertex time and spectral dimensions. These attributes allow us to easily query the data about when changes occur, how frequently they occur, on average how long do they last, what is the average magnitude of disturbance (or recovery) segments, etc. We can also query information about adjacent segments to focal segments. For instance, we can ask, what it the average rate of recovery following a disturbance segment, or what was the trajectory of a pixel time series prior to disturbance segments that we’ve attributed to fire.</p>
+<p>The second neat feature of a segmented world view of spectral history is that simple geometry calculations can summarize attributes of
+spectral epochs (Fig 2.6). Temporal duration and spectral magnitude can be calculated for each segment based on the vertex time and
+spectral dimensions. These attributes allow us to easily query the data about when changes occur, how frequently they occur, on
+average how long do they last, what is the average magnitude of disturbance (or recovery) segments, etc. We can also query information about
+adjacent segments to focal segments. For instance, we can ask, what it the average rate of recovery following a disturbance segment,
+or what was the trajectory of a pixel time series prior to disturbance segments that we’ve attributed to fire.</p>
 <p><img src='imgs/segment_attributes.png'></p>
-<p><em>Fig 2.6. Diagram of segment attributes. From these attributes we can summarize and query change per pixel over the landscape.</em> <br><br></p>
+<p><em>Fig 2.6. Diagram of segment attributes. From these attributes we can summarize and query change per pixel over the landscape.</em>
+<br><br></p>
 
 </div>
 </div>
@@ -256,12 +333,13 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
 <script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
@@ -269,12 +347,13 @@ gitbook.start({
 "github": true,
 "facebook": false,
 "twitter": false,
-"google": false,
 "linkedin": false,
 "weibo": false,
 "instapaper": false,
 "vk": false,
+"whatsapp": false,
 "all": false,
+"google": false,
 "instapper": false
 },
 "fontsettings": {
@@ -290,7 +369,15 @@ gitbook.start({
 "link": null,
 "text": null
 },
+"view": {
+"link": null,
+"text": null
+},
 "download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
 "toc": {
 "collapse": "section"
 }
