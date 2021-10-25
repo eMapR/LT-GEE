@@ -5,8 +5,7 @@ To access the applications, visit this URL: https://code.earthengine.google.com/
 
 
 
-+ **[UI LandTrendr Download MultiTool]** | [link]() | 
-+ LandTrendr Download MultiTool (Coming soon!)
++ **[UI LandTrendr Download MultiTool]** | [link](https://code.earthengine.google.com/eb2570e12ceba1f1db163f02badf5f42) | 
 + **[UI LandTrendr Pixel Time Series Plotter]** | [link](https://emaprlab.users.earthengine.app/view/lt-gee-pixel-time-series) | source and LandTrendr-fitted data for a pixel
 + **[UI LandTrendr Change Mapper]** | [link](https://emaprlab.users.earthengine.app/view/lt-gee-change-mapper) | map disturbances and view attributes
 + **[UI LandTrendr Fitted Index Delta RGB Mapper]** | [link](https://emaprlab.users.earthengine.app/view/lt-gee-fitted-index-delta-rgb-mapper) | visualize change and relative band/index information
