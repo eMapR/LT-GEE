@@ -52,7 +52,7 @@ exports.harmonizationRoy = harmonizationRoy;
 
 //------ FILTER A COLLECTION FUNCTION -----
 var filterCollection = function(year, startDay, endDay, sensor, aoi){
-  return ee.ImageCollection('LANDSAT/'+ sensor + '/C01/T1_SR')
+  return ee.ImageCollection('LANDSAT/'+ sensor + '/C02/T1_L2')
            .filterBounds(aoi)
            .filterDate(year+'-'+startDay, year+'-'+endDay);
 };
