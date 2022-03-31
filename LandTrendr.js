@@ -15,6 +15,7 @@
  * @author Justin Braaten (Google)
  * @author Zhiqiang Yang (USDA Forest Service)
  * @author Robert Kennedy (Oregon State University)
+ * MODIFIED 1/2022 Ben Roberts-Pierel (Oregon State University)
  * 
  * @description This file contains functions for working with the LandTrendr
  * change detection algorithm in Google Earth Engine. For information on
@@ -27,32 +28,19 @@
 // ### VERSION ###
 // #############################################################################
 
-exports.version = '0.1.6';
-
+exports.version = '0.2.0';
+//print a warning to the user that this version is now using collection 2
+print('IMPORTANT! Please be advised:');
+print('- This version of the LandTrendr.js modules') 
+print('  uses Landsat Collection 2 data');
+print('- This version (0.2.0) does NOT use the Roy et al. coefficients');
 //########################################################################################################
 //##### ANNUAL SR TIME SERIES COLLECTION BUILDING FUNCTIONS ##### 
 //########################################################################################################
 
-
-//------ L8 to L7 HARMONIZATION FUNCTION -----
-// slope and intercept citation: Roy, D.P., Kovalskyy, V., Zhgang, H.K., Vermote, E.F., Yan, L., Kumar, S.S, Egorov, A., 2016, Characterization of Landsat-7 to Landsat-8 reflective wavelength and normalized difference vegetation index continuity, Remote Sensing of Environment, 185, 57-70.(http://dx.doi.org/10.1016/j.rse.2015.12.024); Table 2 - reduced major axis (RMA) regression coefficients
-var harmonizationRoy = function(oli) {
-  var slopes = ee.Image.constant([0.9785, 0.9542, 0.9825, 1.0073, 1.0171, 0.9949]);        // RMA - create an image of slopes per band for L8 TO L7 regression line - David Roy
-  var itcp = ee.Image.constant([-0.0095, -0.0016, -0.0022, -0.0021, -0.0030, 0.0029]);     // RMA - create an image of y-intercepts per band for L8 TO L7 regression line - David Roy
-  //var slopes = ee.Image.constant([0.885, 0.9317, 0.9372, 0.8339, 0.8639, 0.9165]);       // least squares OLI to ETM+
-  //var itcp = ee.Image.constant([0.0183, 0.0123, 0.0123, 0.0448, 0.0306, 0.0116]);        // least squares OLI to ETM+
-  var y = oli.select(['B2','B3','B4','B5','B6','B7'],['B1', 'B2', 'B3', 'B4', 'B5', 'B7']) // select OLI bands 2-7 and rename them to match L7 band names
-             .resample('bicubic')                                                          // ...resample the L8 bands using bicubic
-             .subtract(itcp.multiply(10000)).divide(slopes)                                // ...multiply the y-intercept bands by 10000 to match the scale of the L7 bands then apply the line equation - subtract the intercept and divide by the slope
-             .set('system:time_start', oli.get('system:time_start'));                      // ...set the output system:time_start metadata to the input image time_start otherwise it is null
-  return y.toShort();                                                                       // return the image as short to match the type of the other data
-};
-exports.harmonizationRoy = harmonizationRoy;
-
-
 //------ FILTER A COLLECTION FUNCTION -----
 var filterCollection = function(year, startDay, endDay, sensor, aoi){
-  return ee.ImageCollection('LANDSAT/'+ sensor + '/C01/T1_SR')
+  return ee.ImageCollection('LANDSAT/'+ sensor + '/C02/T1_L2')
            .filterBounds(aoi)
            .filterDate(year+'-'+startDay, year+'-'+endDay);
 };
@@ -87,8 +75,13 @@ var buildSensorYearCollection = function(year, startDay, endDay, sensor, aoi, ex
 exports.buildSensorYearCollection = buildSensorYearCollection
 
 
-
 //------ RETRIEVE A SENSOR SR COLLECTION FUNCTION -----
+//scaling values source: https://www.usgs.gov/faqs/how-do-i-use-scale-factor-landsat-level-2-science-products
+//define a function to apply Collection 2 scaling coefficients 
+var scaleLTdata = function(img){ 
+  return ((img.multiply(0.0000275)).add(-0.2)).multiply(10000).toUint16();
+}; 
+
 var getSRcollection = function(year, startDay, endDay, sensor, aoi, maskThese, exclude) {
   // make sure that mask labels are correct
   maskThese = (typeof maskThese !== 'undefined') ?  maskThese : ['cloud','shadow','snow'];
@@ -105,34 +98,35 @@ var getSRcollection = function(year, startDay, endDay, sensor, aoi, maskThese, e
   
   // get a landsat collection for given year, day range, and sensor
   var srCollection = buildSensorYearCollection(year, startDay, endDay, sensor, aoi, exclude);
-
   // apply the harmonization function to LC08 (if LC08), subset bands, unmask, and resample           
   srCollection = srCollection.map(function(img) {
     var dat = ee.Image(
       ee.Algorithms.If(
-        sensor == 'LC08',                                                  // condition - if image is OLI
-        harmonizationRoy(img.unmask()),                                    // true - then apply the L8 TO L7 alignment function after unmasking pixels that were previosuly masked (why/when are pixels masked)
-        img.select(['B1', 'B2', 'B3', 'B4', 'B5', 'B7'])                   // false - else select out the reflectance bands from the non-OLI image
+        (sensor == 'LC08') || (sensor == 'LC09'),                            // condition - if image is OLI
+        scaleLTdata(img.select(['SR_B2','SR_B3','SR_B4','SR_B5','SR_B6','SR_B7'],['B1', 'B2', 'B3', 'B4', 'B5', 'B7'])).unmask(),
+        //NOTE based on analysis of the effects of Roy coefficients for various places around the world
+        //we have opted to NOT include their use in this version of these modules
+        scaleLTdata(img.select(['SR_B1','SR_B2','SR_B3','SR_B4','SR_B5','SR_B7'],['B1', 'B2', 'B3', 'B4', 'B5', 'B7']))                   // false - else select out the reflectance bands from the non-OLI image
            .unmask()                                                       // ...unmask any previously masked pixels 
-           //.resample('bicubic')                                            // ...resample by bicubic 
+           //.resample('bicubic')                                          // ...resample by bicubic 
            .set('system:time_start', img.get('system:time_start'))         // ...set the output system:time_start metadata to the input image time_start otherwise it is null
       )
     );
     
-    //// makes a global forest mask
+    // makes a global forest mask
     var forCol = ee.ImageCollection("COPERNICUS/Landcover/100m/Proba-V/Global"); //PETER ADD
     var imgFor = forCol.toBands(); //PETER ADD
     var forestimage = imgFor.select('2015_forest_type') //PETER ADD
     
     // Computes the forest mask into a binary using an expression.
     var selectedForests = forestimage.expression( //PETER ADD
-         'Band >= 0 ? 1 : 0', { //PETER ADD
-           'Band': forestimage //PETER ADD
+        'Band >= 0 ? 1 : 0', { //PETER ADD
+          'Band': forestimage //PETER ADD
     }).clip(aoi); //PETER ADD
     
-    ////makes a global water mask
-     var MappedWater = ee.Image("JRC/GSW1_1/GlobalSurfaceWater"); //PETER ADD
-    //// calculates water persistence 0 to 100 //PETER ADD
+    //makes a global water mask
+    var MappedWater = ee.Image("JRC/GSW1_1/GlobalSurfaceWater"); //PETER ADD
+    // calculates water persistence 0 to 100 //PETER ADD
     var MappedWaterBinary = MappedWater.expression( //PETER ADD 
       'band > 99 ? 0 :  1  ', { //PETER ADD
         'band': MappedWater.select('recurrence') //PETER ADD
@@ -141,12 +135,12 @@ var getSRcollection = function(year, startDay, endDay, sensor, aoi, maskThese, e
     
     var mask = ee.Image(1);
     if(maskThese.length !== 0){
-      var qa = img.select('pixel_qa'); 
+      var qa = img.select('QA_PIXEL'); 
       for(var i in maskThese){
-        if(maskThese[i] == 'water'){mask = qa.bitwiseAnd(4).eq(0).multiply(mask)}
-        if(maskThese[i] == 'shadow'){mask = qa.bitwiseAnd(8).eq(0).multiply(mask)} 
-        if(maskThese[i] == 'snow'){mask = qa.bitwiseAnd(16).eq(0).multiply(mask)}
-        if(maskThese[i] == 'cloud'){mask = qa.bitwiseAnd(32).eq(0).multiply(mask)} 
+        if(maskThese[i] == 'water'){mask = qa.bitwiseAnd(1<<7).eq(0).multiply(mask)}
+        if(maskThese[i] == 'shadow'){mask = qa.bitwiseAnd(1<<4).eq(0).multiply(mask)} 
+        if(maskThese[i] == 'snow'){mask = qa.bitwiseAnd(1<<5).eq(0).multiply(mask)}
+        if(maskThese[i] == 'cloud'){mask = qa.bitwiseAnd(1<<3).eq(0).multiply(mask)} 
         // added masked options for the UI
         if(maskThese[i] == 'waterplus'){mask = mask.mask(MappedWaterBinary)} //PETER ADD
         if(maskThese[i] == 'nonforest'){mask = mask.mask(selectedForests)} // PETER ADD
@@ -162,12 +156,13 @@ var getSRcollection = function(year, startDay, endDay, sensor, aoi, maskThese, e
 exports.getSRcollection = getSRcollection;
 
 
-//------ FUNCTION TO COMBINE LT05, LE07, & LC08 COLLECTIONS -----
+//------ FUNCTION TO COMBINE LT05, LE07, LC08 and LC09 COLLECTIONS -----
 var getCombinedSRcollectionOrig = function(year, startDay, endDay, aoi, maskThese) {
     var lt5 = getSRcollection(year, startDay, endDay, 'LT05', aoi, maskThese);       // get TM collection for a given year, date range, and area
     var le7 = getSRcollection(year, startDay, endDay, 'LE07', aoi, maskThese);       // get ETM+ collection for a given year, date range, and area
     var lc8 = getSRcollection(year, startDay, endDay, 'LC08', aoi, maskThese);       // get OLI collection for a given year, date range, and area
-    var mergedCollection = ee.ImageCollection(lt5.merge(le7).merge(lc8)); // merge the individual sensor collections into one imageCollection object
+    var lc9 = getSRcollection(year, startDay, endDay, 'LC09', aoi, maskThese);       // get OLI collection for a given year, date range, and area
+    var mergedCollection = ee.ImageCollection(lt5.merge(le7).merge(lc8).merge(lc9)); // merge the individual sensor collections into one imageCollection object
     return mergedCollection;                                              // return the Imagecollection
 };
 var getCombinedSRcollection = function(year, startDay, endDay, aoi, maskThese, exclude) {
@@ -175,11 +170,12 @@ var getCombinedSRcollection = function(year, startDay, endDay, aoi, maskThese, e
     var lt5 = getSRcollection(year, startDay, endDay, 'LT05', aoi, maskThese, exclude);       // get TM collection for a given year, date range, and area
     var le7 = getSRcollection(year, startDay, endDay, 'LE07', aoi, maskThese, exclude);       // get ETM+ collection for a given year, date range, and area
     var lc8 = getSRcollection(year, startDay, endDay, 'LC08', aoi, maskThese, exclude);       // get OLI collection for a given year, date range, and area
-    var mergedCollection = ee.ImageCollection(lt5.merge(le7).merge(lc8)); // merge the individual sensor collections into one imageCollection object
+    var lc9 = getSRcollection(year, startDay, endDay, 'LC09', aoi, maskThese, exclude);       // get OLI collection for a given year, date range, and area
+    var mergedCollection = ee.ImageCollection(lt5.merge(le7).merge(lc8).merge(lc9)); // merge the individual sensor collections into one imageCollection object
     //mergedCollection = removeImages(mergedCollection, exclude);
     return mergedCollection;                                              // return the Imagecollection
 };
-exports.getCombinedSRcollection = getCombinedSRcollection
+exports.getCombinedSRcollection = getCombinedSRcollection; 
 
 
 
@@ -221,7 +217,7 @@ var buildMosaic = function(year, startDay, endDay, aoi, dummyCollection, maskThe
   var collection = getCombinedSRcollection(year, startDay, endDay, aoi, maskThese, exclude);  // get the SR collection
   var img = medoidMosaic(collection, dummyCollection)                     // apply the medoidMosaic function to reduce the collection to single image per year by medoid 
               .set('system:time_start', (new Date(year,8,1)).valueOf());  // add the year to each medoid image - the data is hard-coded Aug 1st 
-  return ee.Image(img);                                                   // return as image object
+  return ee.Image(img).toUint16();                                                   // return as image object
 };
 
 
@@ -250,7 +246,8 @@ var getCollectionIDlist = function(startYear, endYear, startDay, endDay, aoi, ex
     var lt5 = buildSensorYearCollection(i, startDay, endDay, 'LT05', aoi, exclude);
     var le7 = buildSensorYearCollection(i, startDay, endDay, 'LE07', aoi, exclude);
     var lc8 = buildSensorYearCollection(i, startDay, endDay, 'LC08', aoi, exclude);
-    var tmp = ee.ImageCollection(lt5.merge(le7).merge(lc8));
+    var lc9 = buildSensorYearCollection(i, startDay, endDay, 'LC09', aoi, exclude)
+    var tmp = ee.ImageCollection(lt5.merge(le7).merge(lc8).merge(lc9)); 
     if(first === true){
       var all = tmp;
       first = false;
@@ -315,7 +312,8 @@ var removeImages = function(collection, exclude){
       //print('in slcOff')
       if(exclude.slcOff === true){
         //print('slcOff is true')        
-        collection = collection.filter(ee.Filter.and(ee.Filter.eq('SATELLITE', 'LANDSAT_7'), ee.Filter.gt('SENSING_TIME', '2003-06-01T00:00')).not());
+        //'SATELLITE' changed to SPACECRAFT_ID and 'SENSING_TIME' to 'SCENE_CENTER_TIME' in collection 2
+        collection = collection.filter(ee.Filter.and(ee.Filter.eq('SPACECRAFT_ID', 'LANDSAT_7'), ee.Filter.gt('SCENE_CENTER_TIME', '2003-06-01T00:00')).not());
       }
     }
   }
@@ -360,14 +358,6 @@ var getLTvertStack = function(lt, runParams) {
 exports.getLTvertStack = getLTvertStack;
 
 
-
-
-
-
-
-
-
-
 // #######################################################################################
 // ###### INDEX CALCULATION FUNCTIONS ####################################################
 // #######################################################################################
@@ -399,6 +389,62 @@ var nbrTransform = function(img) {
                  .select([0], ['NBR']) // name the band
                  .set('system:time_start', img.get('system:time_start'));
     return nbr;
+};
+
+//Ben added
+// NDFI - from CODED utility (original: users/bullocke/coded:coded/miscUtilities)
+var ndfiTransform = function(img) {
+
+  // pre-defined endmembers
+  var params = ee.Dictionary({
+    'cfThreshold': 0.01, // CLOUD THRESHOLD 
+    'soil': [2000, 3000, 3400, 5800, 6000, 5800],
+    'gv': [500, 900, 400, 6100, 3000, 1000],
+    'npv': [1400, 1700, 2200, 3000, 5500, 3000],
+    'shade': [0, 0, 0, 0, 0, 0],
+    'cloud': [9000, 9600, 8000, 7800, 7200, 6500]
+    });
+    
+    /* Utility function for calculating spectral indices */
+    var gv = params.get('gv');
+    var shade = params.get('shade');
+    var npv = params.get('npv');
+    var soil = params.get('soil');
+    var cloud = params.get('cloud');
+    //var cfThreshold = ee.Image.constant(params.get('cfThreshold'))
+    /*  Do spectral unmixing on a single image  */
+    var unmixImage = ee.Image(img).unmix([gv, shade, npv, soil, cloud], true,true)
+                    .rename(['band_0', 'band_1', 'band_2','band_3','band_4']);
+    var newImage = ee.Image(img).addBands(unmixImage);
+    //var mask = newImage.select('band_4').lt(cfThreshold)
+  
+    var ndfi = unmixImage.expression(
+      '((GV / (1 - SHADE)) - (NPV + SOIL)) / ((GV / (1 - SHADE)) + NPV + SOIL)', {
+        'GV': unmixImage.select('band_0'),
+        'SHADE': unmixImage.select('band_1'),
+        'NPV': unmixImage.select('band_2'),
+        'SOIL': unmixImage.select('band_3')
+      }); 
+    var ndvi = ee.Image(img).normalizedDifference(['B4','B3']).rename('NDVI')
+    var evi = ee.Image(img).expression(
+          'float(2.5*(((B4/10000) - (B3/10000)) / ((B4/10000) + (6 * (B3/10000)) - (7.5 * (B1/10000)) + 1)))',
+          {
+              'B4': ee.Image(img).select(['B4']),
+              'B3': ee.Image(img).select(['B3']),
+              'B1': ee.Image(img).select(['B1'])
+          }).rename('EVI');    
+          
+    var toExp = newImage
+          .addBands([ndfi.rename(['NDFI']), ndvi, evi])
+          .select(['band_0','band_1','band_2','band_3','NDFI','NDVI','EVI','B1','B2','B3','B4','B5'])
+          .rename(['GV','Shade','NPV','Soil','NDFI','NDVI','EVI','Blue','Green','Red','NIR','SWIR1']); 
+          //.updateMask(mask)
+
+  toExp = toExp.select(['NDFI'])
+              .multiply(1000)
+              .set('system:time_start', img.get('system:time_start'));
+  return toExp;
+
 };
 
 // NDVI
@@ -508,6 +554,9 @@ var calcIndex = function(img, index, flip){
       break;
     case 'TCA':
       indexImg = tc.select(['TCA']).multiply(indexFlip);
+      break;
+     case 'NDFI':
+      indexImg = ndfiTransform(img).multiply(indexFlip);
       break;
     default:
       print('The index you provided is not supported');
@@ -846,7 +895,7 @@ var buildLTcollection = function(collection, index, ftvList){
                 ftvimg = calcIndex(img, ftvList[ftv], 0)
                                      .select([ftvList[ftv]],['ftv_'+ftvList[ftv].toLowerCase()]);
       
-                  allStack = allStack.addBands(ftvimg)
+                allStack = allStack.addBands(ftvimg)
                                      .set('system:time_start', img.get('system:time_start'));
               }
               return allStack;
@@ -912,6 +961,7 @@ var getFittedData = function(lt, startYear, endYear, index, ftv){
     search = index.toUpperCase()+'_fit';
   } else {
     search = 'ftv_'+index.toLowerCase()+'_fit';
+    //search = 'yr_'+index.toLowerCase()+'_fit';
   }
   return lt.select(search)
            .arrayFlatten([bandNames]);
@@ -964,7 +1014,7 @@ var collectionToBandStack = function(collection, startYear, endYear, maskFill){
     var bandTS = collectionArray.select([i]).arrayFlatten([years]);
     allStack = ee.Image.cat([allStack, bandTS]);
   }    
-  return allStack.slice(1,null).toShort();     
+  return allStack.slice(1,null).toUint16()  
 };
 exports.collectionToBandStack = collectionToBandStack;
 
@@ -986,7 +1036,7 @@ exports.timesyncLegacyStack = function(startYear, endYear, startDay, endDay, aoi
     allStack = ee.Image.cat([allStack, bandTS]);
   }
                      
-  return allStack.slice(1,null).toShort();
+  return allStack.slice(1,null).toUint16()
   //////////////////////////////////////////////  
 };
 
@@ -1247,7 +1297,8 @@ var indexFlipper = function(index){
     'ENC1': 1,
     'TCC': 1,  
     'NBRz': 1,
-    'B5z': 1
+    'B5z': 1,
+    'NDFI':-1
   };
   return indexObj[index];
 };
@@ -1498,7 +1549,6 @@ exports.submitButton = function(){
   return ui.Button({label: 'Submit', style:{stretch: 'horizontal'}});
 };
 
-
 exports.getChangeMap = function(lt, changeParams){
   // changeParams
   /*
@@ -1620,3 +1670,4 @@ exports.getChangeMap = function(lt, changeParams){
   
   return chngImg;
 };
+
