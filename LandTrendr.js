@@ -1650,10 +1650,10 @@ exports.getChangeMap = function(lt, changeParams){
   var chngArray = segInfoSorted.arraySlice(1, 0, 1); // get the first
   
   // make an image from the array of attributes for the change of interest
-  var arrRowNames = [['startYear', 'endYear', 'preval', 'postval', 'mag', 'dur', 'rate', 'csnr']];
+  var arrRowNames = [['startYear', 'endYear', 'preval', 'postval', 'mag', 'dur', 'rate', 'dsnr']];
   var chngImg = chngArray.arrayProject([0]).arrayFlatten(arrRowNames);
   var yod = chngImg.select('startYear').add(1).toInt16().rename('yod');  // add one to get year of detection, first year we know a change took place
-  chngImg = chngImg.addBands(yod).select(['yod', 'mag', 'dur', 'preval', 'rate', 'csnr']);
+  chngImg = chngImg.addBands(yod).select(['yod', 'mag', 'dur', 'preval', 'rate', 'dsnr']);
 
   // Mask for change/no change
   chngImg = chngImg.updateMask(chngImg.select('mag').gt(0));
