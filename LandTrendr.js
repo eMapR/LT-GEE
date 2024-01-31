@@ -84,7 +84,7 @@ var scaleLTdata = function(img){
 
 var getSRcollection = function(year, startDay, endDay, sensor, aoi, maskThese, exclude) {
   // make sure that mask labels are correct
-  maskThese = (typeof maskThese !== 'undefined') ?  maskThese : ['cloud','shadow','snow'];
+  maskThese = (typeof maskThese !== 'undefined') ?  maskThese : ['cloud','shadow','snow','water'];
   //var maskOptions = ['cloud', 'shadow', 'snow', 'water'];
   var maskOptions = ['cloud', 'shadow', 'snow', 'water', 'waterplus','nonforest']; // add new water and forest mask here Peter Clary 5/20/2020
   for(var i in maskThese){
@@ -194,8 +194,12 @@ exports.getCombinedSRcollection = getCombinedSRcollection;
 var medoidMosaic = function(inCollection, dummyCollection) {
   
   // fill in missing years with the dummy collection
+  // ** braaten edit 2023-05-02: toList and If are resource intensive, simply
+  // ** merging the inCollection and dummyCollection should achieve the goal
+  // ** of have at least one image for the median operation.
   var imageCount = inCollection.toList(1).length();                                                            // get the number of images 
   var finalCollection = ee.ImageCollection(ee.Algorithms.If(imageCount.gt(0), inCollection, dummyCollection)); // if the number of images in this year is 0, then use the dummy collection, otherwise use the SR collection
+  // var finalCollection = inCollection.merge(dummyCollection);
   
   // calculate median across images in collection per band
   var median = finalCollection.median();                                                                       // calculate the median of the annual image collection - returns a single 6 band image - the collection median per band
@@ -228,7 +232,7 @@ var buildSRcollection = function(startYear, endYear, startDay, endDay, aoi, mask
   var imgs = [];                                                                         // create empty array to fill
   for (var i = startYear; i <= endYear; i++) {                                           // for each year from hard defined start to end build medoid composite and then add to empty img array
     var tmp = buildMosaic(i, startDay, endDay, aoi, dummyCollection, maskThese, exclude);                    // build the medoid mosaic for a given year
-    imgs = imgs.concat(tmp.set('system:time_start', (new Date(i,8,1)).valueOf()));       // concatenate the annual image medoid to the collection (img) and set the date of the image - hard coded to the year that is being worked on for Aug 1st
+    imgs = imgs.concat(tmp.set('composite_year',i).set('system:time_start', (new Date(i,8,1)).valueOf()));       // concatenate the annual image medoid to the collection (img) and set the date of the image - hard coded to the year that is being worked on for Aug 1st
   }
   return ee.ImageCollection(imgs);                                                       // return the array img array as an image collection
 };
@@ -297,6 +301,7 @@ exports.buildClearPixelCountCollection = buildClearPixelCountCollection;
 var removeImages = function(collection, exclude){
   // ["LANDSAT/LC08/C01/T1_SR/LC08_046028_20170815"](system:id) or [LC08_046028_20170815](system:index)
   // could not get (system:id) to work though, so getting via string split and slice
+  //print('removeImages',exclude)
   if('exclude' in exclude){
     //print('in exclude')
     exclude = exclude.exclude;
@@ -313,7 +318,9 @@ var removeImages = function(collection, exclude){
       if(exclude.slcOff === true){
         //print('slcOff is true')        
         //'SATELLITE' changed to SPACECRAFT_ID and 'SENSING_TIME' to 'SCENE_CENTER_TIME' in collection 2
-        collection = collection.filter(ee.Filter.and(ee.Filter.eq('SPACECRAFT_ID', 'LANDSAT_7'), ee.Filter.gt('SCENE_CENTER_TIME', '2003-06-01T00:00')).not());
+        collection = collection.filter(ee.Filter.neq('SPACECRAFT_ID', 'LANDSAT_7'));
+        //collection = collection.filter(ee.Filter.and(ee.Filter.eq('SPACECRAFT_ID', 'LANDSAT_7'), ee.Filter.gt('SCENE_CENTER_TIME', '22:07:34.8203690Z')).not());
+        //print(collection)
       }
     }
   }
@@ -381,6 +388,7 @@ var tcTransform = function(img){
                      .set('system:time_start', img.get('system:time_start'));
   return tc;
 };
+exports.tcTransform = tcTransform
 
 // NBR
 var nbrTransform = function(img) {
@@ -389,6 +397,15 @@ var nbrTransform = function(img) {
                  .select([0], ['NBR']) // name the band
                  .set('system:time_start', img.get('system:time_start'));
     return nbr;
+};
+
+// NBR
+var nbr2Transform = function(img) {
+    var nbr2 = img.normalizedDifference(['B5', 'B7']) // calculate normalized difference of B4 and B7. orig was flipped: ['B7', 'B4']
+                 .multiply(1000) // scale results by 1000
+                 .select([0], ['NBR2']) // name the band
+                 .set('system:time_start', img.get('system:time_start'));
+    return nbr2;
 };
 
 //Ben added
@@ -487,6 +504,21 @@ var eviTransform = function(img) {
   .set('system:time_start', img.get('system:time_start')); 
   return evi;
 };
+ 
+// SIPI 
+var sipiTransform = function(img) {
+  var sipi = img.expression(
+      '(NIR - RED) / (NIR - BLUE)', {
+        'NIR': img.select('B4'),
+        'RED': img.select('B3'),
+        'BLUE': img.select('B1')
+  })
+  .multiply(1000) // scale results by 1000
+  .select([0], ['SIPI']) // name the band
+  .set('system:time_start', img.get('system:time_start')); 
+  return sipi;
+};
+
 
 // CALCULATE A GIVEN INDEX
 var calcIndex = function(img, index, flip){
@@ -531,6 +563,9 @@ var calcIndex = function(img, index, flip){
     case 'NBR':
       indexImg = nbrTransform(img).multiply(indexFlip);
       break;
+    case 'NBR2':
+      indexImg = nbr2Transform(img).multiply(indexFlip);
+      break;
     case 'NDMI':
       indexImg = ndmiTransform(img).multiply(indexFlip);
       break;
@@ -542,6 +577,9 @@ var calcIndex = function(img, index, flip){
       break;
     case 'EVI':
       indexImg = eviTransform(img).multiply(indexFlip);
+      break;
+    case 'SIPI':
+      indexImg = sipiTransform(img).multiply(indexFlip);
       break;
     case 'TCB':
       indexImg = tc.select(['TCB'])//.multiply(indexFlip);
@@ -958,11 +996,18 @@ var getFittedData = function(lt, startYear, endYear, index, ftv){
   var bandNames = getYearBandNames(startYear, endYear);
   var search;
   if(ftv === true){
-    search = index.toUpperCase()+'_fit';
+    // Make all band names uppercase - make case insensitive.
+    var ltBands = lt.bandNames().map(function(name) {
+      return ee.String(name).toUpperCase();
+    });
+    lt = lt.rename(ltBands);
+    search = index.toUpperCase()+'_FIT';
   } else {
     search = 'ftv_'+index.toLowerCase()+'_fit';
     //search = 'yr_'+index.toLowerCase()+'_fit';
   }
+  
+  
   return lt.select(search)
            .arrayFlatten([bandNames]);
 };
@@ -975,7 +1020,9 @@ exports.getFittedData = getFittedData;
 var makeRGBcomposite = function(index, startYear, endYear, startDay, endDay, redYear, greenYear, blueYear, aoi, runParams, nStdev, maskThese, exclude){
   maskThese = (typeof maskThese !== 'undefined') ?  maskThese : ['cloud','shadow','snow'];
   exclude = (typeof exclude !== 'undefined') ?  exclude : {}; // default to not exclude any images
+
   var annualSRcollection = buildSRcollection(startYear, endYear, startDay, endDay, aoi, maskThese, exclude);
+
   var annualLTcollection = buildLTcollection(annualSRcollection, index, [index]);
   runParams.timeSeries = annualLTcollection;
   var lt = ee.Algorithms.TemporalSegmentation.LandTrendr(runParams);
@@ -1014,7 +1061,8 @@ var collectionToBandStack = function(collection, startYear, endYear, maskFill){
     var bandTS = collectionArray.select([i]).arrayFlatten([years]);
     allStack = ee.Image.cat([allStack, bandTS]);
   }    
-  return allStack.slice(1,null).toUint16()  
+  return allStack.slice(1,null).toUint16()
+
 };
 exports.collectionToBandStack = collectionToBandStack;
 
@@ -1057,7 +1105,7 @@ var getSegmentDictionary = function(lt, options) {
     right: false,
     index: null
   };
-  
+
   // slice out variables 
   var ltlt = lt.select('LandTrendr');              // select the LandTrendr band
   var rmse = lt.select('rmse');                    // select the rmse band
@@ -1185,7 +1233,7 @@ var getSegmentData = function(lt, index, delta, options){
   if (typeof options == 'boolean') {
     _options.right = options;
   }
-  
+
   var ltlt = lt.select('LandTrendr');            // select the LandTrendr band
   var rmse = lt.select('rmse');                  // select the rmse band
   var vertexMask = ltlt.arraySlice(0, 3, 4);     // slice out the 'Is Vertex' row - yes(1)/no(0)
@@ -1261,6 +1309,7 @@ exports.getYearBandNames = getYearBandNames;
 
 // STANDARD DEVIATION STRETCH
 var stdDevStretch = function(img, aoi, nStdev){
+  print("stdDevStretch")
   var mean = img.reduceRegion({reducer:ee.Reducer.mean(), geometry:aoi, scale:900, bestEffort:true, maxPixels:1e4})
               .toArray()
               .reduce(ee.Reducer.mean(), [0]);
@@ -1274,6 +1323,7 @@ var stdDevStretch = function(img, aoi, nStdev){
   var min = mean.subtract(stdDev).getInfo()[0];
   return [min, max];
 };
+exports.stdDevStretch = stdDevStretch;
 
 // INDEX FLIPPER
 var indexFlipper = function(index){
@@ -1297,8 +1347,7 @@ var indexFlipper = function(index){
     'ENC1': 1,
     'TCC': 1,  
     'NBRz': 1,
-    'B5z': 1,
-    'NDFI':-1
+    'B5z': 1
   };
   return indexObj[index];
 };
@@ -1553,6 +1602,7 @@ exports.getChangeMap = function(lt, changeParams){
   // changeParams
   /*
   {
+    index:  'NBR',
     delta:  'Loss',
     sort:   'Greatest',
     year:   {checked:false, start:1984, end:2017},
@@ -1657,13 +1707,31 @@ exports.getChangeMap = function(lt, changeParams){
 
   // Mask for change/no change
   chngImg = chngImg.updateMask(chngImg.select('mag').gt(0));
+  
+  var apply_mmu = function (img) {
+    // make image where pixel values are the number of adjoining pixels 
+    var mmu_img = img.select([0]).gte(ee.Number(1)).selfMask().connectedPixelCount();
+    
+    // make MMU image by query only groups of pixels greater or equal to a value
+    var minArea = mmu_img.gte(ee.Number(changeParams.mmu.value)).selfMask();
+          
+    // get image projects -- the connectedPixelCount() method is weird and changes with zoom level so we need to reproject the image
+    var prj = img.projection();
+    
+    // apply MMU mask to summed image 
+    return minArea.reproject(prj.atScale(30)).unmask()    
+  
+  }
+
 
   // Filter by MMU on year of change detection
   if(makeBoolean(changeParams.mmu.checked) === true){ 
     if(changeParams.mmu.value > 1){
-      var mmuMask = chngImg.select(['yod'])
-                      .connectedPixelCount(changeParams.mmu.value, true)
-                      .gte(changeParams.mmu.value);
+      var mmulyr = chngImg.select(['yod'])
+      var mmuMask = apply_mmu(mmulyr)
+      // var mmuMask = chngImg.select(['yod'])
+      //           .connectedPixelCount(changeParams.mmu.value, true)
+      //           .gte(changeParams.mmu.value);
       chngImg = chngImg.updateMask(mmuMask);
     }
   }
